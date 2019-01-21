@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-18 10:29:59.878.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\MainForm.pas</Transaction>
+    <Transaction>2019-01-18 10:29:59.878.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\MainForm.dfm</Transaction>
+    <Transaction>2019-01-18 10:30:06.055.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\Stack.dproj</Transaction>
+    <Transaction>2019-01-18 10:43:46.436.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\MainForm.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\FormMain.pas</Transaction>
+    <Transaction>2019-01-18 10:43:46.437.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\MainForm.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0117STACK\FormMain.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

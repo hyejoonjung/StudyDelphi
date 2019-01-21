@@ -1,0 +1,106 @@
+unit FormMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TMainForm = class(TForm)
+    OutputPan: TPanel;
+    Num1Btn: TButton;
+    Num2Btn: TButton;
+    Num3Btn: TButton;
+    NumPlusBtn: TButton;
+    Num5Btn: TButton;
+    Num6Btn: TButton;
+    NumMinusBtn: TButton;
+    Num7Btn: TButton;
+    Num8Btn: TButton;
+    Num9Btn: TButton;
+    NumCBtn: TButton;
+    NumMulBtn: TButton;
+    Num0Btn: TButton;
+    NumEquBtn: TButton;
+    NumDivBtn: TButton;
+    Num4Btn: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure Num1BtnClick(Sender: TObject);
+  private
+    { Private declarations }
+    fInData : String;
+    fRstData : String;
+    fOper : Char;
+
+    procedure DoOutput(const aVal : String);
+    procedure DoInput(const aVal : String);
+    procedure MadeInData(aVal : Char);
+    procedure ExecOper(aVal : Char);
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  fInData := '';
+  fRstData := '';
+  fOper := ' ';
+end;
+
+procedure TMainForm.DoOutput(const aVal : String);
+begin
+  OutputPan.Caption := aVal + '   ';
+end;
+
+procedure TMainForm.DoInput(const aVal : String);
+begin
+  if aVal = '' then
+    Exit;
+  if aVal[1] in ['0'..'9'] then
+    MadeInData(aVal[1])
+  else
+    ExecOper(aVal[1]);
+end;
+
+procedure TMainForm.MadeInData(aVal : Char);
+begin
+  fInData := fInData + aVal;
+  DoOutput(fInData);
+end;
+
+procedure TMainForm.ExecOper(aVal : Char);
+begin
+  if aVal = 'C' then begin
+    fIndata := '';
+    fRstData := '';
+    fOper := ' ';
+  end;
+  if fInData <> '' then begin
+    case fOper of
+      '+' : fRstData := IntToStr(StrToInt(fRstData) + StrToInt(fInData));
+      '-' : fRstData := IntToStr(StrToInt(fRstData) - StrToInt(fInData));
+      '*' : fRstData := IntToStr(StrToInt(fRstData) * StrToInt(fInData));
+      '/' : fRstData := IntToStr(StrToInt(fRstData) div StrToInt(fInData));
+      else  fRstData := fInData;
+    end;
+    fInData := '';
+  end;
+  fOper := aVal;
+  DoOutput(fRstData);
+end;
+
+procedure TMainForm.Num1BtnClick(Sender: TObject);
+begin
+  if (Sender <> nil) and (Sender is TButton) then
+    DoInput(TButton(Sender).Caption);
+end;
+
+end.

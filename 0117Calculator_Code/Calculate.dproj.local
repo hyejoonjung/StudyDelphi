@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-17 19:59:13.671.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\계산기\FormMain.pas</Transaction>
+    <Transaction>2019-01-17 19:59:13.671.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\계산기\FormMain.dfm</Transaction>
+    <Transaction>2019-01-17 19:59:33.239.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\hjjung\Documents\RAD Studio\Projects\계산기\Calculate.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

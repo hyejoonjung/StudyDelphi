@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-18 19:10:55.392.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0118교육실슴\FormMain.pas</Transaction>
+    <Transaction>2019-01-18 19:10:55.392.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0118교육실슴\FormMain.dfm</Transaction>
+    <Transaction>2019-01-18 19:11:14.342.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\hjjung\Documents\RAD Studio\Projects\실습\0118교육실슴\ExCanvas.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

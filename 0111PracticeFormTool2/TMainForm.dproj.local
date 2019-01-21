@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-14 14:18:23.164.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit2.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormMain.pas</Transaction>
+    <Transaction>2019-01-14 14:18:23.164.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit2.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormMain.dfm</Transaction>
+    <Transaction>2019-01-14 14:18:57.155.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project2.dproj=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\TMainForm.dproj</Transaction>
+    <Transaction>2019-01-14 16:03:18.641.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\Unit1.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormGrid.pas</Transaction>
+    <Transaction>2019-01-14 16:03:18.641.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\Unit1.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormGrid.dfm</Transaction>
+    <Transaction>2019-01-14 16:31:05.231.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormGrid.pas=</Transaction>
+    <Transaction>2019-01-14 16:31:05.231.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormGrid.dfm=</Transaction>
+    <Transaction>2019-01-14 16:37:42.462.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\Unit1.pas=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormModal.pas</Transaction>
+    <Transaction>2019-01-14 16:37:42.462.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\Unit1.dfm=C:\Users\hjjung\Documents\RAD Studio\Projects\VCLForm과제\FormModal.dfm</Transaction>
+  </Transactions>
+</BorlandProject>
