@@ -3,7 +3,7 @@ program CanvasCircle;
 uses
   Forms,
   FormMain in 'FormMain.pas' {MainForm},
-  FormModal in 'FormModal.pas' {ModalForm};
+  FormModal in 'FormModal.pas' {Form1};
 
 {$R *.res}
 
@@ -11,6 +11,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TModalForm, ModalForm);
+  Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.

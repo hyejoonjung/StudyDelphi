@@ -1,10 +1,10 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'Canvas'#50672#49845#54616#44592
+  Caption = 'MainForm'
   ClientHeight = 416
   ClientWidth = 405
-  Color = clWhite
+  Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -12,18 +12,16 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
-  OnMouseDown = FormMouseDown
   PixelsPerInch = 96
   TextHeight = 13
   object ColorPan: TPanel
-    Left = 71
+    Left = 65
     Top = 30
-    Width = 43
+    Width = 49
     Height = 23
     Color = clNone
     ParentBackground = False
     TabOrder = 0
-    OnDblClick = ColorPanDblClick
   end
   object SizeEdit: TSpinEdit
     Left = 201

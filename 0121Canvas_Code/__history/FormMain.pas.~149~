@@ -90,17 +90,8 @@ var
 i : Integer;
 aColorTemp : String;
 begin
-aColorTemp := Canvas.Pen.Color;
-Canvas.Pen.Color := clWhite;
-i = 0;
-if i < Length(CircleArray) then begin
-  Ellipse(aRecord.iXBegin, aRecord.iYBegin, aRecord.iXEnd, aRecord.iYEnd);
-  SetLength(CircleArray, Length(CircleArray) + 1);
-  i = i + 1;
-end;
-Canvas.Pen.Color := aColor
+aColorTemp := Canvas.Pen.Color 
 
-end;
 end;
 
 procedure TMainForm.TimeProcess(aObject : String; aTime : TDateTime; aInterval : Integer);

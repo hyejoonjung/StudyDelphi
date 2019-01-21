@@ -94,11 +94,8 @@ aColorTemp := Canvas.Pen.Color;
 Canvas.Pen.Color := clWhite;
 i = 0;
 if i < Length(CircleArray) then begin
-  Ellipse(aRecord.iXBegin, aRecord.iYBegin, aRecord.iXEnd, aRecord.iYEnd);
-  SetLength(CircleArray, Length(CircleArray) + 1);
-  i = i + 1;
-end;
-Canvas.Pen.Color := aColor
+  Ellipse(aRecord.iXBegin, aRecord.iYBegin, aRecord.iXEnd, aRecord.iYEnd)
+  SetSize(CircleArray, Length(CircleArray) + 1);
 
 end;
 end;

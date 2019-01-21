@@ -4,7 +4,7 @@ object MainForm: TMainForm
   Caption = 'Canvas'#50672#49845#54616#44592
   ClientHeight = 416
   ClientWidth = 405
-  Color = clWhite
+  Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
