@@ -1,4 +1,4 @@
-object Form1: TForm1
+object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'drawCircle'
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnMouseDown = FormMouseDown
   PixelsPerInch = 96
   TextHeight = 13
@@ -56,7 +57,7 @@ object Form1: TForm1
     TabOrder = 4
     OnDblClick = Panel1DblClick
   end
-  object SpinEdit1: TSpinEdit
+  object SizeSpin: TSpinEdit
     Left = 308
     Top = 19
     Width = 81
@@ -65,9 +66,9 @@ object Form1: TForm1
     MinValue = 0
     TabOrder = 5
     Value = 0
-    OnChange = SpinEdit1Change
+    OnChange = SizeSpinChange
   end
-  object SpinEdit2: TSpinEdit
+  object IntervalSpin: TSpinEdit
     Left = 471
     Top = 19
     Width = 74
@@ -76,5 +77,6 @@ object Form1: TForm1
     MinValue = 0
     TabOrder = 6
     Value = 0
+    OnChange = IntervalSpinChange
   end
 end

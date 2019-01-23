@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-23 09:38:53.405.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=C:\StudyDelphi\0123AverageOfGrade_Code\FormMain.pas</Transaction>
+    <Transaction>2019-01-23 09:38:53.405.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=C:\StudyDelphi\0123AverageOfGrade_Code\FormMain.dfm</Transaction>
+    <Transaction>2019-01-23 09:39:06.643.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=C:\StudyDelphi\0123AverageOfGrade_Code\AverageOfGrade.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

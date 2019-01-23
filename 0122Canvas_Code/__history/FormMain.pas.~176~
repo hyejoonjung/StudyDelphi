@@ -11,7 +11,8 @@ type
     iX : Integer;
     iY : Integer;
     iSize : Integer;
-    iColor:Integer;
+    iColor : Integer;
+    iTimer : TTimer;
   end;
   TMainForm = class(TForm)
     StaticText2: TStaticText;
@@ -34,9 +35,9 @@ type
     fColor : Integer;
     fCircleArray : array of ^CircleData;
 
+    procedure TimerEvent(Sender : TObject);
     procedure AddCircle(aX, aY : Integer);
     procedure DrawCircle(aIndex : Integer);
-    procedure TimeProcess(aIndex : Integer);
     procedure RemoveCircle(aIndex : Integer);
   public
     { Public declarations }
@@ -53,15 +54,16 @@ uses FormModal;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  fSize := 0;
-  fInterval := 0;
-  fColor := 0;
+  fSize := SizeSpin.Value;
+  fInterval := IntervalSpin.Value;
+  fColor := panel1.Color;
+  SetLength(fCircleArray, 0);  
 end;
 
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  fColor := panel1.Color;
+
   AddCircle(X, Y);
 end;
 
@@ -69,6 +71,7 @@ procedure TMainForm.Panel1DblClick(Sender: TObject);
 begin
   ModalForm.Show;
   panel1.Color := ModalForm.colorBox1.Selected;
+  fColor := panel1.Color;
 end;
 
 procedure TMainForm.SizeSpinChange(Sender: TObject);
@@ -81,65 +84,81 @@ begin
   fInterval := IntervalSpin.Value;
 end;
 
+procedure TMainForm.TimerEvent(Sender : TObject);
+begin
+  if Sender is TTimer then
+    RemoveCircle(TTimer(Sender).Tag);
+end;
+
 procedure TMainForm.AddCircle(aX, aY : Integer);
 var
-  i, anum: Integer;
+  i : Integer;
   aIndex : Integer;
-  aRecord : ^CircleData;
 begin
+  aIndex := -1;
   for i := 0 to Length(fCircleArray) - 1 do begin
-    if fCircleArray[i] = nil then
-      anum := i;
-      Exit;
+    if fCircleArray[i] = nil then begin
+      aIndex := i;
+      Break;
+    end;
   end;
-  if i< Length(fCircleArray) then
-    aIndex := i
-  else begin
-    SetLength(fCircleArray, Length(fCircleArray) + 1);
-    aIndex := Length(fCircleArray) - 1;
+  if aIndex < 0 then begin
+    aIndex := Length(fCircleArray);
+    SetLength(fCircleArray, aIndex + 1);
   end;
-  aRecord.iX := aX;
-  aRecord.iY := aY;
-  aRecord.iSize := fSize;
-  aRecord.iColor := fColor;
-  fCircleArray[aIndex] := @aRecord;
+  New(fCircleArray[aIndex]);
+  with fCircleArray[aIndex]^ do begin
+    iX := aX;
+    iY := aY;
+    iSize := fSize;
+    iColor := fColor;
+    iTimer := TTimer.Create(Self);
+    with iTimer do begin
+      Interval := fInterval;
+      Tag := aIndex;
+      OnTimer := TimerEvent;
+      Enabled := True;
+    end;
+  end;
   DrawCircle(aindex);
-  //타이머 생성하기
-  //타이머 생성 메모리....
-  //Index는 어떻게 처리할것인지.. interval도 만들어줘야해.
 end;
 
 procedure TMainForm.DrawCircle(aIndex : Integer);
-var
-  aX, aY, aSize : Integer;
+//var
+//  aX, aY, aSize : Integer;
 begin
-  aX := fCircleArray[aIndex].iX;
-  aY := fCircleArray[aIndex].iY;
-  aSize := fCircleArray[aIndex].iSize;
-  with Canvas do begin
-  Pen.Mode := pmNotXOR;
-  pen.Color := fCircleArray[aIndex].iColor;
-  Ellipse(aX - aSize, aY - aSize, aX + aSize, aY + aSize);
+  with fCircleArray[aIndex]^ do begin
+    Canvas.Pen.Mode := pmNotXOR;
+    Canvas.Pen.Color := fCircleArray[aIndex].iColor;
+    Canvas.Ellipse(iX - iSize, iY - iSize, iX + iSize, iY + iSize);
   end;
-end;
-
-procedure TMainForm.TimeProcess(aIndex : Integer);
-begin
-  RemoveCircle(aIndex);
-//  Timer 메모리 해제.
+//  aX := fCircleArray[aIndex].iX;
+//  aY := fCircleArray[aIndex].iY;
+//  aSize := fCircleArray[aIndex].iSize;
+//  with Canvas do begin
+//    Pen.Mode := pmNotXOR;
+//    pen.Color := fCircleArray[aIndex].iColor;
+//    Ellipse(aX - aSize, aY - aSize, aX + aSize, aY + aSize);
+//  end;
 end;
 
 procedure TMainForm.RemoveCircle(aIndex : Integer);
 var
-i : Integer;
+  i, anum : Integer;
 begin
   DrawCircle(aIndex);
+  if fCircleArray[aIndex].iTimer = nil then
+    fCircleArray[aIndex].iTimer.Free;
+  Dispose(fCircleArray[aIndex]);
   fCircleArray[aIndex] := nil;
   for i := 0 to Length(fCircleArray) - 1 do begin
-    if fCircleArray[i] <> nil then
+    if fCircleArray[i] <> nil then begin
+      aNum := i;
       Exit;
+    end;
+    aNum := i;
   end;
-  if Length(fCircleArray) = i then
+  if Length(fCircleArray) = aNum then
     SetLength(fCircleArray, 0);
 end;
 end.
