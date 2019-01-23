@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-22 20:12:43.648.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=C:\StudyDelphi\FormMain.pas</Transaction>
+    <Transaction>2019-01-22 20:12:43.648.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=C:\StudyDelphi\FormMain.dfm</Transaction>
+    <Transaction>2019-01-22 20:13:14.051.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=C:\StudyDelphi\Canvas_DrawCircle.dproj</Transaction>
+    <Transaction>2019-01-22 20:16:12.116.pas,C:\StudyDelphi\Unit1.pas=C:\StudyDelphi\FormModal.pas</Transaction>
+    <Transaction>2019-01-22 20:16:12.116.dfm,C:\StudyDelphi\Unit1.dfm=C:\StudyDelphi\FormModal.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

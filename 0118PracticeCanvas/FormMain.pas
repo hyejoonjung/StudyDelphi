@@ -25,13 +25,22 @@ implementation
 
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-begin
+var
+  flag : boolean;
+  begin
   with Canvas Do begin
-    Pen.Color := clRed;
+    if flag then begin
+      flag := False;
+      Pen.Mode := pmXor;
+    end else begin
+      flag := True;
+      Pen.Mode := pmBlack;
+    end;
+
 //    Pen.Style := psDot;
 //    Pen.Mode := pmBlack;
 //    Beitmap은 bmp파일로 배경.
-//      Brush.Style := bsclear;//이거 안하면 겹쳐보임.
+    Brush.Style := bsclear;//이거 안하면 겹쳐보임.
 //      polygon 어레이로 넣어주면 따라가면서 그려주는것 (다각형그릴때)
 //      polyline은 시작부터 끝까지만 그려줘...끝>시작은 그려주지 않아
 //      TextOut(X, Y, '혜준');
@@ -39,12 +48,14 @@ begin
 //    Brush.Style := bsHorizontal;
 //    Arc(//덜채워진 원 그려지는것..);
 
-    MoveTo(X - 50, Y - 50);
-    LineTo(X + 50, y + 50);
+//    MoveTo(X - 50, Y - 50);
+//    LineTo(X + 50, y + 50);
 //    LineTo(X + 50, Y - 50);
 //    LineTo(X - 50, Y - 50);
 
-//    Ellipse(X - 10, Y - 50, X + 50, Y + 50);
+    Ellipse(50, 50, 100, 100);
+    Ellipse(60, 60, 110, 110);
+
 //    Rectangle(X - 10, Y - 10, X + 10, Y + 10);
   end;
 end;

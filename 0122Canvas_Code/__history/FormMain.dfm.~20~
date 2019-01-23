@@ -1,0 +1,81 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = 'drawCircle'
+  ClientHeight = 340
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnMouseDown = FormMouseDown
+  PixelsPerInch = 96
+  TextHeight = 13
+  object StaticText2: TStaticText
+    Left = 280
+    Top = 24
+    Width = 22
+    Height = 17
+    Caption = 'size'
+    TabOrder = 0
+  end
+  object StaticText3: TStaticText
+    Left = 407
+    Top = 24
+    Width = 42
+    Height = 17
+    Caption = 'Interval'
+    TabOrder = 1
+  end
+  object StaticText4: TStaticText
+    Left = 32
+    Top = 24
+    Width = 27
+    Height = 17
+    Caption = 'color'
+    TabOrder = 2
+  end
+  object StaticText1: TStaticText
+    Left = 560
+    Top = 24
+    Width = 15
+    Height = 17
+    Caption = #52488
+    TabOrder = 3
+  end
+  object Panel1: TPanel
+    Left = 65
+    Top = 8
+    Width = 185
+    Height = 41
+    Color = clScrollBar
+    ParentBackground = False
+    TabOrder = 4
+    OnDblClick = Panel1DblClick
+  end
+  object SizeSpin: TSpinEdit
+    Left = 308
+    Top = 19
+    Width = 81
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 5
+    Value = 0
+    OnChange = SizeSpinChange
+  end
+  object IntervalSpin: TSpinEdit
+    Left = 471
+    Top = 19
+    Width = 74
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 6
+    Value = 0
+    OnChange = IntervalSpinChange
+  end
+end
