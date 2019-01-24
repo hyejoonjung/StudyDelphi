@@ -26,11 +26,10 @@ uses FormMain;
 
 {$R *.dfm}
 
-
-
 procedure TModalForm.Button1Click(Sender: TObject);
 begin
-  Form1.panel1.Color := ColorBox1.Selected;
+  MainForm.panel1.Color := ModalForm.colorBox1.Selected;
+  MainForm.fColor := panel1.Color;
   Close;
 end;
 

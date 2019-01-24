@@ -14,6 +14,7 @@ type
     iColor : Integer;
     iTimer : TTimer;
   end;
+
   TMainForm = class(TForm)
     StaticText2: TStaticText;
     StaticText3: TStaticText;
@@ -63,7 +64,7 @@ end;
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-
+//  fColor := panel1.Color;
   AddCircle(X, Y);
 end;
 
@@ -114,7 +115,7 @@ begin
     iColor := fColor;
     iTimer := TTimer.Create(Self);
     with iTimer do begin
-      Interval := fInterval;
+      Interval := fInterval * 1000;
       Tag := aIndex;
       OnTimer := TimerEvent;
       Enabled := True;
@@ -131,7 +132,8 @@ begin
     Exit;
   with fCircleArray[aIndex]^ do begin
     Canvas.Pen.Mode := pmNotXOR;
-    Canvas.Pen.Color := fCircleArray[aIndex].iColor;
+    Canvas.Pen.Color := iColor;
+    Canvas.Brush.Style := bsClear;
     Canvas.Ellipse(iX - iSize, iY - iSize, iX + iSize, iY + iSize);
   end;
 //  aX := fCircleArray[aIndex].iX;
@@ -150,7 +152,7 @@ var
 begin
   DrawCircle(aIndex);
   if fCircleArray[aIndex] <> nil then begin
-    if fCircleArray[aIndex].iTimer = nil then
+    if fCircleArray[aIndex].iTimer <> nil then
       fCircleArray[aIndex].iTimer.Free;
     Dispose(fCircleArray[aIndex]);
     fCircleArray[aIndex] := nil;

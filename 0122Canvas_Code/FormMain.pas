@@ -64,7 +64,7 @@ end;
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-
+//  fColor := panel1.Color;
   AddCircle(X, Y);
 end;
 
@@ -133,6 +133,7 @@ begin
   with fCircleArray[aIndex]^ do begin
     Canvas.Pen.Mode := pmNotXOR;
     Canvas.Pen.Color := iColor;
+    Canvas.Brush.Style := bsClear;
     Canvas.Ellipse(iX - iSize, iY - iSize, iX + iSize, iY + iSize);
   end;
 //  aX := fCircleArray[aIndex].iX;

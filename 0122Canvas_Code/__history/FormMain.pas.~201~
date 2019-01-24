@@ -14,6 +14,7 @@ type
     iColor : Integer;
     iTimer : TTimer;
   end;
+
   TMainForm = class(TForm)
     StaticText2: TStaticText;
     StaticText3: TStaticText;
@@ -33,7 +34,7 @@ type
     fSize : Integer;
     fInterval : Integer;
     fColor : Integer;
-    fCircleArray : array of ^CircleData;
+    fCircleArray : array of CircleData;
 
     procedure TimerEvent(Sender : TObject);
     procedure AddCircle(aX, aY : Integer);
@@ -63,7 +64,7 @@ end;
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-
+//  fColor := panel1.Color;
   AddCircle(X, Y);
 end;
 
@@ -107,7 +108,7 @@ begin
     SetLength(fCircleArray, aIndex + 1);
   end;
   New(fCircleArray[aIndex]);
-  with fCircleArray[aIndex]^ do begin
+  with fCircleArray[aIndex] do begin
     iX := aX;
     iY := aY;
     iSize := fSize;
@@ -132,6 +133,7 @@ begin
   with fCircleArray[aIndex]^ do begin
     Canvas.Pen.Mode := pmNotXOR;
     Canvas.Pen.Color := iColor;
+    Canvas.Brush.Style := bsClear;
     Canvas.Ellipse(iX - iSize, iY - iSize, iX + iSize, iY + iSize);
   end;
 //  aX := fCircleArray[aIndex].iX;

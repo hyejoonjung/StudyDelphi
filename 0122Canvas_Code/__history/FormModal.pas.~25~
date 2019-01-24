@@ -28,6 +28,7 @@ uses FormMain;
 
 procedure TModalForm.Button1Click(Sender: TObject);
 begin
+//  MainForm.panel1.Color := ModalForm.colorBox1.Selected;
   Close;
 end;
 

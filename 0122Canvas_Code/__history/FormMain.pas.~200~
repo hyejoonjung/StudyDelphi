@@ -14,6 +14,7 @@ type
     iColor : Integer;
     iTimer : TTimer;
   end;
+
   TMainForm = class(TForm)
     StaticText2: TStaticText;
     StaticText3: TStaticText;
@@ -33,7 +34,7 @@ type
     fSize : Integer;
     fInterval : Integer;
     fColor : Integer;
-    fCircleArray : array of ^CircleData;
+    fCircleArray : array of CircleData;
 
     procedure TimerEvent(Sender : TObject);
     procedure AddCircle(aX, aY : Integer);
@@ -63,7 +64,7 @@ end;
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-
+//  fColor := panel1.Color;
   AddCircle(X, Y);
 end;
 
@@ -114,22 +115,25 @@ begin
     iColor := fColor;
     iTimer := TTimer.Create(Self);
     with iTimer do begin
-      Interval := fInterval;
+      Interval := fInterval * 1000;
       Tag := aIndex;
       OnTimer := TimerEvent;
       Enabled := True;
     end;
   end;
-  DrawCircle(aindex);
+  DrawCircle(aIndex);
 end;
 
 procedure TMainForm.DrawCircle(aIndex : Integer);
 //var
 //  aX, aY, aSize : Integer;
 begin
+  if fCircleArray[aIndex] = nil then
+    Exit;
   with fCircleArray[aIndex]^ do begin
     Canvas.Pen.Mode := pmNotXOR;
-    Canvas.Pen.Color := fCircleArray[aIndex].iColor;
+    Canvas.Pen.Color := iColor;
+    Canvas.Brush.Style := bsClear;
     Canvas.Ellipse(iX - iSize, iY - iSize, iX + iSize, iY + iSize);
   end;
 //  aX := fCircleArray[aIndex].iX;
@@ -144,21 +148,20 @@ end;
 
 procedure TMainForm.RemoveCircle(aIndex : Integer);
 var
-  i, anum : Integer;
+  i : Integer;
 begin
   DrawCircle(aIndex);
-  if fCircleArray[aIndex].iTimer = nil then
-    fCircleArray[aIndex].iTimer.Free;
-  Dispose(fCircleArray[aIndex]);
-  fCircleArray[aIndex] := nil;
-  for i := 0 to Length(fCircleArray) - 1 do begin
-    if fCircleArray[i] <> nil then begin
-      aNum := i;
-      Exit;
-    end;
-    aNum := i;
+  if fCircleArray[aIndex] <> nil then begin
+    if fCircleArray[aIndex].iTimer <> nil then
+      fCircleArray[aIndex].iTimer.Free;
+    Dispose(fCircleArray[aIndex]);
+    fCircleArray[aIndex] := nil;
   end;
-  if Length(fCircleArray) = aNum then
-    SetLength(fCircleArray, 0);
+  for i := 0 to Length(fCircleArray) - 1 do begin
+    if fCircleArray[i] <> nil then
+      Exit;
+  end;
+  SetLength(fCircleArray, 0);
 end;
+
 end.
