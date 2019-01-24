@@ -11,15 +11,15 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object NameEdit: TEdit
-    Left = 106
-    Top = 23
+    Left = 104
+    Top = 24
     Width = 121
     Height = 21
     TabOrder = 0
-    Text = #51221#54812#51456
   end
   object KorEdit: TEdit
     Left = 106
@@ -90,7 +90,6 @@ object MainForm: TMainForm
     Height = 25
     Caption = #52628#44032
     TabOrder = 9
-    OnClick = AddButtonClick
   end
   object StringGrid1: TStringGrid
     Left = 64
@@ -99,7 +98,7 @@ object MainForm: TMainForm
     Height = 300
     DefaultColWidth = 80
     FixedCols = 0
-    RowCount = 2
+    RowCount = 10
     ScrollBars = ssVertical
     TabOrder = 10
   end
@@ -110,7 +109,7 @@ object MainForm: TMainForm
     Height = 41
     TabOrder = 11
   end
-  object EngPanel: TPanel
+  object EndPanel: TPanel
     Left = 223
     Top = 449
     Width = 86

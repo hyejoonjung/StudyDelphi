@@ -14,12 +14,11 @@ object MainForm: TMainForm
   PixelsPerInch = 96
   TextHeight = 13
   object NameEdit: TEdit
-    Left = 106
-    Top = 23
+    Left = 104
+    Top = 24
     Width = 121
     Height = 21
     TabOrder = 0
-    Text = #51221#54812#51456
   end
   object KorEdit: TEdit
     Left = 106
