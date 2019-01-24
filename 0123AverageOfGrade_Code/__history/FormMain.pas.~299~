@@ -133,11 +133,11 @@ var
 begin
   aArrLeng := Length(fStudentArr);
   if aArrLeng < StringGrid1.RowCount - 1 then begin
-    StringGrid1.Cells[0, aIndex + 1] := fStudentArr[StringGrid1.RowCount - 1].iName;
-    StringGrid1.Cells[1, aIndex + 1] := IntToStr(fStudentArr[StringGrid1.RowCount - 1].iKor);
-    StringGrid1.Cells[2, aIndex + 1] := IntToStr(fStudentArr[StringGrid1.RowCount - 1].iEng);
-    StringGrid1.Cells[3, aIndex + 1] := IntToStr(fStudentArr[StringGrid1.RowCount - 1].iMath);
-    StringGrid1.Cells[4, aIndex + 1] := FloatToStr(fStudentArr[StringGrid1.RowCount - 1].iAvg);
+    StringGrid1.Cells[0, aIndex + 1] := StringGrid1.Cells[0, StringGrid1.RowCount-1];
+    StringGrid1.Cells[1, aIndex + 1] := StringGrid1.Cells[1, StringGrid1.RowCount-1];
+    StringGrid1.Cells[2, aIndex + 1] := StringGrid1.Cells[2, StringGrid1.RowCount-1];
+    StringGrid1.Cells[3, aIndex + 1] := StringGrid1.Cells[3, StringGrid1.RowCount-1];
+    StringGrid1.Cells[4, aIndex + 1] := StringGrid1.Cells[4, StringGrid1.RowCount-1];
     StringGrid1.RowCount := StringGrid1.RowCount - 1;
   end else begin
     if aArrLeng > StringGrid1.RowCount - 1 then
