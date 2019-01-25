@@ -36,7 +36,7 @@ type
   private
     { Private declarations }
     fStudentArr : array of TGradeData;
-    fSumArr : array[0..2] of Integer
+    fSumArr : array[0..2] of Integer;
 
     procedure AddStudent(aName : String; aKor, aEng, aMath : Integer);
     procedure RemoveStudent(aName : String);
