@@ -156,11 +156,11 @@ begin
       end;
     end;
     if aGridIndex < 0 then begin
-      if StringGrid.RowCount[1] = '' then 
+      if StringGrid.Cells[0,1] = '' then 
         aGridIndex := 1
       else begin
         StringGrid.RowCount := StringGrid.RowCount + 1;
-        aGridIndex := StringGrid.RowCount;
+        aGridIndex := StringGrid.RowCount - 1;
       end;
     end;
     StringGrid.Cells[ 0, aGridIndex] := fStudentArr[aArrIndex].iName;

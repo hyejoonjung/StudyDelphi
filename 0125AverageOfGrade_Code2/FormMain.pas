@@ -156,23 +156,23 @@ begin
       end;
     end;
     if aGridIndex < 0 then begin
-      if StringGrid.Cells[0,1] = '' then 
+      if StringGrid.Cells[0, 1] = '' then 
         aGridIndex := 1
       else begin
         StringGrid.RowCount := StringGrid.RowCount + 1;
         aGridIndex := StringGrid.RowCount - 1;
       end;
     end;
-    StringGrid.Cells[ 0, aGridIndex] := fStudentArr[aArrIndex].iName;
-    StringGrid.Cells[ 1, aGridIndex] := IntToStr(fStudentArr[aArrIndex].iKor);
-    StringGrid.Cells[ 2, aGridIndex] := IntToStr(fStudentArr[aArrIndex].iEng);
-    StringGrid.Cells[ 3, aGridIndex] := IntToStr(fStudentArr[aArrIndex].iMath);
-    StringGrid.Cells[ 4, aGridIndex] := FloatToStr(fStudentArr[aArrIndex].iAvg);
+    StringGrid.Cells[0, aGridIndex] := fStudentArr[aArrIndex].iName;
+    StringGrid.Cells[1, aGridIndex] := IntToStr(fStudentArr[aArrIndex].iKor);
+    StringGrid.Cells[2, aGridIndex] := IntToStr(fStudentArr[aArrIndex].iEng);
+    StringGrid.Cells[3, aGridIndex] := IntToStr(fStudentArr[aArrIndex].iMath);
+    StringGrid.Cells[4, aGridIndex] := FloatToStr(fStudentArr[aArrIndex].iAvg);
   end;
   KorPanel.Caption := FloatToStr(fSumArr[0] / (StringGrid.RowCount - 1));
   EngPanel.Caption := FloatToStr(fSumArr[1] / (StringGrid.RowCount - 1));
   MathPanel.Caption := FloatToStr(fSumArr[2] / (StringGrid.RowCount - 1));
-  TotalPanel.Caption := FloatToStr((fSumArr[0] + fSumArr[1] + fSumArr[2]) / ((StringGrid.RowCount -1) * 3));
+  TotalPanel.Caption := FloatToStr((fSumArr[0] + fSumArr[1] + fSumArr[2]) / ((StringGrid.RowCount - 1) * 3));
 
 
 end;
