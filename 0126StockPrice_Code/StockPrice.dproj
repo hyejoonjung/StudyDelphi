@@ -1,11 +1,11 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{4d4a5eb3-18d9-4c01-bd7a-4658b5243d7d}</ProjectGuid>
+    <ProjectGuid>{588cdd32-bd38-4341-aa14-e01762db8cfd}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>Canvas_DrawCircle.exe</DCC_DependencyCheckOutputName>
-    <MainSource>Canvas_DrawCircle.dpr</MainSource>
+    <DCC_DependencyCheckOutputName>StockPrice.exe</DCC_DependencyCheckOutputName>
+    <MainSource>StockPrice.dpr</MainSource>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Version>7.0</Version>
@@ -55,20 +55,18 @@
       <VersionInfoKeys Name="Comments"></VersionInfoKeys>
     </VersionInfoKeys>
     <Source>
-      <Source Name="MainSource">Canvas_DrawCircle.dpr</Source>
+      <Source Name="MainSource">StockPrice.dpr</Source>
     </Source>
-  </Delphi.Personality> </BorlandProject></BorlandProject>
+  </Delphi.Personality>   <ModelSupport>False</ModelSupport>
+</BorlandProject></BorlandProject>
   </ProjectExtensions>
   <ItemGroup />
   <ItemGroup>
-    <DelphiCompile Include="Canvas_DrawCircle.dpr">
+    <DelphiCompile Include="StockPrice.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
     <DCCReference Include="FormMain.pas">
       <Form>MainForm</Form>
-    </DCCReference>
-    <DCCReference Include="FormModal.pas">
-      <Form>ModalForm</Form>
     </DCCReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />

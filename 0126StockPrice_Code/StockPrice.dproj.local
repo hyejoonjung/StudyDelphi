@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-28 08:05:35.980.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=C:\StudyDelphi\FormMain.pas</Transaction>
+    <Transaction>2019-01-28 08:05:35.980.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=C:\StudyDelphi\FormMain.dfm</Transaction>
+    <Transaction>2019-01-28 08:05:49.377.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=C:\StudyDelphi\StockPrice.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

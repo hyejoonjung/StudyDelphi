@@ -1,9 +1,8 @@
-program Canvas_DrawCircle;
+program StockPrice;
 
 uses
   Forms,
-  FormMain in 'FormMain.pas' {MainForm},
-  FormModal in 'FormModal.pas' {ModalForm};
+  FormMain in 'FormMain.pas' {MainForm};
 
 {$R *.res}
 
@@ -11,6 +10,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TModalForm, ModalForm);
   Application.Run;
 end.

@@ -1,0 +1,133 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = #52628#44032','#51228#44144','#54217#44512#44050#44396#54616#44592
+  ClientHeight = 802
+  ClientWidth = 976
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object NameEdit: TEdit
+    Left = 128
+    Top = 32
+    Width = 121
+    Height = 21
+    TabOrder = 0
+  end
+  object KorEdit: TEdit
+    Left = 128
+    Top = 59
+    Width = 121
+    Height = 21
+    TabOrder = 1
+  end
+  object EngEdit: TEdit
+    Left = 128
+    Top = 86
+    Width = 121
+    Height = 21
+    TabOrder = 2
+  end
+  object MathEdit: TEdit
+    Left = 128
+    Top = 113
+    Width = 121
+    Height = 21
+    TabOrder = 3
+  end
+  object StaticText1: TStaticText
+    Left = 40
+    Top = 32
+    Width = 26
+    Height = 17
+    Caption = #51060#47492
+    TabOrder = 4
+  end
+  object StaticText2: TStaticText
+    Left = 40
+    Top = 59
+    Width = 26
+    Height = 17
+    Caption = #44397#50612
+    TabOrder = 5
+  end
+  object StaticText3: TStaticText
+    Left = 40
+    Top = 90
+    Width = 26
+    Height = 17
+    Caption = #50689#50612
+    TabOrder = 6
+  end
+  object StaticText4: TStaticText
+    Left = 40
+    Top = 117
+    Width = 26
+    Height = 17
+    Caption = #49688#54617
+    TabOrder = 7
+  end
+  object AddButton: TButton
+    Left = 328
+    Top = 96
+    Width = 75
+    Height = 25
+    Caption = #52628#44032
+    TabOrder = 8
+    OnClick = AddButtonClick
+  end
+  object DelButton: TButton
+    Left = 440
+    Top = 96
+    Width = 75
+    Height = 25
+    Caption = #49325#51228
+    TabOrder = 9
+    OnClick = DelButtonClick
+  end
+  object StringGrid: TStringGrid
+    Left = 72
+    Top = 184
+    Width = 433
+    Height = 225
+    DefaultColWidth = 85
+    FixedCols = 0
+    RowCount = 2
+    TabOrder = 10
+  end
+  object KorPanel: TPanel
+    Left = 168
+    Top = 407
+    Width = 81
+    Height = 41
+    TabOrder = 11
+  end
+  object EngPanel: TPanel
+    Left = 249
+    Top = 407
+    Width = 81
+    Height = 41
+    TabOrder = 12
+  end
+  object MathPanel: TPanel
+    Left = 330
+    Top = 407
+    Width = 87
+    Height = 41
+    TabOrder = 13
+  end
+  object TotalPanel: TPanel
+    Left = 417
+    Top = 407
+    Width = 88
+    Height = 41
+    TabOrder = 14
+  end
+end
