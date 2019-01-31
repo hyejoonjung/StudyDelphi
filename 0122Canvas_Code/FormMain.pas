@@ -108,7 +108,7 @@ begin
     SetLength(fCircleArray, aIndex + 1);
   end;
   New(fCircleArray[aIndex]);
-  with fCircleArray[aIndex]^ do begin
+  with fCircleArray[aIndex]^ do begin //Aray of ^CircleData
     iX := aX;
     iY := aY;
     iSize := fSize;

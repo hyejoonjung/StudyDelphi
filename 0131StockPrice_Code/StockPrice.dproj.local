@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-01-31 09:58:33.440.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0131StockPridce_Code\FormMain.pas</Transaction>
+    <Transaction>2019-01-31 09:58:33.440.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0131StockPridce_Code\FormMain.dfm</Transaction>
+    <Transaction>2019-01-31 09:58:39.529.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0131StockPridce_Code\StockPrice.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
