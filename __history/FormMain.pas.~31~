@@ -1,0 +1,92 @@
+unit FormMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs;
+
+type
+  TCustomDraw = class
+    fCanvas : TCanvas;
+    fX : Integer;
+    fY : Integer;
+    fSize : Integer;
+
+  procedure TCustomDraw.Draw; virtual;
+
+
+  TCircle = class(TCustomDraw)
+  protected
+    procedure TCustomDrawDraw; override;
+  end;
+
+  TRactangle = class(TCustomDraw)
+  protected
+    procedure TCustomDraw.Draw; override;
+  end;
+
+  TTriangle = class(TCustomDraw)
+  protected
+    procedure TCustomDraw.Darw; override;
+  end;
+
+  TForm1 = class(TForm)
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+      end;           end;
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+constructor Create(aCanvas : TCanvas; aX, aY, aSize : Integer);
+begin
+  inherited create;
+  fCanvas : aCanvas;
+  fX : aX;
+  fY : aY;
+  fSize : aSize;
+end;
+procedure Draw;
+
+
+{TCircle}
+procedure TCircle.Draw;
+begin
+  if fCanvas <> nil then
+    fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+end;
+
+{TRactangle}
+proceure TCircle.Araw;
+begin
+  if fCanvas <> nil then
+    fCanvas.Ractangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+end;
+
+{TTriangle}
+procedure Darw;
+begin
+    if fCanvas <> nil then begin
+      fCanvas.MoveTo(fX, fY - fSize);
+      fCanvas.MoveTo(fX - fSize, fY + fSize );
+      fCanvas.MoveTo(fX + fSize, fY + fSize );
+    end;
+end;
+
+procedure TForm1.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Self.Canvas.Pen.Color := clRed;
+  TCircle.Create(Self.Canvas), X, y, 50);
+end;
+
+end.

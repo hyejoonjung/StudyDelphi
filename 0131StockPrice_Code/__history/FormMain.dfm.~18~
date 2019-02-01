@@ -11,6 +11,8 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object LoadButton: TButton
@@ -20,6 +22,7 @@ object MainForm: TMainForm
     Height = 41
     Caption = 'Load'
     TabOrder = 0
+    OnClick = LoadButtonClick
   end
   object StringGrid1: TStringGrid
     Left = 48
@@ -29,7 +32,9 @@ object MainForm: TMainForm
     ColCount = 2
     FixedCols = 0
     RowCount = 2
+    ScrollBars = ssNone
     TabOrder = 1
+    OnClick = StringGrid1Click
   end
   object StringGrid2: TStringGrid
     Left = 240
@@ -39,6 +44,7 @@ object MainForm: TMainForm
     ColCount = 4
     FixedCols = 0
     RowCount = 2
+    ScrollBars = ssNone
     TabOrder = 2
   end
 end
