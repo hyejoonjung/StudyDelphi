@@ -155,11 +155,12 @@ begin
   if aSubRIndex < 0 then begin
     New(aSubRecord);
     aSubRIndex := aMainRecord.iSubList.Add(aSubRecord);
-    aSubRecord.iCurrSum := 0;
-    aSubRecord.iCurrCount := 0;
-    aSubRecord.iMsSum := 0;
-    aSubRecord.iMdSum := 0;
-    aSubRecord.iMmCount := 0;
+    Zeromemory(aSubRecord, TSubRecord);
+//    aSubRecord.iCurrSum := 0;
+//    aSubRecord.iCurrCount := 0;
+//    aSubRecord.iMsSum := 0;
+//    aSubRecord.iMdSum := 0;
+//    aSubRecord.iMmCount := 0;
     aSubRecord.iCode := aCode;
   end else
     aSubRecord := aMainRecord.iSubList[aSubRindex];
@@ -226,7 +227,7 @@ begin
     StringGrid1.RowCount := StringGrid1.RowCount + 1;
     StringGrid1.Cells[0, i + 1] := TMainRecord(fMainList[i]^).iKind;
     if TMainRecord(fMainList[i]^).iCurrCount > 0 then
-      StringGrid1.Cells[1, i + 1] := floatToStr(TMainRecord(fMainList[i]^).iCurrSum / TMainRecord(fMainList[i]^).iCurrCount)
+      StringGrid1.Cells[1, i + 1] := FormatFloat('0.##',(TMainRecord(fMainList[i]^).iCurrSum / TMainRecord(fMainList[i]^).iCurrCount / 100))
     else
       StringGrid1.Cells[1, i + 1] := '';
 
@@ -262,12 +263,12 @@ begin
     aSubRecord := aMainRecord.iSubList[i];
     StringGrid2.Cells[0, i + 1] := aSubRecord.iCode;
     if aSubRecord.iCurrCount > 0 then
-      StringGrid2.Cells[1, i + 1] := floatToStr(aSubRecord.iCurrSum / aSubRecord.iCurrCount / 100)
+      StringGrid2.Cells[1, i + 1] := FormatFloat('0.##',(aSubRecord.iCurrSum / aSubRecord.iCurrCount / 100))
     else
       StringGrid2.Cells[1, i + 1] := '';
     if aSubRecord.iMmCount > 0 then begin
-      StringGrid2.Cells[2, i + 1] := floatToStr(aSubRecord.iMsSum / aSubRecord.iMmCount);
-      StringGrid2.Cells[3, i + 1] := floatToStr(aSubRecord.iMdSum / aSubRecord.iMmCount);
+      StringGrid2.Cells[2, i + 1] := FormatFloat('0.##',(aSubRecord.iMsSum / aSubRecord.iMmCount / 100));
+      StringGrid2.Cells[3, i + 1] := FormatFloat('0.##',(aSubRecord.iMdSum / aSubRecord.iMmCount / 100));
     end else begin
       StringGrid2.Cells[2, i + 1] := '';
       StringGrid2.Cells[3, i + 1] := '';
