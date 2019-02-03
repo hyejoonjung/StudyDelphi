@@ -66,29 +66,14 @@ begin
     OnTimer := DrawTimer;
   end;
 
-  if fCanvas <> nil then begin
+  if fCanvas <> nil then then begin
     fCanvas.Pen.Mode := pmNotXor;
-    fCanvas.Brush.Style := bsClear;
-  end;
 
-  Draw;
 end;
 
 destructor TCustomDraw.DesTroy;
-begin
-  Draw;
-  if fTimer <> nil then begin
-    fTimer.Free;
-    fTimer := nil;
-  end;
 
-  inherited;
-end;
-
-procedure TCustomDraw.Draw; //ºÎ¸ð 
-begin
-
-end;
+procedure TCustomDraw.Draw;
 
 { Tcircle }
 procedure TCircle.Draw;

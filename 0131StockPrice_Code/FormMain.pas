@@ -235,7 +235,6 @@ var
   aIndex, i : Integer;
   aMainRecord : PMainRecord;
   aSubRecord : PSubRecord;
-  aAvg : Integer ;
 begin
   with StringGrid2 do begin
     RowCount := 2;

@@ -88,8 +88,6 @@ end;
 procedure TCustomDraw.Draw; //ºÎ¸ð 
 begin
 
-end;
-
 { Tcircle }
 procedure TCircle.Draw;
 
