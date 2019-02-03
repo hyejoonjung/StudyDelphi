@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2019-02-01 08:11:14.834.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0131ClassSample\FormMain.pas</Transaction>
-    <Transaction>2019-02-01 08:11:14.834.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0131ClassSample\FormMain.dfm</Transaction>
-    <Transaction>2019-02-01 08:11:22.974.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0131ClassSample\ClassSample.dproj</Transaction>
+    <Transaction>2019-01-14 20:06:52.973.dproj,C:\Users\권유경\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\권유경\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2019-01-31 20:18:19.161.pas,C:\Users\권유경\Documents\RAD Studio\Projects\Unit2.pas=C:\Users\권유경\Documents\RAD Studio\Projects\델파이실습\0131\FormMain.pas</Transaction>
+    <Transaction>2019-01-31 20:18:19.166.dfm,C:\Users\권유경\Documents\RAD Studio\Projects\Unit2.dfm=C:\Users\권유경\Documents\RAD Studio\Projects\델파이실습\0131\FormMain.dfm</Transaction>
+    <Transaction>2019-01-31 20:18:25.137.dproj,C:\Users\권유경\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\권유경\Documents\RAD Studio\Projects\델파이실습\0131\ClassSample.dproj</Transaction>
   </Transactions>
 </BorlandProject>

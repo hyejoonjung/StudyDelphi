@@ -20,15 +20,16 @@ type
     procedure Draw; virtual;
   public
     constructor Create(aCanvas : TCanvas; aX, aY, aSize : Integer); virtual;
-    destructor DesTroy; override;
+    destructor Destroy; override;
   end;
 
-  Tcircle = class(TCustomDraw)
+  TCircle = class(TCustomDraw)
   protected
     procedure Draw; override;
   end;
 
   TRactangle = class(TCircle)
+  protected
     procedure Draw; override;
   end;
 
@@ -38,6 +39,8 @@ type
   end;
 
   TForm1 = class(TForm)
+
+
   private
     { Private declarations }
   public
@@ -66,20 +69,65 @@ begin
     OnTimer := DrawTimer;
   end;
 
+  if fCanvas <> nil then begin
+    fCanvas.Pen.Mode := pmNotXor;
+    fCanvas.Brush.Style := bsClear;
+  end;
+
+  Draw;
 end;
 
 destructor TCustomDraw.DesTroy;
+begin
+  Draw;
+  if fTimer <> nil then begin
+    fTimer.Free;
+    fTimer := nil;
+  end;
 
-procedure TCustomDraw.Draw;
+  inherited;
+end;
+
+procedure TCustomDraw.DrawTimer(Sender : Tobject);
+begin
+  Free;
+end;
+
+
+procedure TCircle.Draw; //부모클래스의Draw
+begin
+
+end;
 
 { Tcircle }
-procedure TCircle.Draw;
 
+procedure TCircle.Draw;
+begin
+  if fCanvas <> nil then
+    fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+
+  inherited;
+end;
 
 { TRactangle }
+
 procedure TRactangle.Draw;
+begin
+  if fCanvas <> nil then
+    fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+
+    inherited;
+end;
 
 { TTriangle }
+
 procedure TTriangle.Draw;
+begin
+  if fCanvas <> nil then begin
+    fCanvas.MoveTo(fX, fY - fSize);
+    fCanvas.MoveTo(fX - fSize, fY + fSize);
+    fCanvas.MoveTo(fX + fSize, fY + fSize);
+  end;
+end;
 
 end.

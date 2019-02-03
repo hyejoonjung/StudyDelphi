@@ -23,7 +23,7 @@ type
     destructor Destroy; override;
   end;
 
-  TCircle = class(TCustomDraw)
+  Tcircle = class(TCustomDraw)
   protected
     procedure Draw; override;
   end;
@@ -38,9 +38,10 @@ type
     procedure Draw; override;
   end;
 
-  TForm2 = class(TForm)
+  TForm1 = class(TForm)
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+
   private
     { Private declarations }
   public
@@ -48,14 +49,13 @@ type
   end;
 
 var
-  Form2: TForm2;
+  Form1: TForm1;
 
 implementation
 
 {$R *.dfm}
 
 { TCustomDraw }
-
 constructor TCustomDraw.Create(aCanvas : TCanvas; aX, aY, aSize : Integer);
 begin
   inherited Create;
@@ -78,7 +78,7 @@ begin
   Draw;
 end;
 
-destructor TCustomDraw.Destroy;
+destructor TCustomDraw.DesTroy;
 begin
   Draw;
   if fTimer <> nil then begin
@@ -89,36 +89,35 @@ begin
   inherited;
 end;
 
-procedure TCustomDraw.DrawTimer(Sender : TObject);
+procedure TCustomDraw.DrawTimer(Sender : Tobject);
 begin
   Free;
 end;
 
-procedure TCustomDraw.Draw; //부모
+
+procedure TCircle.Draw; //부모클래스의Draw
 begin
 
 end;
 
-{ TCircle }
+{ Tcircle }
 
 procedure TCircle.Draw;
 begin
-  if fCanvas <> nil then 
+  if fCanvas <> nil then
     fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
-end;
-
-{ TRactangle }
-
-procedure TRactangle.Draw;
-begin
-  if fCanvas <> nil then 
-    fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
 
   inherited;
 end;
 
-{ TTriangle }
+{ TRactangle }
+procedure TRactangle.Draw;
+begin
+  if fCanvas <> nil then
+    fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+end;
 
+{ TTriangle }
 procedure TTriangle.Draw;
 begin
   if fCanvas <> nil then begin
@@ -126,13 +125,6 @@ begin
     fCanvas.MoveTo(fX - fSize, fY + fSize);
     fCanvas.MoveTo(fX + fSize, fY + fSize);
   end;
-end;
-
-procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Self.Canvas.Pen.Color := clRed;
-  TRactangle.Create(Self.Canvas, X, Y, 50);
 end;
 
 end.

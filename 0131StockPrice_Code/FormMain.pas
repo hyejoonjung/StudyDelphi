@@ -76,10 +76,16 @@ end;
 
 procedure TMainForm.LoadButtonClick(Sender: TObject);
 begin
-  ReadFile();
+  ReadFile;
 end;
 
-procedure TMainForm.ReadFile();
+procedure TMainForm.StringGrid1Click(Sender: TObject);
+begin
+  with StringGrid1 do
+    JmDisplay(Cells[Col, Row]);
+end;  
+
+procedure TMainForm.ReadFile;
 var
   aLine : String;
   aF : TextFile;
@@ -219,15 +225,8 @@ begin
       StringGrid1.Cells[1, i + 1] := FormatFloat('0.##',(TMainRecord(fMainList[i]^).iCurrSum / TMainRecord(fMainList[i]^).iCurrCount / 100))
     else
       StringGrid1.Cells[1, i + 1] := '';
-
   end;
   StringGrid1.RowCount := StringGrid1.RowCount - 1;
-end;
-
-procedure TMainForm.StringGrid1Click(Sender: TObject);
-begin
-  with StringGrid1 do
-    JmDisplay(Cells[Col, Row]);
 end;
 
 procedure TMainForm.JmDisplay(const aKind : String);

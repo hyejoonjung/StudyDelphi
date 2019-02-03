@@ -14,21 +14,19 @@ type
     fY : Integer;
     fSize : Integer;
     fTimer : TTimer;
-
-    procedure DrawTimer(Sender : TObject);
   protected
     procedure Draw; virtual;
   public
     constructor Create(aCanvas : TCanvas; aX, aY, aSize : Integer); virtual;
-    destructor DesTroy; override;
   end;
 
-  Tcircle = class(TCustomDraw)
+  TCircle = class(TCustomDraw)
   protected
     procedure Draw; override;
   end;
 
   TRactangle = class(TCircle)
+  protected
     procedure Draw; override;
   end;
 
@@ -37,7 +35,10 @@ type
     procedure Draw; override;
   end;
 
-  TForm1 = class(TForm)
+  TForm2 = class(TForm)
+    Timer1: TTimer;
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
   public
@@ -45,13 +46,14 @@ type
   end;
 
 var
-  Form1: TForm1;
+  Form2: TForm2;
 
 implementation
 
 {$R *.dfm}
 
 { TCustomDraw }
+
 constructor TCustomDraw.Create(aCanvas : TCanvas; aX, aY, aSize : Integer);
 begin
   inherited Create;
@@ -60,41 +62,49 @@ begin
   fX := aX;
   fY := aY;
   fSize := aSize;
-  fTimer := TTimer.Create(nil);
-  with fTimer do begin
-    Interval := 500;
-    OnTimer := DrawTimer;
-  end;
-
-  if fCanvas <> nil then begin
-    fCanvas.Pen.Mode := pmNotXor;
-    fCanvas.Brush.Style := bsClear;
-  end;
 
   Draw;
 end;
 
-destructor TCustomDraw.DesTroy;
+procedure TCustomDraw.Draw; //ºÎ¸ð
 begin
-  Draw;
-  if fTimer <> nil then begin
-    fTimer.Free;
-    fTimer := nil;
-  end;
+
+end;
+
+{ TCircle }
+
+procedure TCircle.Draw;
+begin
+  if fCanvas <> nil then 
+    fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+end;
+
+{ TRactangle }
+
+procedure TRactangle.Draw;
+begin
+  if fCanvas <> nil then 
+    fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
 
   inherited;
 end;
 
-procedure TCustomDraw.Draw;
-
-{ Tcircle }
-procedure TCircle.Draw;
-
-
-{ TRactangle }
-procedure TRactangle.Draw;
-
 { TTriangle }
+
 procedure TTriangle.Draw;
+begin
+  if fCanvas <> nil then begin
+    fCanvas.MoveTo(fX, fY - fSize);
+    fCanvas.MoveTo(fX - fSize, fY + fSize);
+    fCanvas.MoveTo(fX + fSize, fY + fSize);
+  end;
+end;
+
+procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Self.Canvas.Pen.Color := clRed;
+  TRactangle.Create(Self.Canvas, X, Y, 50);
+end;
 
 end.

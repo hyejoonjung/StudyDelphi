@@ -38,9 +38,11 @@ type
     procedure Draw; override;
   end;
 
-  TForm2 = class(TForm)
+  TForm1 = class(TForm)
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+
+
   private
     { Private declarations }
   public
@@ -48,14 +50,13 @@ type
   end;
 
 var
-  Form2: TForm2;
+  Form1: TForm1;
 
 implementation
 
 {$R *.dfm}
 
 { TCustomDraw }
-
 constructor TCustomDraw.Create(aCanvas : TCanvas; aX, aY, aSize : Integer);
 begin
   inherited Create;
@@ -78,7 +79,7 @@ begin
   Draw;
 end;
 
-destructor TCustomDraw.Destroy;
+destructor TCustomDraw.DesTroy;
 begin
   Draw;
   if fTimer <> nil then begin
@@ -89,32 +90,35 @@ begin
   inherited;
 end;
 
-procedure TCustomDraw.DrawTimer(Sender : TObject);
+procedure TCustomDraw.DrawTimer(Sender : Tobject);
 begin
   Free;
 end;
 
-procedure TCustomDraw.Draw; //부모
+
+procedure TCircle.Draw; //부모클래스의Draw
 begin
 
 end;
 
-{ TCircle }
+{ Tcircle }
 
 procedure TCircle.Draw;
 begin
-  if fCanvas <> nil then 
+  if fCanvas <> nil then
     fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+
+  inherited;
 end;
 
 { TRactangle }
 
 procedure TRactangle.Draw;
 begin
-  if fCanvas <> nil then 
+  if fCanvas <> nil then
     fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
 
-  inherited;
+    inherited;
 end;
 
 { TTriangle }
@@ -128,7 +132,7 @@ begin
   end;
 end;
 
-procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TForm1.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Self.Canvas.Pen.Color := clRed;

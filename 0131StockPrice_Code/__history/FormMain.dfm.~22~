@@ -27,22 +27,24 @@ object MainForm: TMainForm
   object StringGrid1: TStringGrid
     Left = 48
     Top = 103
-    Width = 129
+    Width = 137
     Height = 417
     ColCount = 2
     FixedCols = 0
     RowCount = 2
+    ScrollBars = ssNone
     TabOrder = 1
     OnClick = StringGrid1Click
   end
   object StringGrid2: TStringGrid
     Left = 240
     Top = 103
-    Width = 257
+    Width = 281
     Height = 417
     ColCount = 4
     FixedCols = 0
     RowCount = 2
+    ScrollBars = ssVertical
     TabOrder = 2
   end
 end

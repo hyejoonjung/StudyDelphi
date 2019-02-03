@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls;
+  Dialogs;
 
 type
   TCustomDraw = class
@@ -13,14 +13,10 @@ type
     fX : Integer;
     fY : Integer;
     fSize : Integer;
-    fTimer : TTimer;
-
-    procedure DrawTimer(Sender : TObject);
   protected
     procedure Draw; virtual;
   public
     constructor Create(aCanvas : TCanvas; aX, aY, aSize : Integer); virtual;
-    destructor Destroy; override;
   end;
 
   TCircle = class(TCustomDraw)
@@ -64,34 +60,8 @@ begin
   fX := aX;
   fY := aY;
   fSize := aSize;
-  fTimer := TTimer.Create(nil);
-  with fTimer do begin
-    Interval := 500;
-    OnTimer := DrawTimer;
-  end;
-
-  if fCanvas <> nil then begin
-    fCanvas.Pen.Mode := pmNotXor;
-    fCanvas.Brush.Style := bsClear;
-  end;
 
   Draw;
-end;
-
-destructor TCustomDraw.Destroy;
-begin
-  Draw;
-  if fTimer <> nil then begin
-    fTimer.Free;
-    fTimer := nil;
-  end;
-
-  inherited;
-end;
-
-procedure TCustomDraw.DrawTimer(Sender : TObject);
-begin
-  Free;
 end;
 
 procedure TCustomDraw.Draw; //ºÎ¸ð
@@ -113,8 +83,6 @@ procedure TRactangle.Draw;
 begin
   if fCanvas <> nil then 
     fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
-
-  inherited;
 end;
 
 { TTriangle }
@@ -132,7 +100,7 @@ procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Self.Canvas.Pen.Color := clRed;
-  TRactangle.Create(Self.Canvas, X, Y, 50);
+  TCircle.Create(Self.Canvas, X, Y, 50);
 end;
 
 end.

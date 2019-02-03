@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{9ab7480e-d072-439d-a6cb-3bb9eee30313}</ProjectGuid>
+    <ProjectGuid>{85f7a970-70ca-4fb3-8195-c607157871bd}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
@@ -65,7 +65,7 @@
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
     <DCCReference Include="FormMain.pas">
-      <Form>Form1</Form>
+      <Form>Form2</Form>
     </DCCReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />

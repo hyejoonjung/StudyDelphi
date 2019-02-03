@@ -76,10 +76,16 @@ end;
 
 procedure TMainForm.LoadButtonClick(Sender: TObject);
 begin
-  ReadFile();
+  ReadFile;
 end;
 
-procedure TMainForm.ReadFile();
+procedure TMainForm.StringGrid1Click(Sender: TObject);
+begin
+  with StringGrid1 do
+    JmDisplay(Cells[Col, Row]);
+end;
+
+procedure TMainForm.ReadFile;
 var
   aLine : String;
   aF : TextFile;
@@ -137,8 +143,7 @@ begin
   if aRIndex < 0 then begin
     New(aMainRecord);
     aRIndex := fMainList.Add(aMainRecord);
-    aMainRecord.iCurrSum := 0;
-    aMainRecord.iCurrCount := 0;
+    ZeroMemory(aMainRecord, SizeOf(TMainRecord));
     aMainRecord.iKind := aCode[4];
     aMainRecord.iSubList := TList.Create;
   end else
@@ -181,7 +186,7 @@ begin
   if aRIndex < 0 then begin
     New(aMainRecord);
     aRIndex := fMainList.Add(aMainRecord);
-    ZeroMemory(aMainRecord,SizeOf(TMainRecord);
+    ZeroMemory(aMainRecord,SizeOf(TMainRecord));
     aMainRecord.iKind := aCode[4];
     aMainRecord.iSubList := TList.Create;
   end else
@@ -196,11 +201,7 @@ begin
   if aSubRIndex < 0 then begin
     New(aSubRecord);
     aSubRIndex := aMainRecord.iSubList.Add(aSubRecord);
-    aSubRecord.iCurrSum := 0;
-    aSubRecord.iCurrCount := 0;
-    aSubRecord.iMsSum := 0;
-    aSubRecord.iMdSum := 0;
-    aSubRecord.iMmCount := 0;
+    ZeroMemory(aSubRecord, SizeOf(TSubRecord));
     aSubRecord.iCode := aCode;
   end else
     aSubRecord := aMainRecord.iSubList[aSubRindex];
@@ -224,15 +225,8 @@ begin
       StringGrid1.Cells[1, i + 1] := FormatFloat('0.##',(TMainRecord(fMainList[i]^).iCurrSum / TMainRecord(fMainList[i]^).iCurrCount / 100))
     else
       StringGrid1.Cells[1, i + 1] := '';
-
   end;
   StringGrid1.RowCount := StringGrid1.RowCount - 1;
-end;
-
-procedure TMainForm.StringGrid1Click(Sender: TObject);
-begin
-  with StringGrid1 do
-    JmDisplay(Cells[Col, Row]);
 end;
 
 procedure TMainForm.JmDisplay(const aKind : String);
@@ -240,7 +234,6 @@ var
   aIndex, i : Integer;
   aMainRecord : PMainRecord;
   aSubRecord : PSubRecord;
-  aAvg : Integer ;
 begin
   with StringGrid2 do begin
     RowCount := 2;
