@@ -1,0 +1,14 @@
+program MoveShape;
+
+uses
+  Forms,
+  FormMain in 'FormMain.pas' {IntervalText};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TIntervalText, IntervalText);
+  Application.Run;
+end.

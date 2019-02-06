@@ -7,6 +7,7 @@ uses
   Dialogs, ExtCtrls;
 
 type
+  PCustomDraw = ^TCustomDraw;
   TCustomDraw = class
   private
     fCanvas : TCanvas;
@@ -14,6 +15,8 @@ type
     fY : Integer;
     fSize : Integer;
     fTimer : TTimer;
+    fUp : Boolean;
+    fRight : Boolean;
 
     procedure DrawTimer(Sender : TObject);
   protected
@@ -66,7 +69,7 @@ begin
   fSize := aSize;
   fTimer := TTimer.Create(nil);
   with fTimer do begin
-    Interval := 500;
+    Interval := 5000;
     OnTimer := DrawTimer;
   end;
 
@@ -103,7 +106,7 @@ end;
 
 procedure TCircle.Draw;
 begin
-  if fCanvas <> nil then 
+  if fCanvas <> nil then
     fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
 end;
 
@@ -111,9 +114,8 @@ end;
 
 procedure TRactangle.Draw;
 begin
-  if fCanvas <> nil then 
+  if fCanvas <> nil then
     fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
-
   inherited;
 end;
 
@@ -132,7 +134,7 @@ procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Self.Canvas.Pen.Color := clRed;
-  TRactangle.Create(Self.Canvas, X, Y, 50);
+  TCircle.Create(Self.Canvas, X, Y, 50);
 end;
 
 end.
