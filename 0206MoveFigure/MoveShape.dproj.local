@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2019-02-06 13:28:40.941.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0206Move\FormMain.pas</Transaction>
-    <Transaction>2019-02-06 13:28:40.942.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0206Move\FormMain.dfm</Transaction>
-    <Transaction>2019-02-06 13:29:04.869.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0206Move\MoveFigure.dproj</Transaction>
-    <Transaction>2019-02-07 07:57:26.801.dproj,D:\StudyDelphi\0206MoveFigure\MoveFigure.dproj=D:\StudyDelphi\0206MoveFigure\MoveShape.dproj</Transaction>
-  </Transactions>
-</BorlandProject>

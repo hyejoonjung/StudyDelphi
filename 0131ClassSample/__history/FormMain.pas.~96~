@@ -124,14 +124,10 @@ end;
 procedure TTriangle.Draw;
 begin
   if fCanvas <> nil then begin
-    fCanvas.MoveTo(fX + fSize, fY + fSize);
+    fCanvas.MoveTo(fX - fSize, fY - fSize); 
     fCanvas.LineTo(fX, fY - fSize);
     fCanvas.LineTo(fX - fSize, fY + fSize);
     fCanvas.LineTo(fX + fSize, fY + fSize);
-//    fCanvas.MoveTo(fX - fSize, fY - fSize);
-//    fCanvas.LineTo(fX + fSize, fY + fSize);
-//    fCanvas.LineTo(fX + fSize, fY - fSize);
-//    fCanvas.LineTo(fX - fSize, fY - fSize);
   end;
 end;
 

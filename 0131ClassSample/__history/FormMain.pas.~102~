@@ -139,7 +139,7 @@ procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Self.Canvas.Pen.Color := clRed;
-  TCircle.Create(Self.Canvas, X, Y, 50);
+  TTriangle.Create(Self.Canvas, X, Y, 50);
 end;
 
 end.

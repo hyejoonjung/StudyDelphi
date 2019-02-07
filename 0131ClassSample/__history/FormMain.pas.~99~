@@ -124,14 +124,14 @@ end;
 procedure TTriangle.Draw;
 begin
   if fCanvas <> nil then begin
-    fCanvas.MoveTo(fX + fSize, fY + fSize);
-    fCanvas.LineTo(fX, fY - fSize);
-    fCanvas.LineTo(fX - fSize, fY + fSize);
-    fCanvas.LineTo(fX + fSize, fY + fSize);
 //    fCanvas.MoveTo(fX - fSize, fY - fSize);
+//    fCanvas.LineTo(fX, fY - fSize);
+//    fCanvas.LineTo(fX - fSize, fY + fSize);
 //    fCanvas.LineTo(fX + fSize, fY + fSize);
-//    fCanvas.LineTo(fX + fSize, fY - fSize);
-//    fCanvas.LineTo(fX - fSize, fY - fSize);
+    fCanvas.MoveTo(fX - fSize, fY - fSize);
+    fCanvas.LineTo(fX + fSize, fY + fSize);
+    fCanvas.LineTo(fX + fSize, fY - fSize);
+    fCanvas.LineTo(fX - fSize, fY - fSize);
   end;
 end;
 
@@ -139,7 +139,7 @@ procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Self.Canvas.Pen.Color := clRed;
-  TCircle.Create(Self.Canvas, X, Y, 50);
+  TTriangle.Create(Self.Canvas, X, Y, 50);
 end;
 
 end.
