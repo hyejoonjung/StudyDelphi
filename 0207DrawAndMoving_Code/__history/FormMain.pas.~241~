@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, Spin, ExtCtrls;
 
 const
-  SPEED = 3;
+  SPEED = 5;
 
 type
   PCustomDraw = ^TCustomDraw;
@@ -185,30 +185,6 @@ begin
   inherited;
 end;
 
-procedure TMainForm.ColorPanelClick(Sender: TObject);
-begin
-  ColorDialog.Execute;
-  ColorPanel.Color := ColorDialog.Color;
-end;
-
-procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  if (ShapeComboBox.ItemIndex >= 0) then begin
-    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
-      TCircle.Create(Self.Canvas, X, Y)
-    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then
-      TTriangle.Create(Self.Canvas, X, Y)
-    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Ractangle' then
-      TRactangle.Create(Self.Canvas, X, Y);
-  end;
-end;
-
-procedure TMainForm.fTimerTimer(Sender: TObject);
-begin
-  MoveShape;
-end;
-
 procedure TMainForm.MoveShape;
 var
   aObj : TCustomDraw;
@@ -226,7 +202,7 @@ begin
         aObj.fX := aObj.fX - SPEED
       else aObj.fX := aObj.fX + SPEED;
       CheckCrash(i);
-      aObj.Draw
+      aObj.Draw;
     end;
   end;
 end;
@@ -260,6 +236,30 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TMainForm.ColorPanelClick(Sender: TObject);
+begin
+  ColorDialog.Execute;
+  ColorPanel.Color := ColorDialog.Color;
+end;
+
+procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if (ShapeComboBox.ItemIndex >= 0) then begin
+    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
+      TCircle.Create(Self.Canvas, X, Y)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then
+      TTriangle.Create(Self.Canvas, X, Y)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Ractangle' then
+      TRactangle.Create(Self.Canvas, X, Y);
+  end;
+end;
+
+procedure TMainForm.fTimerTimer(Sender: TObject);
+begin
+  MoveShape;
 end;
 
 end.

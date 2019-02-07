@@ -1,0 +1,75 @@
+unit NameListClass;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms;
+
+type
+  PNameInfo = ^TNameInfo;
+  TNameInfo = record
+    iName : String;
+    iAge : Integer;
+  end;
+
+  TOnChange = procedure(Sender : TObject; aInfo : PNameInfo; aIsAdd : Boolean) of object;
+
+  TNameList = class(TList)
+  private
+    fOnChange : TOnChange;
+  protected
+    function Get(Index : Integer) : PNameInfo;
+    procedure Put(Index : Integer; Item : PNameInfo);
+  public
+    destructor Destroy; override;
+
+    function Add(const aName : String; aAge : Integer) : PNameInfo;
+    procedure Clear; override;
+    procedure Delete(Index : Integer); overload;
+    procedure Delete(const aName : String); overload;
+    function IndexOf(const aName : String) : PNameInfo;
+
+    property OnChange : TOnChange read fOnChange write fOnChange;
+  end;
+
+implementation
+
+{ TNameList }
+
+destructor TNameList.Destroy;
+begin
+  Clear;
+
+  inherited;
+end;
+
+function TNameList.Get(Index : Integer) : PNameInfo;
+begin
+  Result := PNameInfo(inherited Get(Index));
+end;
+
+procedure TNameList.Put(Index : Integer; Item : PNameInfo);
+begin
+  inherited Put(Index, Item);
+end;
+
+function TNameList.Add(const aName : String; aAge : Integer) : PNameInfo;
+begin
+  Result := IndexOf(aName);
+  if Result = nil then begin
+    New(Result);
+    Result.iName := aName;
+
+    inherited Add(Result);
+  end;
+  Result.iAge := aAge;
+  if Assigned(fOnChange) then   //fOnChange가 걸려잇다면..?
+    fOnChange(Self, Result, True);
+end;
+
+procedure TNameList.Clear;
+procedure TNameList.Delete(Index : Integer);
+procedure TNameList.Delete(const aName : String);
+function TNameList.IndexOf(const aName : String) : PNameInfo;
+
+end.

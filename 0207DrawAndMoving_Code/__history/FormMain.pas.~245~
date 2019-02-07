@@ -1,13 +1,13 @@
 unit FormMain;
 
 interface
-
+                     
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Spin, ExtCtrls;
 
 const
-  SPEED = 3;
+  SPEED = 5;
 
 type
   PCustomDraw = ^TCustomDraw;
@@ -22,7 +22,6 @@ type
     fLeft : Boolean;
     fIndex : Integer;
     fColor : Integer;
-    fInTerval : Integer;
 
     procedure DrawTimer(Sender : Tobject); virtual;
   protected
@@ -82,22 +81,6 @@ implementation
 
 {$R *.dfm}
 
-procedure TMainForm.FormCreate(Sender: TObject);
-begin
-  fObjList := TList.Create;
-
-end;
-
-procedure TMainForm.FormDestroy(Sender: TObject);
-var
-  i : Integer;
-begin
-  for i := 0 to fObjList.Count - 1 do begin
-    Dispose(fObjList.items[i]);
-  end;
-  fObjList.Free;
-end;
-
 { TcustomDraw }
 
 constructor TcustomDraw.Create(aCanvas: TCanvas; aX, aY :Integer);
@@ -118,7 +101,7 @@ begin
   if fCanvas <> nil then begin
     with fCanvas do begin
       Pen.Mode := pmNotXor;
-//      Pen.Color := fColor;
+      Pen.Color := fColor;
       Brush.Style := bsClear;
     end;
   end;
@@ -133,34 +116,72 @@ begin
     fTimer.Free;
     fTimer := nil;
   end;
-  if MainForm.fObjList[fIndex] <> nil then
-    MainForm.fObjList[fIndex] := nil;
+
 
   inherited;
 end;
 
-procedure TMainForm.ColorPanelClick(Sender: TObject);
+procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  ColorDialog.Execute;
-  ColorPanel.Color := ColorDialog.Color;
+  fObjList := TList.Create;
 end;
 
-procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TMainForm.FormDestroy(Sender: TObject);
+var
+  i : Integer;
 begin
-  if (ShapeComboBox.ItemIndex >= 0) then begin
-    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
-      TCircle.Create(Self.Canvas, X, Y)
-    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then
-      TTriangle.Create(Self.Canvas, X, Y)
-    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Ractangle' then
-      TRactangle.Create(Self.Canvas, X, Y);
+  for i := 0 to fObjList.Count - 1 do begin
+    Dispose(fObjList.items[i]);
   end;
+  fObjList.Free;
 end;
 
-procedure TMainForm.fTimerTimer(Sender: TObject);
+procedure TcustomDraw.DrawTimer(Sender: Tobject);
 begin
-  MoveShape;
+  Free;
+end;
+
+procedure TcustomDraw.Draw;
+begin
+
+end;
+
+{ TCircle }
+
+procedure TCircle.Draw;
+begin
+  if fCanvas <> nil then begin
+    fCanvas.Pen.Color := fColor;
+    fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+  end;
+
+  inherited;
+end;
+
+{ TTriangle }
+
+procedure TTriangle.Draw;
+begin
+  if fCanvas <> nil then begin
+    fCanvas.Pen.Color := fColor;
+    fCanvas.MoveTo(fX + fSize, fY + fSize);
+    fCanvas.LineTo(fX, fY - fSize);
+    fCanvas.LineTo(fX - fSize, fY + fSize);
+    fCanvas.LineTo(fX + fSize, fY + fSize);
+  end;
+
+  inherited;
+end;
+
+{ TRactangle }
+
+procedure TRactangle.Draw;
+begin
+  if fCanvas <> nil then
+    fCanvas.Pen.Color := fColor;
+    fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+
+  inherited;
 end;
 
 procedure TMainForm.MoveShape;
@@ -180,7 +201,7 @@ begin
         aObj.fX := aObj.fX - SPEED
       else aObj.fX := aObj.fX + SPEED;
       CheckCrash(i);
-      aObj.Draw
+      aObj.Draw;
     end;
   end;
 end;
@@ -216,52 +237,28 @@ begin
   end;
 end;
 
-procedure TcustomDraw.DrawTimer(Sender: Tobject);
+procedure TMainForm.ColorPanelClick(Sender: TObject);
 begin
-  Free;
+  ColorDialog.Execute;
+  ColorPanel.Color := ColorDialog.Color;
 end;
 
-procedure TcustomDraw.Draw;
+procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
-
-end;
-
-{ TCircle }
-
-procedure TCircle.Draw;
-begin
-  if fCanvas <> nil then begin
-    fCanvas.Pen.Color := fColor;
-    fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+  if (ShapeComboBox.ItemIndex >= 0) then begin
+    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
+      TCircle.Create(Self.Canvas, X, Y)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then
+      TTriangle.Create(Self.Canvas, X, Y)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Ractangle' then
+      TRactangle.Create(Self.Canvas, X, Y);
   end;
-
-  inherited;
 end;
 
-{ TTriangle }
-
-procedure TTriangle.Draw;
+procedure TMainForm.fTimerTimer(Sender: TObject);
 begin
-  fCanvas.Pen.Color := fColor;
-  if fCanvas <> nil then begin
-    fCanvas.MoveTo(fX + fSize, fY + fSize);
-    fCanvas.LineTo(fX, fY - fSize);
-    fCanvas.LineTo(fX - fSize, fY + fSize);
-    fCanvas.LineTo(fX + fSize, fY + fSize);
-  end;
-
-  inherited;
-end;
-
-{ TRactangle }
-
-procedure TRactangle.Draw;
-begin
-  fCanvas.Pen.Color := fColor;
-  if fCanvas <> nil then
-    fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
-
-  inherited;
+  MoveShape;
 end;
 
 end.

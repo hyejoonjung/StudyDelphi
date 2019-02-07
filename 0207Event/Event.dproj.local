@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-02-07 19:48:14.869.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0207Event\FormMain.pas</Transaction>
+    <Transaction>2019-02-07 19:48:14.869.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0207Event\FormMain.dfm</Transaction>
+    <Transaction>2019-02-07 19:48:19.193.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0207Event\Event.dproj</Transaction>
+    <Transaction>2019-02-07 20:02:21.481.pas,D:\StudyDelphi\0207Event\Unit1.pas=D:\StudyDelphi\0207Event\NameListClass.pas</Transaction>
+  </Transactions>
+</BorlandProject>

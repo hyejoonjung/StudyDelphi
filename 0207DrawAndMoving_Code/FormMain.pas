@@ -1,7 +1,7 @@
 unit FormMain;
 
 interface
-
+                     
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Spin, ExtCtrls;
@@ -101,7 +101,7 @@ begin
   if fCanvas <> nil then begin
     with fCanvas do begin
       Pen.Mode := pmNotXor;
-//      Pen.Color := fColor;
+      Pen.Color := fColor;
       Brush.Style := bsClear;
     end;
   end;
@@ -116,8 +116,7 @@ begin
     fTimer.Free;
     fTimer := nil;
   end;
-  if MainForm.fObjList[fIndex] <> nil then
-    MainForm.fObjList[fIndex] := nil;
+
 
   inherited;
 end;
@@ -152,7 +151,6 @@ end;
 procedure TCircle.Draw;
 begin
   if fCanvas <> nil then begin
-    fCanvas.Pen.Color := fColor;
     fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
   end;
 
@@ -163,7 +161,6 @@ end;
 
 procedure TTriangle.Draw;
 begin
-  fCanvas.Pen.Color := fColor;
   if fCanvas <> nil then begin
     fCanvas.MoveTo(fX + fSize, fY + fSize);
     fCanvas.LineTo(fX, fY - fSize);
@@ -178,7 +175,6 @@ end;
 
 procedure TRactangle.Draw;
 begin
-  fCanvas.Pen.Color := fColor;
   if fCanvas <> nil then
     fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
 

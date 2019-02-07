@@ -12,6 +12,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnMouseDown = FormMouseDown
   PixelsPerInch = 96
   TextHeight = 13
@@ -110,5 +111,11 @@ object MainForm: TMainForm
       'ColorP=FFFFFFFF')
     Left = 64
     Top = 16
+  end
+  object fTimer: TTimer
+    Interval = 41
+    OnTimer = fTimerTimer
+    Left = 272
+    Top = 248
   end
 end
