@@ -116,8 +116,7 @@ begin
     fTimer.Free;
     fTimer := nil;
   end;
-  if MainForm.fObjList[fIndex] <> nil then
-    MainForm.fObjList[fIndex] := nil;
+
 
   inherited;
 end;

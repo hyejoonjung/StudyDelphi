@@ -42,7 +42,7 @@ const
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fNameList := TNameList.Create;
-  fNameList.OnChange := NameListChange;  //프로시져를 상속받은 TList.onChange에 연결했어.
+  fNameList.OnChange := NameListChange;
 end;
 
 
@@ -57,7 +57,7 @@ end;
 procedure TMainForm.NameListChange(Sender : TObject; aInfo : PNameInfo; aIsAdd : Boolean);
 var
   aRow : Integer;
-begin //레코드가 들어오면 grid의 인덱스에 iname이 있나 확인, aIsAdd일경우 있으면 나이만,없으면 다 추가, add아니면 삭제.
+begin
   if aInfo = nil then
     Exit;
   with ListGrid do begin
@@ -70,7 +70,7 @@ begin //레코드가 들어오면 grid의 인덱스에 iname이 있나 확인, aIsAdd일경우 있으면
         RowCount := aRow + 1; //로우카운트늘려줘
         Cells[GC_NAME, aRow] := aInfo.iName;   //이름셀에 받은이름 넣어줘.
       end;
-      Cells[GC__AGE, aRow] := IntToStr(aInfo.iAge);//나이 넣어줘 //업데이트개념
+      Cells[GC__AGE, aRow] := IntToStr(aInfo.iAge);//나이 넣어줘
     end else if aRow > 0 then //삭제
       RemoveRow(aRow);
   end;

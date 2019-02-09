@@ -32,7 +32,7 @@ type
     procedure Delete(Index : Integer); overload;
     procedure Delete(const aName : String); overload;
     function IndexOf(const aName : String) : PNameInfo;
-    //프로퍼티.. fOnChange 에 접근권한을 설정할수있는...변수. 즉 property
+    //이벤트프로퍼티만들기.
     property OnChange : TOnChange read fOnChange write fOnChange;
   end;
 

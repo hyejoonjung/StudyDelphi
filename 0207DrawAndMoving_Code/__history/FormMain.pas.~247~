@@ -116,8 +116,7 @@ begin
     fTimer.Free;
     fTimer := nil;
   end;
-  if MainForm.fObjList[fIndex] <> nil then
-    MainForm.fObjList[fIndex] := nil;
+
 
   inherited;
 end;
@@ -152,7 +151,6 @@ end;
 procedure TCircle.Draw;
 begin
   if fCanvas <> nil then begin
-    fCanvas.Pen.Mode := pmNotXor;
     fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
   end;
 
@@ -164,7 +162,6 @@ end;
 procedure TTriangle.Draw;
 begin
   if fCanvas <> nil then begin
-    fCanvas.Pen.Mode := pmNotXor;
     fCanvas.MoveTo(fX + fSize, fY + fSize);
     fCanvas.LineTo(fX, fY - fSize);
     fCanvas.LineTo(fX - fSize, fY + fSize);
@@ -179,7 +176,6 @@ end;
 procedure TRactangle.Draw;
 begin
   if fCanvas <> nil then
-    fCanvas.Pen.Mode := pmNotXor;
     fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
 
   inherited;

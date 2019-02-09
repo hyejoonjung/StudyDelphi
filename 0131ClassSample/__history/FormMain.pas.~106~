@@ -94,7 +94,7 @@ end;
 
 procedure TCustomDraw.DrawTimer(Sender : TObject);
 begin
-  Self.Free;
+  Free;
 end;
 
 procedure TCustomDraw.Draw; //ºÎ¸ð
