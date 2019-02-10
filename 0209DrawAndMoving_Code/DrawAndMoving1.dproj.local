@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-02-09 14:18:04.767.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0209DrawAndMoving_Code\MainForm.pas</Transaction>
+    <Transaction>2019-02-09 14:18:04.767.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0209DrawAndMoving_Code\MainForm.dfm</Transaction>
+    <Transaction>2019-02-09 14:18:15.284.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0209DrawAndMoving_Code\DrawAndMoving1.dproj</Transaction>
+    <Transaction>2019-02-09 14:19:08.556.pas,D:\StudyDelphi\0209DrawAndMoving_Code\MainForm.pas=D:\StudyDelphi\0209DrawAndMoving_Code\FormMain.pas</Transaction>
+    <Transaction>2019-02-09 14:19:08.556.dfm,D:\StudyDelphi\0209DrawAndMoving_Code\MainForm.dfm=D:\StudyDelphi\0209DrawAndMoving_Code\FormMain.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

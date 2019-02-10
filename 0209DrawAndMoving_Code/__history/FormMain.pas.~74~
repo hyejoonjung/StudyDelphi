@@ -1,0 +1,215 @@
+unit FormMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, Spin;
+
+type
+  PCustomDraw = ^TCustomDraw;
+  TCustomDraw = class
+  private
+    fCanvas : TCanvas;
+    fX : Integer;
+    fY : Integer;
+    fSize : Integer;
+    fKeepInterval : Integer;
+    fUp : Boolean;
+    fLeft : Boolean;
+    fTimer : TTimer;
+    fColor : Integer;
+
+    procedure DrawTimer(Sender : TObject);
+    procedure checkCrashWall;
+  protected
+    procedure Draw; virtual;
+  public
+    constructor Create(aCanvas : TCanvas; aX, aY, aSize, aColor, aInterval : Integer);
+    destructor Destroy; override;
+  end;
+
+  TCircle = class(TCustomDraw)
+  protected
+    procedure Draw; override;
+  end;
+
+    TTriangle = class(TCustomDraw)
+  protected
+    procedure Draw; override;
+  end;
+
+    TRectangle = class(TCustomDraw)
+  protected
+    procedure Draw; override;
+  end;
+
+  TMainForm = class(TForm)
+    ColorLabel: TLabel;
+    SizeLabel: TLabel;
+    IntervalLabel: TLabel;
+    ShapeLabel: TLabel;
+    ColorPanel: TPanel;
+    ShapeComboBox: TComboBox;
+    ColorDialog: TColorDialog;
+    SizeSpinEdit: TSpinEdit;
+    IntervalSpinEdit: TSpinEdit;
+    procedure ColorPanelClick(Sender: TObject);
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+const
+  SPEED = 5;
+
+{ TCostomDraw }
+
+constructor TCustomDraw.Create(aCanvas : TCanvas; aX, aY, aSize, aColor, aInterval : Integer);
+begin
+  fCanvas := aCanvas;
+  fX := aX;
+  fY := aY;
+  fSize := aSize;
+  fKeepInterval := aInterval * 24;
+  fUp := True;
+  fLeft := True;
+  fTimer := TTimer.Create(nil);
+  fColor := aColor;
+  with fTimer do begin
+    Interval := 41;
+    OnTimer := DrawTimer;
+  end;
+  if fCanvas <> nil then begin
+    with fCanvas do begin
+      Pen.Mode := pmNotXor;
+//      Pen.Color := fColor;
+      Brush.Style := bsClear;
+    end;
+  end;
+  Draw;
+end;
+
+destructor TCustomDraw.Destroy;
+begin
+  Draw;
+  if fTimer <> nil then begin
+    fTimer.Free;
+    fTimer := nil;
+  end;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  SizeSpinEdit.Value := 20;
+  IntervalSpinEdit.Value := 10;
+  ColorDialog.Color := 0;
+  ShapeComboBox.Items[0];
+end;
+
+procedure TCUstomDraw.DrawTimer(Sender : TObject);
+begin
+  fKeepInterval := fKeepInterval - 1;
+  Draw;
+  if fKeepInterval <= 0 then
+    Free;
+    Exit;
+  CheckCrashWall;
+  if fUp = True then
+    fY := fY - SPEED
+  else
+    fY := fY + SPEED;
+  if fLeft = True then
+    fX := fX - SPEED
+  else
+    fX := fX + SPEED;
+  Draw;
+end;
+
+procedure TCustomDraw.checkCrashWall;
+begin
+  if fY - fSize <= 50 then
+    fUp := False;
+  if fY + fSize >= MainForm.Height then
+    fUp := True;
+  if fX - fSize <= 0 then
+    fLeft := False;
+  if fX + fSize >= MainForm.Width then
+    fLeft := True;
+end;
+
+procedure TCustomDraw.Draw;
+begin
+  fCanvas.Pen.Color := fColor;
+end;
+
+
+{ TCircle }
+
+procedure TCircle.Draw;
+begin
+  if fCanvas <> nil then
+    with fCanvas do begin
+      fCanvas.Pen.Color := fColor;
+      fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+    end;
+end;
+
+{ TTriangle }
+
+procedure TTriangle.Draw;
+begin
+  if fCanvas <> nil then begin
+    with fCanvas do begin
+      Pen.Color := fColor;
+      MoveTo(fX + fSize, fY + fSize);
+      LineTo(fX , fY - fSize);
+      LineTo(fX - fSize, fY + fSize);
+      LineTo(fX + fSize, fY + fSize);
+    end;
+  end;
+end;
+
+{ TRectangle }
+
+procedure TRectangle.Draw;
+begin
+  if fCanvas <> nil then
+    with fCanvas do begin
+      fCanvas.Pen.Color := fColor;
+      fCanvas.Rectangle(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
+    end;
+end;
+
+
+procedure TMainForm.ColorPanelClick(Sender: TObject);
+begin
+  ColorDialog.Execute;
+  ColorPanel.Color := ColorDialog.Color;
+end;
+
+procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if ShapeComboBox.ItemIndex >= 0 then begin
+    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
+      Tcircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Rectangle' then
+      TRectangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then
+      TTriangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
+  end;
+end;
+
+end.
