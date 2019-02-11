@@ -30,6 +30,10 @@ type
   private
     { Private declarations }
     fStudentList : TStudentList;
+    fKorSum : Integer;
+    fEngSum : Integer;
+    fMathSum : Integer;
+    fAvgSum : Double;
 
     procedure NameListChange(Sender : TObject; aInfo : PGradeInfo; aIsAdd : Boolean);
   public

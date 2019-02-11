@@ -113,7 +113,7 @@ begin
   Result.iKor := aKor;
   Result.iEng := aEng;
   Result.iMath := aMath;
-  SumExc(Result, True);
+  SumExc(Result, Trye);
   Result.iAvg := (aKor + aEng + aMath) / 3;
   if Assigned(fOnChange) then
     fOnChange(Self, Result, True);
@@ -136,7 +136,9 @@ begin
   aInfo := Get(Index);
   if aInfo <> nil then begin
     Put(Index, nil);
-    SumExc(aInfo, False);
+    fKorSum := fKorSum - aInfo.iKor;
+    fEngSum := fEngSum - aInfo.iEng;
+    fMathSum := fMathSum - aInfo.iMath;
     if Assigned(fOnChange) then
       fOnChange(Self, aInfo, False);
     Dispose(aInfo);

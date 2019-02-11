@@ -1,7 +1,7 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = #46020#54805#50880#51649#51060#44592
+  Caption = 'DrawAndMoving'
   ClientHeight = 430
   ClientWidth = 766
   Color = clBtnFace
@@ -87,6 +87,6 @@ object MainForm: TMainForm
   end
   object ColorDialog: TColorDialog
     Left = 112
-    Top = 48
+    Top = 80
   end
 end

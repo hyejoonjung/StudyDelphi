@@ -225,12 +225,12 @@ end;
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  aObj : TCustomDraw;
+aObj : TCustomDraw;
 begin
   if ShapeComboBox.ItemIndex >= 0 then begin
     if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then begin
-      with TCircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value) do 
-        OnLocationChange := checkCrashWall;
+      aObj := Tcircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
+      aObj.OnLocationChange := LocationChange;
     end else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Rectangle' then begin
       aObj := TRectangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
       aObj.OnLocationChange := CheckCrashWall;

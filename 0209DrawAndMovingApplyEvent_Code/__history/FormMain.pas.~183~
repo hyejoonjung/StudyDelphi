@@ -229,13 +229,13 @@ var
 begin
   if ShapeComboBox.ItemIndex >= 0 then begin
     if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then begin
-      with TCircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value) do 
-        OnLocationChange := checkCrashWall;
+      aObj := Tcircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
+      aObj.OnLocationChange := ObjLocationChange;
     end else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Rectangle' then begin
       aObj := TRectangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
       aObj.OnLocationChange := CheckCrashWall;
     end else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then begin
-      aObj :=TTriangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
+      aObj := TTriangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
       aObj.OnLocationChange := CheckCrashWall;
     end;
   end;

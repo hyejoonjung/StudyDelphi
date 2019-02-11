@@ -19,7 +19,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure AddBtnClick(Sender: TObject);
     procedure DelBtnClick(Sender: TObject);
-    procedure ListGridDblClick(Sender: TObject);
   private
     { Private declarations }
     fNameList : TNameList;
@@ -51,17 +50,6 @@ begin
   if fNameList <> nil then begin
     fNameList.Free;
     fNameList := nil;
-  end;
-end;
-
-procedure TMainForm.ListGridDblClick(Sender: TObject);
-var
-  aInfo : PNameInfo;
-begin
-  with ListGrid do begin
-    aInfo := PNameInfo(Objects[GC_OBJT, Row]);
-    if aInfo <> nil then
-      ShowMessage(aInfo.iName);
   end;
 end;
 

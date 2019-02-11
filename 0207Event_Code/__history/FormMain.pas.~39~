@@ -19,7 +19,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure AddBtnClick(Sender: TObject);
     procedure DelBtnClick(Sender: TObject);
-    procedure ListGridDblClick(Sender: TObject);
   private
     { Private declarations }
     fNameList : TNameList;
@@ -54,17 +53,6 @@ begin
   end;
 end;
 
-procedure TMainForm.ListGridDblClick(Sender: TObject);
-var
-  aInfo : PNameInfo;
-begin
-  with ListGrid do begin
-    aInfo := PNameInfo(Objects[GC_OBJT, Row]);
-    if aInfo <> nil then
-      ShowMessage(aInfo.iName);
-  end;
-end;
-
 procedure TMainForm.NameListChange(Sender : TObject; aInfo : PNameInfo; aIsAdd : Boolean);
 var
   aRow : Integer;
@@ -79,12 +67,12 @@ begin //레코드가 들어오면 grid의 인덱스에 iname이 있나 확인, aIsAdd일경우 있으면
         if Objects[GC_OBJT, aRow] <> TObject(nil) then  //오브젝트가아니라형변   //마지막인덱스가 빈칸이아니면 aRow++
           Inc(aRow);
         RowCount := aRow + 1; //로우카운트늘려줘
-        Objects[GC_OBJT, aRow] := TObject(aInfo);
+        Objects[GC_OBJT, aRow] := aInfo;
         Cells[GC_NAME, aRow] := aInfo.iName;   //이름셀에 받은이름 넣어줘.
       end;
       Cells[GC__AGE, aRow] := IntToStr(aInfo.iAge);//나이 넣어줘 //업데이트개념
     end else if aRow > 0 then begin //삭제
-      Objects[GC_OBJT, aRow] := TObject(nil);
+      Objects[GC_OBJT, aRow] := nil;
       RemoveRow(aRow);
     end;
   end;

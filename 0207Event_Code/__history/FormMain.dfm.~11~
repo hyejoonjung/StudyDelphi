@@ -77,7 +77,6 @@ object MainForm: TMainForm
     ParentShowHint = False
     ShowHint = True
     TabOrder = 6
-    OnDblClick = ListGridDblClick
     SortMarkType = smtNone
     SortMarkColor = clBlack
     StripeTempo = 0

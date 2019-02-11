@@ -112,7 +112,6 @@ end;
 procedure TNameList.Delete(Index : Integer);
 var
   aInfo : PNameInfo;
-  aRow : Integer;
 begin
   if Index < 0 then
     Exit;
@@ -123,7 +122,7 @@ begin
       fOnChange(Self, aInfo, False);
     if fViewGrid <> nil then begin
       with fViewGrid do begin
-        aRow := Cols[GC_NAME].IndexOf(aInfo.iName);//입력받은 record의 name의 칼럼의 Row찾기
+        aRow := Cols[GC_NAME].IndexOf(Result.iName);//입력받은 record의 name의 칼럼의 Row찾기
         if aRow > 0 then //삭제
           RemoveRow(aRow);
       end;

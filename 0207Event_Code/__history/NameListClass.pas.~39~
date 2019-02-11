@@ -40,10 +40,6 @@ type
     property OnChange : TOnChange read fOnChange write fOnChange;
   end;
 
-const
-  GC_NAME = 0;
-  GC__AGE = 1;
-
 implementation
 
 { TNameList }
@@ -73,8 +69,6 @@ begin
 end;
 
 function TNameList.Add(const aName : String; aAge : Integer) : PNameInfo;
-var
-  aRow : Integer;
 begin
   Result := IndexOf(aName);
   if Result = nil then begin
@@ -88,16 +82,16 @@ begin
     fOnChange(Self, Result, True);
   if fViewGrid <> nil then begin
     with fViewGrid do begin
-      aRow := Cols[GC_NAME].IndexOf(Result.iName);//입력받은 record의 name의 칼럼의 Row찾기
+    aRow := Cols[GC_NAME].IndexOf(aInfo.iName);//입력받은 record의 name의 칼럼의 Row찾기
+    if aIsAdd then begin //추가면,,
       if aRow < 0 then begin  // grid에 이름이 존재하지 않으면
         aRow := RowCount - 1;     //grd맨마지막 인덱스를 aRow에 담아.
         if Cells[GC_NAME, aRow] <> '' then   //마지막인덱스가 빈칸이아니면 aRow++
           Inc(aRow);
         RowCount := aRow + 1; //로우카운트늘려줘
-        Cells[GC_NAME, aRow] := Result.iName;   //이름셀에 받은이름 넣어줘.
+        Cells[GC_NAME, aRow] := aInfo.iName;   //이름셀에 받은이름 넣어줘.
       end;
-      Cells[GC__AGE, aRow] := IntToStr(Result.iAge);//나이 넣어줘 //업데이트개념
-    end;  
+      Cells[GC__AGE, aRow] := IntToStr(aInfo.iAge);//나이 넣어줘 //업데이트개념
   end;
 end;
 
@@ -112,7 +106,6 @@ end;
 procedure TNameList.Delete(Index : Integer);
 var
   aInfo : PNameInfo;
-  aRow : Integer;
 begin
   if Index < 0 then
     Exit;
@@ -121,13 +114,6 @@ begin
     Put(Index, nil);
     if Assigned(fOnChange) then
       fOnChange(Self, aInfo, False);
-    if fViewGrid <> nil then begin
-      with fViewGrid do begin
-        aRow := Cols[GC_NAME].IndexOf(aInfo.iName);//입력받은 record의 name의 칼럼의 Row찾기
-        if aRow > 0 then //삭제
-          RemoveRow(aRow);
-      end;
-    end;
     Dispose(aInfo);
   end;
 
