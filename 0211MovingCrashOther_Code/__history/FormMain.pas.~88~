@@ -7,8 +7,6 @@ uses
   Dialogs, ExtCtrls, StdCtrls, Spin;
 
 type
-  TOnLocationChange = function(Sender : TObject; aX, aY, aSize : Integer) : Integer of object;
-
   PCustomDraw = ^TCustomDraw;
   TCustomDraw = class
   private
@@ -21,16 +19,14 @@ type
     fLeft : Boolean;
     fTimer : TTimer;
     fColor : Integer;
-    fOnLocationChange : TOnLocationChange;
 
     procedure DrawTimer(Sender : TObject);
+    procedure checkCrashWall;
   protected
     procedure Draw; virtual;
   public
     constructor Create(aCanvas : TCanvas; aX, aY, aSize, aColor, aInterval : Integer);
     destructor Destroy; override;
-
-    property OnLocationChange : TOnLocationChange read fOnLocationChange write fOnLocationChange;
   end;
 
   TCircle = class(TCustomDraw)
@@ -64,7 +60,6 @@ type
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
-    function checkCrashWall(Sender : TObject; aX, aY, aSize : Integer) : Integer;
   public
     { Public declarations }
   end;
@@ -77,11 +72,7 @@ implementation
 {$R *.dfm}
 
 const
-  SPEED    = 5;
-  TO_UP    = 1;
-  TO_DOWN  = 2;
-  TO_LEFT  = 3;
-  TO_RIGHT = 4;
+  SPEED = 5;
 
 { TCostomDraw }
 
@@ -103,7 +94,7 @@ begin
   if fCanvas <> nil then begin
     with fCanvas do begin
       Pen.Mode := pmNotXor;
-//      Pen.Color := aColor;     질문..여기에 넣으면 왜 적용이 안되는지?
+//      Pen.Color := fColor;
       Brush.Style := bsClear;
     end;
   end;
@@ -129,20 +120,11 @@ begin
 end;
 
 procedure TCUstomDraw.DrawTimer(Sender : TObject);
-var
-aDirection : Integer;
 begin
-  aDirection := -1;
   fKeepInterval := fKeepInterval - 1;
+
   Draw;
-  if Assigned(OnLocationChange) then  //여기서 이벤트 발생할꺼야.
-    aDirection := fOnLocationChange(Self, fX, fY,fSize);
-  case aDirection of
-    TO_UP    : fUp := True;
-    TO_DOWN  : fUp := False;
-    TO_LEFT  : fLeft := True;
-    TO_RIGHT : fLeft := False;
-  end;
+  CheckCrashWall;
   if fUp = True then
     fY := fY - SPEED
   else
@@ -156,10 +138,23 @@ begin
     Free;
 end;
 
+procedure TCustomDraw.checkCrashWall;
+begin
+  if fY - fSize <= 50 then
+    fUp := False;
+  if fY + fSize >= MainForm.Height then
+    fUp := True;
+  if fX - fSize <= 0 then
+    fLeft := False;
+  if fX + fSize >= MainForm.Width then
+    fLeft := True;
+end;
+
 procedure TCustomDraw.Draw;
 begin
-
+  fCanvas.Pen.Color := fColor;
 end;
+
 
 { TCircle }
 
@@ -198,17 +193,6 @@ begin
     end;
 end;
 
-function TMainForm.checkCrashWall(Sender : TObject; aX, aY, aSize : Integer) : Integer;
-begin
-  if aY - aSize <= 50 then
-    Result := TO_DOWN;
-  if aY + aSize >= Height then
-    Result := TO_UP;
-  if aX - aSize <= 0 then
-    Result := TO_RIGHT;
-  if aX + aSize >= Width then
-    Result := TO_LEFT;
-end;
 
 procedure TMainForm.ColorPanelClick(Sender: TObject);
 begin
@@ -218,20 +202,14 @@ end;
 
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var
-aObj : TCustomDraw;
 begin
   if ShapeComboBox.ItemIndex >= 0 then begin
-    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then begin
-      aObj := Tcircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
-      aObj.OnLocationChange := CheckCrashWall;
-    end else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Rectangle' then begin
-      aObj := TRectangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
-      aObj.OnLocationChange := CheckCrashWall;
-    end else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then begin
-      aObj :=TTriangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
-      aObj.OnLocationChange := CheckCrashWall;
-    end;
+    if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
+      Tcircle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Rectangle' then
+      TRectangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value)
+    else if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Triangle' then
+      TTriangle.Create(Self.Canvas, X, Y, SizeSpinEdit.Value, ColorDialog.Color,  IntervalSpinEdit.Value);
   end;
 end;
 

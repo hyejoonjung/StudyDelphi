@@ -64,7 +64,6 @@ begin
   fAvgSum := 0;
 end;
 
-
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
   if fStudentList <> nil then begin
@@ -76,18 +75,18 @@ end;
 procedure TMainForm.NameListChange(Sender : TObject; aInfo : PGradeInfo; aIsAdd : Boolean);
 var
   aRow : Integer;
-begin //레코드가 들어오면 grid의 인덱스에 iname이 있나 확인, aIsAdd일경우 있으면 나이만,없으면 다 추가, add아니면 삭제.
+begin
   if aInfo = nil then
     Exit;
   with ListGrid do begin
-    aRow := Cols[GC_NAME].IndexOf(aInfo.iName);//입력받은 record의 name의 칼럼의 Row찾기
-    if aIsAdd then begin //추가면,,
-      if aRow < 0 then begin  // grid에 이름이 존재하지 않으면
-        aRow := RowCount - 1;     //grd맨마지막 인덱스를 aRow에 담아.
-        if Cells[GC_NAME, aRow] <> '' then   //마지막인덱스가 빈칸이아니면 aRow++
+    aRow := Cols[GC_NAME].IndexOf(aInfo.iName);
+    if aIsAdd then begin
+      if aRow < 0 then begin
+        aRow := RowCount - 1;
+        if Cells[GC_NAME, aRow] <> '' then
           Inc(aRow);
-        RowCount := aRow + 1; //로우카운트늘려줘
-        Cells[GC_NAME, aRow] := aInfo.iName;   //이름셀에 받은이름 넣어줘.
+        RowCount := aRow + 1;
+        Cells[GC_NAME, aRow] := aInfo.iName;
         fKorSum := fKorSum + aInfo.iKor;
         fEngSum := fEngSum + aInfo.iEng;
         fMathSum := fMathSum + aInfo.iMath;
@@ -103,12 +102,14 @@ begin //레코드가 들어오면 grid의 인덱스에 iname이 있나 확인, aIsAdd일경우 있으면
       Cells[GC_Math, aRow] := IntToStr(aInfo.iMath);
       Cells[GC__Avg, aRow] := FormatFloat('0.##',aInfo.iAvg);
     end else if aRow > 0 then begin //삭제
+      RemoveRow(aRow);
       fKorSum := fKorSum - aInfo.iKor;
       fEngSum := fEngSum - aInfo.iEng;
       fMathSum := fMathSum - aInfo.iMath;
       fAvgSum := fAvgSum - aInfo.iAvg;
     end;
   end;
+
   KorPanel.Caption := FormatFloat('0.##',(fKorSum / (ListGrid.RowCount - 1)));
   EngPanel.Caption := FormatFloat('0.##',(fEngSum / (ListGrid.RowCount - 1)));
   MathPanel.Caption := FormatFloat('0.##',(fMathSum / (ListGrid.RowCount - 1)));

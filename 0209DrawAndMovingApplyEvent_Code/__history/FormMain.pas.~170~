@@ -30,7 +30,7 @@ type
     constructor Create(aCanvas : TCanvas; aX, aY, aSize, aColor, aInterval : Integer);
     destructor Destroy; override;
 
-    property OnLocationChange : TOnLocationChange read fOnLocationChange write fOnLocationChange;
+    property OnLocationChange : TOnLocationChange read fOnLocationChange Write fOnLocationChange;
   end;
 
   TCircle = class(TCustomDraw)
@@ -103,7 +103,7 @@ begin
   if fCanvas <> nil then begin
     with fCanvas do begin
       Pen.Mode := pmNotXor;
-//      Pen.Color := aColor;     질문..여기에 넣으면 왜 적용이 안되는지?
+//      Pen.Color := fColor;     질문..여기에 넣으면 왜 적용이 안되는지?
       Brush.Style := bsClear;
     end;
   end;

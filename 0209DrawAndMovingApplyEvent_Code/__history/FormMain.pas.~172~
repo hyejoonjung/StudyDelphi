@@ -30,7 +30,7 @@ type
     constructor Create(aCanvas : TCanvas; aX, aY, aSize, aColor, aInterval : Integer);
     destructor Destroy; override;
 
-    property OnLocationChange : TOnLocationChange read fOnLocationChange write fOnLocationChange;
+    property OnLocationChange : TOnLocationChange read fOnLocationChange Write fOnLocationChange;
   end;
 
   TCircle = class(TCustomDraw)

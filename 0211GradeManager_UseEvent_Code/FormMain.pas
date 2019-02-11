@@ -64,7 +64,6 @@ begin
   fAvgSum := 0;
 end;
 
-
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
   if fStudentList <> nil then begin
@@ -76,6 +75,7 @@ end;
 procedure TMainForm.NameListChange(Sender : TObject; aInfo : PGradeInfo; aIsAdd : Boolean);
 var
   aRow : Integer;
+  aCount : Integer;
 begin
   if aInfo = nil then
     Exit;
@@ -110,10 +110,11 @@ begin
       fAvgSum := fAvgSum - aInfo.iAvg;
     end;
   end;
-  KorPanel.Caption := FormatFloat('0.##',(fKorSum / (ListGrid.RowCount - 1)));
-  EngPanel.Caption := FormatFloat('0.##',(fEngSum / (ListGrid.RowCount - 1)));
-  MathPanel.Caption := FormatFloat('0.##',(fMathSum / (ListGrid.RowCount - 1)));
-  TotalPanel.Caption := FormatFloat('0.##',(fAvgSum / (ListGrid.RowCount - 1)));
+  aCount := ListGrid.RowCount - 1;
+  KorPanel.Caption := FormatFloat('0.##',(fKorSum / aCount));
+  EngPanel.Caption := FormatFloat('0.##',(fEngSum / aCount));
+  MathPanel.Caption := FormatFloat('0.##',(fMathSum / aCount));
+  TotalPanel.Caption := FormatFloat('0.##',(fAvgSum / aCount));
 end;
 
 procedure TMainForm.AddBtnClick(Sender: TObject);
