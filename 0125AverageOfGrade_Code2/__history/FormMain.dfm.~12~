@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = #52628#44032','#51228#44144','#54217#44512#44050#44396#54616#44592
-  ClientHeight = 449
-  ClientWidth = 632
+  ClientHeight = 802
+  ClientWidth = 976
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,7 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object NameEdit: TEdit
@@ -34,7 +35,7 @@ object MainForm: TMainForm
     Height = 21
     TabOrder = 2
   end
-  object MatEdit: TEdit
+  object MathEdit: TEdit
     Left = 128
     Top = 113
     Width = 121
@@ -80,6 +81,7 @@ object MainForm: TMainForm
     Height = 25
     Caption = #52628#44032
     TabOrder = 8
+    OnClick = AddButtonClick
   end
   object DelButton: TButton
     Left = 440
@@ -88,6 +90,7 @@ object MainForm: TMainForm
     Height = 25
     Caption = #49325#51228
     TabOrder = 9
+    OnClick = DelButtonClick
   end
   object StringGrid: TStringGrid
     Left = 72
@@ -98,5 +101,33 @@ object MainForm: TMainForm
     FixedCols = 0
     RowCount = 2
     TabOrder = 10
+  end
+  object KorPanel: TPanel
+    Left = 168
+    Top = 407
+    Width = 81
+    Height = 41
+    TabOrder = 11
+  end
+  object EngPanel: TPanel
+    Left = 249
+    Top = 407
+    Width = 81
+    Height = 41
+    TabOrder = 12
+  end
+  object MathPanel: TPanel
+    Left = 330
+    Top = 407
+    Width = 87
+    Height = 41
+    TabOrder = 13
+  end
+  object TotalPanel: TPanel
+    Left = 417
+    Top = 407
+    Width = 88
+    Height = 41
+    TabOrder = 14
   end
 end

@@ -1,0 +1,144 @@
+unit FormMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UpGrids, PwrGrid, StdCtrls, StudentListClass, OTCLabel, ExtCtrls;
+
+type
+  TMainForm = class(TForm)
+    DelBtn: TButton;
+    AddBtn: TButton;
+    ListGrid: TPowerStrGrid;
+    EngEdit: TEdit;
+    MathEdit: TEdit;
+    EngLabel: TOTCLabel;
+    MathLabel: TOTCLabel;
+    NameLabel: TOTCLabel;
+    KorLabel: TOTCLabel;
+    NameEdit: TEdit;
+    KorEdit: TEdit;
+    KorPanel: TPanel;
+    EngPanel: TPanel;
+    MathPanel: TPanel;
+    TotalPanel: TPanel;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure AddBtnClick(Sender: TObject);
+    procedure DelBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+    fStudentList : TStudentList;
+    fKorSum : Integer;
+    fEngSum : Integer;
+    fMathSum : Integer;
+    fAvgSum : Double;
+
+    procedure NameListChange(Sender : TObject; aInfo : PGradeInfo; aIsAdd : Boolean);
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+const
+  GC_NAME = 0;
+  GC__Kor = 1;
+  GC__ENG = 2;
+  GC_MATH = 3;
+  GC__Avg = 4;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  fStudentList := TStudentList.Create;
+  fStudentList.OnChange := NameListChange;  //프로시져를 상속받은 TList.onChange에 연결했어.
+  fKorSum := 0;
+  fEngSum := 0;
+  fMathSum := 0;
+  fAvgSum := 0;
+end;
+
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  if fStudentList <> nil then begin
+    fStudentList.Free;
+    fStudentList := nil;
+  end;
+end;
+
+procedure TMainForm.NameListChange(Sender : TObject; aInfo : PGradeInfo; aIsAdd : Boolean);
+var
+  aRow : Integer;
+begin
+  if aInfo = nil then
+    Exit;
+  with ListGrid do begin
+    aRow := Cols[GC_NAME].IndexOf(aInfo.iName);
+    if aIsAdd then begin //추가면,,
+      if aRow < 0 then begin  // grid에 이름이 존재하지 않으면
+        aRow := RowCount - 1;     //grd맨마지막 인덱스를 aRow에 담아.
+        if Cells[GC_NAME, aRow] <> '' then   //마지막인덱스가 빈칸이아니면 aRow++
+          Inc(aRow);
+        RowCount := aRow + 1; //로우카운트늘려줘
+        Cells[GC_NAME, aRow] := aInfo.iName;   //이름셀에 받은이름 넣어줘.
+        fKorSum := fKorSum + aInfo.iKor;
+        fEngSum := fEngSum + aInfo.iEng;
+        fMathSum := fMathSum + aInfo.iMath;
+        fAvgSum := fAvgSum + aInfo.iAvg;
+      end else begin
+        fKorSum := fKorSum - StrToInt(Cells[GC__KOR, aRow]) + aInfo.iKor;
+        fEngSum := fEngSum - StrToInt(Cells[GC__ENG, aRow]) + aInfo.iEng;
+        fMathSum := fMathSum - StrToInt(Cells[GC_MATH, aRow]) + aInfo.iMath;
+        fAvgSum := fAvgSum - StrToFloat(Cells[GC__Avg, aRow]) + aInfo.iAvg;
+      end;
+      Cells[GC__Kor, aRow] := IntToStr(aInfo.iKor);
+      Cells[GC__Eng, aRow] := IntToStr(aInfo.iEng);
+      Cells[GC_Math, aRow] := IntToStr(aInfo.iMath);
+      Cells[GC__Avg, aRow] := FormatFloat('0.##',aInfo.iAvg);
+    end else if aRow > 0 then begin //삭제
+      RemoveRow(aRow);
+      fKorSum := fKorSum - aInfo.iKor;
+      fEngSum := fEngSum - aInfo.iEng;
+      fMathSum := fMathSum - aInfo.iMath;
+      fAvgSum := fAvgSum - aInfo.iAvg;
+
+    end;
+  end;
+  KorPanel.Caption := FormatFloat('0.##',(fKorSum / (ListGrid.RowCount - 1)));
+  EngPanel.Caption := FormatFloat('0.##',(fEngSum / (ListGrid.RowCount - 1)));
+  MathPanel.Caption := FormatFloat('0.##',(fMathSum / (ListGrid.RowCount - 1)));
+  TotalPanel.Caption := FormatFloat('0.##',(fAvgSum / (ListGrid.RowCount - 1)));
+end;
+
+procedure TMainForm.AddBtnClick(Sender: TObject);
+begin
+  if fStudentList = nil then
+    Exit;
+  if NameEdit.Text = '' then
+    Exit;
+  if KorEdit.Text = '' then
+    Exit;
+  if EngEdit.Text = '' then
+    Exit;
+  if MathEdit.Text = '' then
+    Exit;
+  fStudentList.Add(NameEdit.Text, StrToInt(KorEdit.Text), StrToInt(EngEdit.Text), StrToInt(MathEdit.Text));
+end;
+
+procedure TMainForm.DelBtnClick(Sender: TObject);
+begin
+  if fStudentList = nil then
+    Exit;
+  if NameEdit.Text = '' then
+    Exit;
+  fStudentList.Delete(NameEdit.Text);
+end;
+
+end.

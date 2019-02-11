@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-02-11 09:37:12.350.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0211GradeManager_UseEvent_Code\FormMain.pas</Transaction>
+    <Transaction>2019-02-11 09:37:12.350.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0211GradeManager_UseEvent_Code\FormMain.dfm</Transaction>
+    <Transaction>2019-02-11 09:37:20.175.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0211GradeManager_UseEvent_Code\GradeManager.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
