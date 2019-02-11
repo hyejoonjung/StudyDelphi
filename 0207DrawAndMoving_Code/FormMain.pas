@@ -247,6 +247,7 @@ end;
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
+  Canvas.Pen.Color := ColorDialog.Color;
   if (ShapeComboBox.ItemIndex >= 0) then begin
     if ShapeComboBox.Items[ShapeComboBox.ItemIndex] = 'Circle' then
       TCircle.Create(Self.Canvas, X, Y)

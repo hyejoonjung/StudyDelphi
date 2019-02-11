@@ -13,12 +13,13 @@ type
   end;
 
   TOnChange = procedure(Sender : TObject; aInfo : PNameInfo; aIsAdd : Boolean) of object;
-  //이벤트 정의, 저 3개가 들어오느느 이벤트.
+  //TOnChange로 생성된 필드에는 이런 함수가 들어갈꺼야.. 말그대로 정의지. 
+  //이벤트핸들러.
   //  object의 프로시저이다..??
 
   TNameList = class(TList)
   private
-    //이벤트핸들러를 저장할 데이터 필드 ㅁㄴ들어주고. 
+    //이벤트핸들러를 저장  할 데이터 필드.
     fOnChange : TOnChange;
   protected
     function Get(Index : Integer) : PNameInfo;
@@ -31,7 +32,7 @@ type
     procedure Delete(Index : Integer); overload;
     procedure Delete(const aName : String); overload;
     function IndexOf(const aName : String) : PNameInfo;
-    //이벤트프로퍼티만들기.
+    //프로퍼티.. fOnChange 에 접근권한을 설정할수있는...변수. 즉 property
     property OnChange : TOnChange read fOnChange write fOnChange;
   end;
 

@@ -113,9 +113,10 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   SizeSpinEdit.Value := 20;
-  IntervalSpinEdit.Value := 10;
+  IntervalSpinEdit.Value := 3;
   ColorDialog.Color := 0;
-  ShapeComboBox.Items[0];
+  ShapeComboBox.ItemIndex := 0;
+  ColorPanel.Color := ColorDialog.Color;
 end;
 
 procedure TCUstomDraw.DrawTimer(Sender : TObject);
@@ -133,10 +134,8 @@ begin
   else
     fX := fX + SPEED;
   Draw;
-      if fKeepInterval <= 0 then begin
-      Free;
-//      Exit;
-    end;
+  if fKeepInterval <= 0 then
+    Free;
 end;
 
 procedure TCustomDraw.checkCrashWall;
@@ -163,7 +162,7 @@ procedure TCircle.Draw;
 begin
   if fCanvas <> nil then
     with fCanvas do begin
-      fCanvas.Pen.Color := fColor;
+//      fCanvas.Pen.Color := fColor;
       fCanvas.Ellipse(fX - fSize, fY - fSize, fX + fSize, fY + fSize);
     end;
 end;

@@ -25,10 +25,18 @@ implementation
 
 procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-begin
+var
+  flag : boolean;
+  begin
   with Canvas Do begin
-    Pen.Color := clBlack;
-    Pen.Mode := pmXor;
+    if flag then begin
+      flag := False;
+      Pen.Mode := pmXor;
+    end else begin
+      flag := True;
+      Pen.Mode := pmBlack;
+    end;
+
 //    Pen.Style := psDot;
 //    Pen.Mode := pmBlack;
 //    Beitmap은 bmp파일로 배경.
@@ -47,6 +55,7 @@ begin
 
     Ellipse(50, 50, 100, 100);
     Ellipse(60, 60, 110, 110);
+
 //    Rectangle(X - 10, Y - 10, X + 10, Y + 10);
   end;
 end;

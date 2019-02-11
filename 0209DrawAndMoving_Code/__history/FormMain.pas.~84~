@@ -113,18 +113,16 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   SizeSpinEdit.Value := 20;
-  IntervalSpinEdit.Value := 10;
+  IntervalSpinEdit.Value := 3;
   ColorDialog.Color := 0;
-  ShapeComboBox.Items[0];
+  ShapeComboBox.ItemIndex := 0;
+  ColorPanel.Color := ColorDialog.Color;
 end;
 
 procedure TCUstomDraw.DrawTimer(Sender : TObject);
 begin
   fKeepInterval := fKeepInterval - 1;
-    if fKeepInterval <= 0 then begin
-      Free;
-      Exit;
-    end;
+
   Draw;
   CheckCrashWall;
   if fUp = True then
@@ -136,6 +134,8 @@ begin
   else
     fX := fX + SPEED;
   Draw;
+  if fKeepInterval <= 0 then
+    Free;
 end;
 
 procedure TCustomDraw.checkCrashWall;

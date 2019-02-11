@@ -36,6 +36,8 @@ type
     fColor : Integer;
     fCircleArray : array of ^CircleData;
 
+    procedure MoveShape(Sender : TObject);
+
     procedure TimerEvent(Sender : TObject);
     procedure AddCircle(aX, aY : Integer);
     procedure DrawCircle(aIndex : Integer);
@@ -108,7 +110,7 @@ begin
     SetLength(fCircleArray, aIndex + 1);
   end;
   New(fCircleArray[aIndex]);
-  with fCircleArray[aIndex]^ do begin
+  with fCircleArray[aIndex]^ do begin //Aray of ^CircleData
     iX := aX;
     iY := aY;
     iSize := fSize;

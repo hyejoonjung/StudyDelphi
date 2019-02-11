@@ -36,7 +36,7 @@ type
     fColor : Integer;
     fCircleArray : array of ^CircleData;
 
-    procedure MoveShape(Sender : TObject);
+//    procedure MoveShape(Sender : TObject);
 
     procedure TimerEvent(Sender : TObject);
     procedure AddCircle(aX, aY : Integer);

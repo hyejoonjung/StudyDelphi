@@ -7,6 +7,7 @@ uses
   Dialogs, ExtCtrls;
 
 type
+  PCustomDraw = ^TCustomDraw;
   TCustomDraw = class
   private
     fCanvas : TCanvas;
@@ -14,6 +15,8 @@ type
     fY : Integer;
     fSize : Integer;
     fTimer : TTimer;
+    fUp : Boolean;
+    fRight : Boolean;
 
     procedure DrawTimer(Sender : TObject);
   protected
@@ -71,7 +74,7 @@ begin
   end;
 
   if fCanvas <> nil then begin
-//    fCanvas.Pen.Mode := pmNotXor;
+    fCanvas.Pen.Mode := pmNotXor;
     fCanvas.Brush.Style := bsClear;
   end;
 
@@ -91,8 +94,7 @@ end;
 
 procedure TCustomDraw.DrawTimer(Sender : TObject);
 begin
-  Free;
-//  Draw;
+  Self.Free;
 end;
 
 procedure TCustomDraw.Draw; //ºÎ¸ð
@@ -122,9 +124,14 @@ end;
 procedure TTriangle.Draw;
 begin
   if fCanvas <> nil then begin
-    fCanvas.MoveTo(fX, fY - fSize);
-    fCanvas.MoveTo(fX - fSize, fY + fSize);
     fCanvas.MoveTo(fX + fSize, fY + fSize);
+    fCanvas.LineTo(fX, fY - fSize);
+    fCanvas.LineTo(fX - fSize, fY + fSize);
+    fCanvas.LineTo(fX + fSize, fY + fSize);
+//    fCanvas.MoveTo(fX - fSize, fY - fSize);
+//    fCanvas.LineTo(fX + fSize, fY + fSize);
+//    fCanvas.LineTo(fX + fSize, fY - fSize);
+//    fCanvas.LineTo(fX - fSize, fY - fSize);
   end;
 end;
 
@@ -132,7 +139,7 @@ procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Self.Canvas.Pen.Color := clRed;
-  TRactangle.Create(Self.Canvas, X, Y, 50);
+  TCircle.Create(Self.Canvas, X, Y, 50);
 end;
 
 end.

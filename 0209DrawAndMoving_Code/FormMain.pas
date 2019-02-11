@@ -116,6 +116,7 @@ begin
   IntervalSpinEdit.Value := 3;
   ColorDialog.Color := 0;
   ShapeComboBox.ItemIndex := 0;
+  ColorPanel.Color := ColorDialog.Color;
 end;
 
 procedure TCUstomDraw.DrawTimer(Sender : TObject);

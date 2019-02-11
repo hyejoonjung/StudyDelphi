@@ -11,6 +11,8 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
+  OnMouseDown = FormMouseDown
   PixelsPerInch = 96
   TextHeight = 13
   object ColorLabel: TLabel
@@ -23,7 +25,7 @@ object MainForm: TMainForm
   object SizeLabel: TLabel
     Left = 172
     Top = 40
-    Width = 23
+    Width = 19
     Height = 13
     Caption = 'Size'
   end
@@ -46,8 +48,9 @@ object MainForm: TMainForm
     Top = 30
     Width = 69
     Height = 32
-    Caption = 'ColorPanel'
+    ParentBackground = False
     TabOrder = 0
+    OnClick = ColorPanelClick
   end
   object ShapeComboBox: TComboBox
     Left = 521
@@ -56,7 +59,11 @@ object MainForm: TMainForm
     Height = 21
     ItemHeight = 13
     TabOrder = 1
-    Text = 'ShapeComboBox'
+    Text = #49440#53469
+    Items.Strings = (
+      'Circle'
+      'Triangle'
+      'Rectangle')
   end
   object SizeSpinEdit: TSpinEdit
     Left = 201
@@ -78,7 +85,7 @@ object MainForm: TMainForm
     TabOrder = 3
     Value = 0
   end
-  object CD: TColorDialog
+  object ColorDialog: TColorDialog
     Left = 112
     Top = 80
   end

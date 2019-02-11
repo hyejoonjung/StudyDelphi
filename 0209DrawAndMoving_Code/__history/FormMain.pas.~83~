@@ -113,9 +113,9 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   SizeSpinEdit.Value := 20;
-  IntervalSpinEdit.Value := 10;
+  IntervalSpinEdit.Value := 3;
   ColorDialog.Color := 0;
-  ShapeComboBox.Items[0];
+  ShapeComboBox.ItemIndex := 0;
 end;
 
 procedure TCUstomDraw.DrawTimer(Sender : TObject);
@@ -126,7 +126,7 @@ begin
   CheckCrashWall;
   if fUp = True then
     fY := fY - SPEED
-  else                                                 s
+  else
     fY := fY + SPEED;
   if fLeft = True then
     fX := fX - SPEED

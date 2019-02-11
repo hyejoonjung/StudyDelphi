@@ -4,7 +4,7 @@ object MainForm: TMainForm
   Caption = #52884#48260#49828#50696#51228
   ClientHeight = 533
   ClientWidth = 745
-  Color = clBtnFace
+  Color = clActiveCaption
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

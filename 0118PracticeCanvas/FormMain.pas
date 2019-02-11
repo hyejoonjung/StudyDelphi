@@ -27,7 +27,7 @@ procedure TMainForm.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   flag : boolean;
-  begin
+begin
   with Canvas Do begin
     if flag then begin
       flag := False;

@@ -48,6 +48,7 @@ object MainForm: TMainForm
     Top = 30
     Width = 69
     Height = 32
+    ParentBackground = False
     TabOrder = 0
     OnClick = ColorPanelClick
   end
