@@ -19,14 +19,13 @@ type
 
   TjmList = class(TList)
   private
-    fJmGrid : TPowerStrGrid;
     fKind : String;
     fCurrSum : Double;
     fCurrCount : Integer;
   protected
     function Get(Index : Integer) : PJmInfo;
   public
-    constructor Create(aJmGrid : TPowerStrGrid; aKind : String); virtual;
+    constructor Create(aKind : String);
     destructor Destroy; override;
 
     function Add(const aCode : String; aCurr :Integer) : PJmInfo; overload;
@@ -34,7 +33,7 @@ type
     procedure Clear; override;
     procedure Delete(Index : Integer);
     function IndexOf(const acode : String) : PJmInfo;
-    procedure ShowJmGrid;
+    procedure ShowJmGrid(aJmGrid : TPowerStrGrid);
 
 
     property Kind : String read fKind;
@@ -45,11 +44,10 @@ type
   TStockList = class(TList)
   private
     fStockGrid : TPowerStrGrid;
-    fJmGrid : TPowerStrGrid;
   protected
     function Get(Index : Integer) : TJmList;
   public
-    constructor Create(aStockGrid, aJmGrid : TPowerStrGrid); virtual;
+    constructor Create(aStockGrid : TPowerStrGrid); virtual;
     destructor Destroy; override;
 
     function Add(const aCode : String; aCurr : Integer) : TJmList; overload;
@@ -57,7 +55,7 @@ type
     procedure Clear; override;
     procedure Delete(Index : Integer);
     function IndexOf(const aKind : String) :TJmList;
-    function KindClick(const aKind : String) : TJmList;
+    function KindClick(const aKind : String; aJmGrid : TPowerStrGrid) : TJmList;
   end;
 
 
@@ -72,11 +70,10 @@ implementation
 
 { TJmList }
 
-constructor TJmList.Create(aJmGrid : TPowerStrGrid; aKind : String);
+constructor TJmList.Create(aKind : String);
 begin
   inherited Create;
 
-  fJmGrid := aJmGrid;
   fCurrsum := 0;
   fCurrCount := 0;
   fKind := aKind;
@@ -162,13 +159,13 @@ begin
   Result := nil;
 end;
 
-procedure TJmList.ShowJmGrid;
+procedure TJmList.ShowJmGrid(aJmGrid : TPowerStrGrid);
 var
   i, aRow : Integer;
   aJmInfo : PJmInfo;
 begin
-  if fJmGrid <> nil then begin
-    with fJmGrid do begin
+  if aJmGrid <> nil then begin
+    with aJmGrid do begin
       RowCount := 2;
       Rows[1].Clear;
       for i := 0 to Count - 1 do begin
@@ -191,12 +188,11 @@ end;
 
 { TStockList }
 
-constructor TStockList.Create(aStockGrid, aJmGrid : TPowerStrGrid);
+constructor TStockList.Create(aStockGrid : TPowerStrGrid);
 begin
   inherited Create;
 
   fStockGrid := astockGrid;
-  fJmGrid := aJmGrid;
 end;
 
 destructor TStockList.Destroy;
@@ -217,7 +213,7 @@ var
 begin
   Result := IndexOf(aCode[4]);
   if Result = nil then begin
-    Result := TJmList.Create(fJmGrid, aCode[4]);
+    Result := TJmList.Create(aCode[4]);
     
     inherited Add(Result);
   end;
@@ -244,7 +240,7 @@ var
 begin
   Result := IndexOf(aCode[4]);
   if Result = nil then begin
-    Result := TJmList.Create(fJmGrid, aCode[4]);
+    Result := TJmList.Create(aCode[4]);
     
     inherited Add(Result);
   if fStockGrid <> nil then begin
@@ -300,11 +296,11 @@ begin
   Result := nil;
 end;
 
-function TStockList.KindClick(const aKind : String) : TJmList;
+function TStockList.KindClick(const aKind : String; aJmGrid : TPowerStrGrid) : TJmList;
 begin
   Result := IndexOf(aKind);
   if Result <> nil then//dddd 
-    Result.ShowJmGrid;
+    Result.ShowJmGrid(aJmGrid);
 end;
 
 end.

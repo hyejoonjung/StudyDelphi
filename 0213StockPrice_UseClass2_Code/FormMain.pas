@@ -36,7 +36,7 @@ uses ELWPacket;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  fStockList := TStockList.Create(StockGrid, JmGrid);
+  fStockList := TStockList.Create(StockGrid);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -55,7 +55,7 @@ end;
 procedure TMainForm.StockGridClick(Sender: TObject);
 begin
   with StockGrid do
-    fStockList.KindClick(Cells[Col, Row]);
+    fStockList.KindClick(Cells[Col, Row], JmGrid);
 end;
 
 procedure TMainForm.ReadFile;
