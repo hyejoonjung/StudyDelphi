@@ -1,0 +1,110 @@
+unit FormMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass;
+
+type
+  TMainForm = class(TForm)
+    LoadBtn: TButton;
+    StockGrid: TPowerStrGrid;
+    JmGrid: TPowerStrGrid;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure LoadBtnClick(Sender: TObject);
+    procedure StockGridClick(Sender: TObject);
+  private
+    { Private declarations }
+    fStockList : TStockList;
+
+    procedure ReadFile;
+    procedure DataParshing(const aLine : String);
+//    procedure StockDisplay;
+//    procedure JmDisplay(const aKind : String);
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+uses ELWPacket;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  fStockList := TStockList.Create(StockGrid, JmGrid);
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  if fStockList <> nil then begin
+    fStockList.Free;
+    fStockList := nil;
+  end;
+end;
+
+procedure TMainForm.LoadBtnClick(Sender: TObject);
+begin
+  ReadFile;
+end;
+
+procedure TMainForm.StockGridClick(Sender: TObject);
+begin
+  with StockGrid do
+    fStockList.KindClick(Cells[Col, Row]);
+end;
+
+procedure TMainForm.ReadFile;
+var
+  aLine : String;
+  aF : TextFile;
+begin
+  try
+    AssignFile(aF, '20120731.FO.log');
+    Reset(aF);
+    while not EOF(aF) do begin
+      Readln(aF, aLine);
+      DataParshing(aLine);
+    end;
+  finally
+    CloseFile(aF);
+  end;
+end;
+
+procedure TMainForm.DataParshing(const aLine : String);
+var
+  aType : String;
+begin
+  aType := Copy(aLine, 18, 5);
+  if aType = 'B6034' then
+    with PKOSCOM_O_B6(@aLine)^ do
+      fStockList.Add(isu_cd, strToInt(mshoga), StrToInt(mdhoga))
+  else if aType = 'B6014' then begin
+    with PKOSCOM_F_B6(@aLine)^ do
+      fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
+  end else if aType = 'A3034' then
+    with PKOSCOM_O_A3(@aLine)^ do
+      fStockList.Add(isu_cd, StrToInt(curr), -1)
+  else if aType = 'A3014' then
+    with PKOSCOM_F_A3(@aLine)^ do
+      fStockList.Add(isu_cd, StrToInt(curr), -1)
+  else if aType = 'G7034' then begin
+    with PKOSCOM_O_G7(@aLine)^ do begin
+      fStockList.Add(isu_cd, StrToInt(curr), -1);
+      fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
+    end;
+  end else if aType = 'G7014' then begin
+    with PKOSCOM_F_G7(@aLine)^ do begin
+      fStockList.Add(isu_cd, StrToInt(curr), -1);
+      fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
+    end;
+  end;
+end;
+
+end.

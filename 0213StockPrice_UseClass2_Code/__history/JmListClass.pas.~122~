@@ -1,0 +1,175 @@
+unit JmListClass;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  PwrGrid;
+
+type
+  PJmInfo = ^TJmInfo;
+  TJmInfo = record
+    iCode : String;
+    iCurrSum : Double;
+    iCurrCount : Integer;
+    iMsSum : Double;
+    iMdSum : Double;
+    iMmCount : Integer;
+  end;
+
+  TjmList = class(TList)
+  private
+    fJmGrid : TPowerStrGrid;
+  protected
+    function Get(Index : Integer) : PJmInfo;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+
+    function Add(const aCode : String; aPrice1, aPrice2 : Integer) : PJmInfo;
+    procedure Clear; override;
+    function IndexOf(const acode : String) : PJmInfo;
+    procedure WriteGrid(const aCode : String; aJmGrid : TPowerStrGrid);
+  end;
+
+const
+  GC_JM    = 0;
+  GC_MS    = 2;
+  GC_MD    = 3;
+
+implementation
+
+{ TjmList }
+
+constructor TjmList.Create;
+begin
+  inherited Create;
+
+end;
+
+destructor TjmList.Destroy;
+begin
+  Clear;
+
+  inherited;
+end;
+
+function TjmList.Get(Index : Integer) : PJmInfo;
+begin
+  Result := PJmInfo(inherited Get(Index));
+end;
+
+function TjmList.Add(const aCode : String; aPrice1, aPrice2 : Integer) : PJmInfo;
+begin
+  Result := IndexOf(aCode);
+  if Result = nil then begin
+    New(Result);
+    ZeroMemory(Result, SizeOf(TJmInfo));
+    Result.iCode := aCode;
+
+    inherited Add(Result);
+  end;
+  if aPrice2 < 0 then begin
+    Result.iCurrSum := aPrice1;
+    Result.iCurrCount := Result.iCurrCount + 1;
+  end else
+    Result.iMsSum := aPrice1;
+    Result.iMdSum := aPrice2;
+    Result.iMmCount := Result.iMmCount + 1;
+end;
+
+procedure TjmList.Clear;
+begin
+  while Count > 0 do
+    Delete(Count - 1);
+
+  inherited;
+end;
+
+function TjmList.IndexOf(const acode : String) : PJmInfo;
+var
+  i : Integer;
+begin
+  for i := 0 to Count - 1 do begin
+    Result := Get(i);
+    if (Result <> nil) and (Result.iCode = aCode) then
+      Exit;
+  end;
+  Result := nil;
+end;
+
+procedure TjmList.WriteGrid(aCode : TjmList; aJmGrid : TPowerStrGrid);
+var
+  aRow : Integer;
+  i : Integer;
+begin
+  Result := IndexOf(aCode);
+  if aJmGrid <> nil then begin
+    for i := 0 to Count - 1 do begin
+      aJmGrid.Cells[GC_JM, i + 1] := Result.
+    if aSubRecord.iCurrCount > 0 then
+      aJmGrid.Cells[GC_CURR, i + 1] := FormatFloat('0.##',(aSubRecord.iCurrSum / aSubRecord.iCurrCount / 100))
+    else
+      aJmGrid.Cells[1, i + 1] := '';
+    if aSubRecord.iMmCount > 0 then begin
+      aJmGrid.Cells[GC_MS, i + 1] := FormatFloat('0.##',(aSubRecord.iMsSum / aSubRecord.iMmCount / 100));
+      aJmGrid.Cells[GC_MD, i + 1] := FormatFloat('0.##',(aSubRecord.iMdSum / aSubRecord.iMmCount / 100));
+    end else begin
+      aJmGrid.Cells[GC_MS, i + 1] := '';
+      aJmGrid.Cells[GC_MD, i + 1] := '';
+    end;
+    aJmGrid.RowCount := StringGrid2.RowCount + 1;
+    end;
+
+    with aJmGrid do begin
+    aRow := Cols[GC_Jm].IndexOf(Result.iCode);
+      if aRow < 0 then begin
+        aRow := RowCount - 1;
+        if Cells[GC_Jm, aRow] <> '' then
+          Inc(aRow);
+        RowCount := aRow + 1;
+        Cells[GC_Jm, aRow] := iCode;
+      end;
+      if Result.iCurrCount > 0 then
+        Cells[GC_CURR, aRow] := FormatFloat('0.##', (Result.iCurrSum / Result.iCurrCount / 100));
+    end;
+  end;
+    end;
+
+  if fStockGrid <> nil then begin
+    with fStockGrid do begin
+      aRow := Cols[GC_KIND].IndexOf(Result.iKind);
+      if aRow < 0 then begin
+        aRow := RowCount - 1;
+        if Cells[GC_KIND, aRow] <> '' then
+          Inc(aRow);
+        RowCount := aRow + 1;
+        Cells[GC_KIND, aRow] := Result.iKind;
+      end;
+      if Result.iCurrCount > 0 then
+        Cells[GC_CURR, aRow] := FormatFloat('0.##', (Result.iCurrSum / Result.iCurrCount / 100));
+    end;
+  end;
+end;
+
+//   for i := 0 to Count - 1 do begin
+//    aSubRecord := aMainRecord.iSubList[i];
+//    StringGrid2.Cells[0, i + 1] := aSubRecord.iCode;
+//    if aSubRecord.iCurrCount > 0 then
+//      StringGrid2.Cells[1, i + 1] := FormatFloat('0.##',(aSubRecord.iCurrSum / aSubRecord.iCurrCount / 100))
+//    else
+//      StringGrid2.Cells[1, i + 1] := '';
+//    if aSubRecord.iMmCount > 0 then begin
+//      StringGrid2.Cells[2, i + 1] := FormatFloat('0.##',(aSubRecord.iMsSum / aSubRecord.iMmCount / 100));
+//      StringGrid2.Cells[3, i + 1] := FormatFloat('0.##',(aSubRecord.iMdSum / aSubRecord.iMmCount / 100));
+//    end else begin
+//      StringGrid2.Cells[2, i + 1] := '';
+//      StringGrid2.Cells[3, i + 1] := '';
+//    end;
+//    StringGrid2.RowCount := StringGrid2.RowCount + 1;
+//  end;
+
+
+
+
+end.
