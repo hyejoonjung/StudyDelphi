@@ -7,6 +7,8 @@ uses
   PwrGrid, JmListClass;
 
 type
+  TOnStockGridClick = TNotifyEvent;
+
   TStockList = class(TList)
   private
     fStockGrid : TPowerStrGrid;
@@ -22,6 +24,7 @@ type
     function IndexOf(const aKind : String) :TJmList;
     function KindClick(const aKind : String) : TJmList;
 
+    property OnStockGridClick : TOnStockGridClick read fOnStockGridClist write fOnStockGridClist;
   end;
 
 const
@@ -102,9 +105,13 @@ end;
 
 function TStockList.KindClick(const aKind : String) : TJmList;
 begin
-  Result := IndexOf(aKind);
-  Result.StockListClick;
+  Result := IndexOf(aKind);//result에 Kind에 해당하는 JmList가 있어.
+  Result.StockListClist;
+  //jmList의 뭘 어떻게 호출하면 다 내뱉을수잇지?
+  // 포인터를 넘겨준다면, 
 
+//  Result := indexOf(aKind);
+//  Result.iJmList.WriteGrid(Result.iJmList, aJmGrid);
 end;
 
 end.

@@ -81,7 +81,7 @@ begin
     inherited Add(Result);
   end;
   if aPrice2 < 0 then begin
-    fCurrSum := fCurrSum + aPrice1;
+    fCurrSum := aPrice1;
     fCurrCount := fCurrCount + 1;
     Result.iCurrSum := aPrice1;
     Result.iCurrCount := Result.iCurrCount + 1;
@@ -129,7 +129,7 @@ begin
         Cells[GC___JM, aRow] := aJmInfo.iCode;
         if aJmInfo.iCurrcount <> 0 then
           Cells[GC_CURR, aRow] := FormatFloat('0.##', (aJminfo.iCurrSum / aJmInfo.iCurrCount / 100));
-        if aJmInfo.iMmCount <> 0 then begin
+        if aJmInfo.iMmCount <>0 then begin
           Cells[GC___MS, aRow] := FormatFloat('0.##', (aJminfo.iMsSum / aJmInfo.iMmCount / 100));
           Cells[GC___MD, aRow] := FormatFloat('0.##', (aJminfo.iMDSum / aJmInfo.iMmCount / 100));
         end;

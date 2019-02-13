@@ -80,7 +80,10 @@ end;
 procedure TMainForm.DataParshing(const aLine : String);
 var
   aType : String;
+//  aStr : Integer;
 begin
+//  aStr := StrToInt(' 00001');
+//  showMessage('aStr');
   aType := Copy(aLine, 18, 5);
   if aType = 'B6034' then begin
     with PKOSCOM_O_B6(@aLine[18])^ do

@@ -81,7 +81,7 @@ begin
     inherited Add(Result);
   end;
   if aPrice2 < 0 then begin
-    fCurrSum := fCurrSum + aPrice1;
+    fCurrSum := aPrice1;
     fCurrCount := fCurrCount + 1;
     Result.iCurrSum := aPrice1;
     Result.iCurrCount := Result.iCurrCount + 1;

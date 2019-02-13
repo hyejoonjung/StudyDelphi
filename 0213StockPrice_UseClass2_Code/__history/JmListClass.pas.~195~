@@ -81,7 +81,7 @@ begin
     inherited Add(Result);
   end;
   if aPrice2 < 0 then begin
-    fCurrSum := fCurrSum + aPrice1;
+    fCurrCount := aPrice1;
     fCurrCount := fCurrCount + 1;
     Result.iCurrSum := aPrice1;
     Result.iCurrCount := Result.iCurrCount + 1;
@@ -118,8 +118,6 @@ var
 begin
   if fJmGrid <> nil then begin
     with fJmGrid do begin
-      RowCount := 2;
-      Rows[1].Clear;
       for i := 0 to Count - 1 do begin
         aJmInfo := Self[i];
         aRow := Rowcount - 1;
@@ -127,12 +125,9 @@ begin
           Inc(aRow);
         RowCount := aRow + 1;
         Cells[GC___JM, aRow] := aJmInfo.iCode;
-        if aJmInfo.iCurrcount <> 0 then
-          Cells[GC_CURR, aRow] := FormatFloat('0.##', (aJminfo.iCurrSum / aJmInfo.iCurrCount / 100));
-        if aJmInfo.iMmCount <> 0 then begin
-          Cells[GC___MS, aRow] := FormatFloat('0.##', (aJminfo.iMsSum / aJmInfo.iMmCount / 100));
-          Cells[GC___MD, aRow] := FormatFloat('0.##', (aJminfo.iMDSum / aJmInfo.iMmCount / 100));
-        end;
+        Cells[GC_CURR, aRow] := FormatFloat('0.##',(aJminfo.iCurrSum / aJmInfo.iCurrCount / 100));
+        Cells[GC___MS, aRow] := FormatFloat('0.##',(aJminfo.iMsSum / aJmInfo.iMmCount / 100));
+        Cells[GC___MD, aRow] := FormatFloat('0.##',(aJminfo.iMDSum / aJmInfo.iMmCount / 100));
       end;
     end;
   end;
