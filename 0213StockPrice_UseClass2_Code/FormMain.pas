@@ -21,8 +21,6 @@ type
 
     procedure ReadFile;
     procedure DataParshing(const aLine : String);
-//    procedure StockDisplay;
-//    procedure JmDisplay(const aKind : String);
   public
     { Public declarations }
   end;

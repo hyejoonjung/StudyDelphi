@@ -32,8 +32,9 @@ type
 
     function Add(const aCode : String; aPrice1, aPrice2 : Integer) : PJmInfo;
     procedure Clear; override;
+    procedure Delete(Index : Integer);
     function IndexOf(const acode : String) : PJmInfo;
-    procedure StockGridClick;
+    procedure ShowJmGrid;
 
     property Kind : String read fKind write fKind;
     property CurrSum : Double Read fCurrSum write fCurrSum;
@@ -52,6 +53,7 @@ type
 
     function Add(const aCode : String; aPrice1, aPrice2 : Integer) : TJmList;
     procedure Clear; override;
+    procedure Delete(Index : Integer);
     function IndexOf(const aKind : String) :TJmList;
     function KindClick(const aKind : String) : TJmList;
   end;
@@ -118,6 +120,21 @@ begin
   inherited;
 end;
 
+procedure TjmList.Delete(Index : Integer);
+var
+  aInfo : PJmInfo;
+begin
+  if Index < 0 then
+    Exit;
+  aInfo := Get(Index);
+  if aInfo <> nil then begin
+    Put(Index, nil);
+  end;
+  Dispose(aInfo);
+
+  inherited;
+end;
+
 function TjmList.IndexOf(const acode : String) : PJmInfo;
 var
   i : Integer;
@@ -130,7 +147,7 @@ begin
   Result := nil;
 end;
 
-procedure TjmList.StockGridClick;
+procedure TjmList.ShowJmGrid;
 var
   i, aRow : Integer;
   aJmInfo : PJmInfo;
@@ -215,6 +232,21 @@ begin
   inherited;
 end;
 
+procedure TStockList.Delete(Index : Integer);
+var
+  aList : TJmList;
+begin
+  if Index < 0 then
+    Exit;
+  aList := Get(Index);
+  if aList <> nil then begin
+    aList.Free;
+    Put(Index, nil);
+  end;
+
+  inherited;
+end;
+
 function TStockList.IndexOf(const aKind : String) : TJmList;
 var
   i : Integer;
@@ -230,8 +262,7 @@ end;
 function TStockList.KindClick(const aKind : String) : TJmList;
 begin
   Result := IndexOf(aKind);
-  Result.StockGridClick;
-
+  Result.ShowJmGrid;
 end;
 
 end.
