@@ -70,9 +70,9 @@ const
 
 implementation
 
-{ TjmList }
+{ TJmList }
 
-constructor TjmList.Create(aJmGrid : TPowerStrGrid);
+constructor TJmList.Create(aJmGrid : TPowerStrGrid);
 begin
   inherited Create;
 
@@ -82,19 +82,19 @@ begin
   fKind := '';
 end;
 
-destructor TjmList.Destroy;
+destructor TJmList.Destroy;
 begin
   Clear;
 
   inherited;
 end;
 
-function TjmList.Get(Index : Integer) : PJmInfo;
+function TJmList.Get(Index : Integer) : PJmInfo;
 begin
   Result := PJmInfo(inherited Get(Index));
 end;
 
-function TjmList.Add(const aCode : String;aPrice1, aPrice2 : Integer) : PJmInfo;
+function TJmList.Add(const aCode : String; aPrice1, aPrice2 : Integer) : PJmInfo;
 begin
   Result := IndexOf(aCode);
   if Result = nil then begin
@@ -107,7 +107,7 @@ begin
   if aPrice2 < 0 then begin
     fCurrSum := fCurrSum + aPrice1;
     fCurrCount := fCurrCount + 1;
-    Result.iCurrSum := aPrice1;
+    Result.iCurrSum := Result.iCurrSum + aPrice1;
     Result.iCurrCount := Result.iCurrCount + 1;
   end else
     Result.iMsSum := Result.iMsSum + aPrice1;
@@ -115,7 +115,7 @@ begin
     Result.iMmCount := Result.iMmCount + 1;
 end;
 
-procedure TjmList.Clear;
+procedure TJmList.Clear;
 begin
   while Count > 0 do
     Delete(Count - 1);
@@ -123,7 +123,7 @@ begin
   inherited;
 end;
 
-procedure TjmList.Delete(Index : Integer);
+procedure TJmList.Delete(Index : Integer);
 var
   aInfo : PJmInfo;
 begin
@@ -132,13 +132,15 @@ begin
   aInfo := Get(Index);
   if aInfo <> nil then begin
     Put(Index, nil);
+    fCurrSum := fCurrSum - aInfo.iCurrSum;
+    fCurrCount := fCurrCount - aInfo.iCurrCount;
+    Dispose(aInfo);
   end;
-  Dispose(aInfo);
 
   inherited;
 end;
 
-function TjmList.IndexOf(const acode : String) : PJmInfo;
+function TJmList.IndexOf(const acode : String) : PJmInfo;
 var
   i : Integer;
 begin
@@ -150,7 +152,7 @@ begin
   Result := nil;
 end;
 
-procedure TjmList.ShowJmGrid;
+procedure TJmList.ShowJmGrid;
 var
   i, aRow : Integer;
   aJmInfo : PJmInfo;
@@ -177,7 +179,7 @@ begin
   end;
 end;
 
-procedure TjmList.SetKind(const aKind : String);
+procedure TJmList.SetKind(const aKind : String);
 begin
   if fKind = '' then
     fKind := aKind;
@@ -250,8 +252,8 @@ begin
   aList := Get(Index);
   if aList <> nil then begin
     Put(Index, nil);
+    aList.Free;
   end;
-  aList.Free;
 
   inherited;
 end;
@@ -271,7 +273,8 @@ end;
 function TStockList.KindClick(const aKind : String) : TJmList;
 begin
   Result := IndexOf(aKind);
-  Result.ShowJmGrid;
+  if Result <> nil then//dddd 
+    Result.ShowJmGrid;
 end;
 
 end.
