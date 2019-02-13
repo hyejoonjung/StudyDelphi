@@ -231,6 +231,7 @@ function TStockList.KindClick(const aKind : String) : TJmList;
 begin
   Result := IndexOf(aKind);
   Result.ShowJmGrid;
+
 end;
 
 end.
