@@ -24,6 +24,7 @@ type
     fCurrSum : Double;
     fCurrCount : Integer;
 
+    procedure SetKind(const aKind : String);
   protected
     function Get(Index : Integer) : PJmInfo;
   public
@@ -35,11 +36,11 @@ type
     procedure Delete(Index : Integer);
     function IndexOf(const acode : String) : PJmInfo;
     procedure ShowJmGrid;
-    procedure SetKind(const aKind : String);
+
 
     property Kind : String read fKind write SetKind;
-    property CurrSum : Double Read fCurrSum ;
-    property CurrCount : Integer Read fCurrCount ;
+    property CurrSum : Double read fCurrSum;
+    property CurrCount : Integer read fCurrCount;
   end;
 
   TStockList = class(TList)

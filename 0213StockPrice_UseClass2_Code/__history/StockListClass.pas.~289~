@@ -24,6 +24,7 @@ type
     fCurrSum : Double;
     fCurrCount : Integer;
 
+    procedure SetKind(const aKind : String);
   protected
     function Get(Index : Integer) : PJmInfo;
   public
@@ -36,9 +37,10 @@ type
     function IndexOf(const acode : String) : PJmInfo;
     procedure ShowJmGrid;
 
-    property Kind : String read fKind write fKind;
-    property CurrSum : Double Read fCurrSum
-    property CurrCount : Integer Read fCurrCount
+
+    property Kind : String read fKind write SetKind;
+    property CurrSum : Double read fCurrSum;
+    property CurrCount : Integer read fCurrCount;
   end;
 
   TStockList = class(TList)
@@ -77,6 +79,7 @@ begin
   fJmGrid := aJmGrid;
   fCurrsum := 0;
   fCurrCount := 0;
+  fKind := '';
 end;
 
 destructor TjmList.Destroy;
@@ -172,6 +175,12 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TjmList.SetKind(const aKind : String);
+begin
+  if fKind = '' then
+    fKind := aKind;
 end;
 
 { TStockList }

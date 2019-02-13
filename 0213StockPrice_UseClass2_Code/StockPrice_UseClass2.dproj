@@ -32,7 +32,6 @@
     <DCCReference Include="FormMain.pas">
       <Form>MainForm</Form>
     </DCCReference>
-    <DCCReference Include="JmListClass.pas" />
     <DCCReference Include="StockListClass.pas" />
   </ItemGroup>
 </Project>
