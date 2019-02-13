@@ -23,22 +23,21 @@ type
     fKind : String;
     fCurrSum : Double;
     fCurrCount : Integer;
-
-    procedure SetKind(const aKind : String);
   protected
     function Get(Index : Integer) : PJmInfo;
   public
-    constructor Create(aJmGrid : TPowerStrGrid); virtual;
+    constructor Create(aJmGrid : TPowerStrGrid; aKind : String); virtual;
     destructor Destroy; override;
 
-    function Add(const aCode : String; aPrice1, aPrice2 : Integer) : PJmInfo;
+    function Add(const aCode : String; aCurr :Integer) : PJmInfo; overload;
+    function Add(const aCode : String; aMs, aMd : Integer) : PJmInfo; overload;
     procedure Clear; override;
     procedure Delete(Index : Integer);
     function IndexOf(const acode : String) : PJmInfo;
     procedure ShowJmGrid;
 
 
-    property Kind : String read fKind write SetKind;
+    property Kind : String read fKind;
     property CurrSum : Double read fCurrSum;
     property CurrCount : Integer read fCurrCount;
   end;
@@ -53,7 +52,8 @@ type
     constructor Create(aStockGrid, aJmGrid : TPowerStrGrid); virtual;
     destructor Destroy; override;
 
-    function Add(const aCode : String; aPrice1, aPrice2 : Integer) : TJmList;
+    function Add(const aCode : String; aCurr : Integer) : TJmList; overload;
+    function Add(const aCode : String; aMs, aMd : Integer) : TJmList; overload;
     procedure Clear; override;
     procedure Delete(Index : Integer);
     function IndexOf(const aKind : String) :TJmList;
@@ -72,14 +72,14 @@ implementation
 
 { TJmList }
 
-constructor TJmList.Create(aJmGrid : TPowerStrGrid);
+constructor TJmList.Create(aJmGrid : TPowerStrGrid; aKind : String);
 begin
   inherited Create;
 
   fJmGrid := aJmGrid;
   fCurrsum := 0;
   fCurrCount := 0;
-  fKind := '';
+  fKind := aKind;
 end;
 
 destructor TJmList.Destroy;
@@ -94,7 +94,7 @@ begin
   Result := PJmInfo(inherited Get(Index));
 end;
 
-function TJmList.Add(const aCode : String; aPrice1, aPrice2 : Integer) : PJmInfo;
+function TJmList.Add(const aCode : String; aCurr :Integer) : PJmInfo;
 begin
   Result := IndexOf(aCode);
   if Result = nil then begin
@@ -104,15 +104,25 @@ begin
 
     inherited Add(Result);
   end;
-  if aPrice2 < 0 then begin
-    fCurrSum := fCurrSum + aPrice1;
-    fCurrCount := fCurrCount + 1;
-    Result.iCurrSum := Result.iCurrSum + aPrice1;
-    Result.iCurrCount := Result.iCurrCount + 1;
-  end else
-    Result.iMsSum := Result.iMsSum + aPrice1;
-    Result.iMdSum := Result.iMdSum + aPrice2;
-    Result.iMmCount := Result.iMmCount + 1;
+  fCurrSum := fCurrSum + aCurr;
+  fCurrCount := fCurrCount + 1;
+  Result.iCurrSum := Result.iCurrSum + aCurr;
+  Result.iCurrCount := Result.iCurrCount + 1;
+end;
+
+function TJmList.Add(const aCode : String; aMs, aMd : Integer) : PJmInfo;
+begin
+  Result := IndexOf(aCode);
+  if Result = nil then begin
+    New(Result);
+    ZeroMemory(Result, SizeOf(PJmInfo));
+    Result.iCode := aCode;
+
+    inherited Add(Result);
+  end;
+  Result.iMsSum := Result.iMsSum + aMs;
+  Result.iMdSum := Result.iMdSum + aMd;
+  Result.iMmCount := Result.iMmCount + 1;
 end;
 
 procedure TJmList.Clear;
@@ -179,12 +189,6 @@ begin
   end;
 end;
 
-procedure TJmList.SetKind(const aKind : String);
-begin
-  if fKind = '' then
-    fKind := aKind;
-end;
-
 { TStockList }
 
 constructor TStockList.Create(aStockGrid, aJmGrid : TPowerStrGrid);
@@ -207,18 +211,17 @@ begin
   Result := TJmList(inherited Get(Index));
 end;
 
-function TStockList.Add(const aCode : String; aPrice1, aPrice2 : Integer) : TJmList;
+function TStockList.Add(const aCode : String; aCurr : Integer) : TJmList;
 var
   aRow : Integer;
 begin
   Result := IndexOf(aCode[4]);
   if Result = nil then begin
-    Result := TJmList.Create(fJmGrid);
-    Result.Kind := aCode[4];
+    Result := TJmList.Create(fJmGrid, aCode[4]);
     
     inherited Add(Result);
   end;
-  Result.Add(aCode, aPrice1, aPrice2);
+  Result.Add(aCode, aCurr);
   if fStockGrid <> nil then begin
     with fStockGrid do begin
       aRow := Cols[GC_KIND].IndexOf(Result.Kind);
@@ -233,6 +236,33 @@ begin
         Cells[GC_CURR, aRow] := FormatFloat('0.##', (Result.CurrSum / Result.CurrCount / 100));
     end;
   end;
+end;
+
+function TStockList.Add(const aCode : String; aMs, aMd : Integer) : TJmList;
+var
+  aRow : Integer;
+begin
+  Result := IndexOf(aCode[4]);
+  if Result = nil then begin
+    Result := TJmList.Create(fJmGrid, aCode[4]);
+    
+    inherited Add(Result);
+  if fStockGrid <> nil then begin
+    with fStockGrid do begin
+      aRow := Cols[GC_KIND].IndexOf(Result.Kind);
+      if aRow < 0 then begin
+        aRow := RowCount - 1;
+        if Cells[GC_KIND, aRow] <> '' then
+          Inc(aRow);
+        RowCount := aRow + 1;
+        Cells[GC_KIND, aRow] := Result.Kind;
+      end;
+      if Result.CurrCount > 0 then
+        Cells[GC_CURR, aRow] := FormatFloat('0.##', (Result.CurrSum / Result.CurrCount / 100));
+    end;
+  end;
+  end;
+  Result.Add(aCode, aMs, aMd);
 end;
     
 procedure TStockList.Clear;
