@@ -138,35 +138,47 @@ begin
 end;
 
 procedure TModalForm.WriteCurr(aCurr : String);
-
 begin
-  ViewGrid.Cells[GC__CURR, GR_CURR] := FormatFloat('0.##',(StrToInt(aCurr)/100));
+  if ViewGrid <> nil then  
+    ViewGrid.Cells[GC__CURR, GR_CURR] := FormatFloat('0.##',(StrToInt(aCurr))/100);
 end;
 
 procedure TModalForm.WriteMsMd(aMdhoga, aMdhoga1, aMdhoga2, aMdhoga3, aMdhoga4, aMdhoqty, aMdhoqty1, aMdhoqty2, aMdhoqty3, aMdhoqty4,
                                aMshoga, aMshoga1, aMshoga2, aMshoga3, aMshoga4, aMshoqty, aMshoqty1, aMshoqty2, aMshoqty3, aMshoqty4  : String);
+var
+  aStr : String;
+  i, j : Integer;
 begin
-  with ViewGrid do begin
-    Cells[GC_MDQTY, GR_MD4] := aMdhoqty4;
-    Cells[GC_MDQTY, GR_MD3] := aMdhoqty3;
-    Cells[GC_MDQTY, GR_MD2] := aMdhoqty2;
-    Cells[GC_MDQTY, GR_MD1] := aMdhoqty1;
-    Cells[GC_MDQTY, GR__MD] := aMdhoqty;
-    Cells[GC__HOGA, GR_MD4] := FormatFloat('0.##',(StrToInt(aMdhoga4)/100));
-    Cells[GC__HOGA, GR_MD3] := FormatFloat('0.##',(StrToInt(aMdhoga3)/100));
-    Cells[GC__HOGA, GR_MD2] := FormatFloat('0.##',(StrToInt(aMdhoga2)/100));
-    Cells[GC__HOGA, GR_MD1] := FormatFloat('0.##',(StrToInt(aMdhoga1)/100));
-    Cells[GC__HOGA, GR__MD] := FormatFloat('0.##',(StrToInt(aMdhoga)/100));
-    Cells[GC_MSQTY, GR__MS] := aMshoqty;
-    Cells[GC_MSQTY, GR_MS1] := aMshoqty1;
-    Cells[GC_MSQTY, GR_MS2] := aMshoqty2;
-    Cells[GC_MSQTY, GR_MS3] := aMshoqty3;
-    Cells[GC_MSQTY, GR_MS4] := aMshoqty4;
-    Cells[GC__HOGA, GR__MS] := FormatFloat('0.##',(StrToInt(aMshoga)/100));
-    Cells[GC__HOGA, GR_MS1] := FormatFloat('0.##',(StrToInt(aMshoga1)/100));
-    Cells[GC__HOGA, GR_MS2] := FormatFloat('0.##',(StrToInt(aMshoga2)/100));
-    Cells[GC__HOGA, GR_MS3] := FormatFloat('0.##',(StrToInt(aMshoga3)/100));
-    Cells[GC__HOGA, GR_MS4] := FormatFloat('0.##',(StrToInt(aMshoga4)/100));
+  aStr := '';
+  if ViewGrid <> nil then begin
+    with ViewGrid do begin
+      Cells[GC__HOGA, GR_MD4] := FormatFloat('0.##',(StrToInt(aMdhoga4))/100);
+      Cells[GC__HOGA, GR_MD3] := FormatFloat('0.##',(StrToInt(aMdhoga3))/100);
+      Cells[GC__HOGA, GR_MD2] := FormatFloat('0.##',(StrToInt(aMdhoga2))/100);
+      Cells[GC__HOGA, GR_MD1] := FormatFloat('0.##',(StrToInt(aMdhoga1))/100);
+      Cells[GC__HOGA, GR__MD] := FormatFloat('0.##',(StrToInt(aMdhoga))/100);
+      Cells[GC_MDQTY, GR_MD4] := IntToStr(StrToInt(aMdhoqty4));
+      Cells[GC_MDQTY, GR_MD3] := IntToStr(StrToInt(aMdhoqty3));
+      Cells[GC_MDQTY, GR_MD2] := IntToStr(StrToInt(aMdhoqty2));
+      Cells[GC_MDQTY, GR_MD1] := IntToStr(StrToInt(aMdhoqty1));
+      Cells[GC_MDQTY, GR__MD] := IntToStr(StrToInt(aMdhoqty));
+      Cells[GC__HOGA, GR__MS] := FormatFloat('0.##',(StrToInt(aMshoga))/100);
+      Cells[GC__HOGA, GR_MS1] := FormatFloat('0.##',(StrToInt(aMshoga1))/100);
+      Cells[GC__HOGA, GR_MS2] := FormatFloat('0.##',(StrToInt(aMshoga2))/100);
+      Cells[GC__HOGA, GR_MS3] := FormatFloat('0.##',(StrToInt(aMshoga3))/100);
+      Cells[GC__HOGA, GR_MS4] := FormatFloat('0.##',(StrToInt(aMshoga4))/100);
+      Cells[GC_MSQTY, GR__MS] := IntToStr(StrToInt(aMshoqty));
+      Cells[GC_MSQTY, GR_MS1] := IntToStr(StrToInt(aMshoqty1));
+      Cells[GC_MSQTY, GR_MS2] := IntToStr(StrToInt(aMshoqty2));
+      Cells[GC_MSQTY, GR_MS3] := IntToStr(StrToInt(aMshoqty3));
+      Cells[GC_MSQTY, GR_MS4] := IntToStr(StrToInt(aMshoqty4));
+      for i := 0 to ColCount - 1 do begin
+        for j := 1 to RowCount - 1 do begin
+          if Cells[i, j] = '0' then
+            cells[i, j] = '';
+        end;
+      end;
+    end;
   end;
 end;
 

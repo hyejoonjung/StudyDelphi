@@ -19,7 +19,6 @@ type
   private
     { Private declarations }
     fStockList : TStockList;
-    fModalForm : TModalForm;
 
     procedure ReadFile;
     procedure DataParshing(const aLine : String);
@@ -52,9 +51,13 @@ end;
 procedure TMainForm.JmGridDblClick(Sender: TObject);
 begin
 //  ModalForm.showModal;
-  with ModalForm.Create(Self) do begin
+//    TModalForm.Create(Application);
+  with TModalForm.Create(Self) do begin
+    with JmGrid do begin
+      CodeNameLabel.Caption := Cells[Col, Row];
+      JmCode := Cells[Col, Row];
+    end;
     ShowModal;
-    ModalForm.JmCode := Self.JmGrid.Cells[JmGrid.Col, JmGrid.Row];
   end;
 end;
 

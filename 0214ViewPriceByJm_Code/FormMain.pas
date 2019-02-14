@@ -50,12 +50,10 @@ end;
 
 procedure TMainForm.JmGridDblClick(Sender: TObject);
 begin
-//  ModalForm.showModal;
-//    TModalForm.Create(Application);
   with TModalForm.Create(Self) do begin
     with JmGrid do begin
       CodeNameLabel.Caption := Cells[Col, Row];
-      JMCode := Cells[Col, Row];
+      JmCode := Cells[Col, Row];
     end;
     ShowModal;
   end;
