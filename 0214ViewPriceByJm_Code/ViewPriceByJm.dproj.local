@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-02-12 08:52:07.058.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\StudyDelphi\0212StockPrice_UseClass_Code\FormMain.pas</Transaction>
+    <Transaction>2019-02-12 08:52:07.058.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\StudyDelphi\0212StockPrice_UseClass_Code\FormMain.dfm</Transaction>
+    <Transaction>2019-02-12 08:52:19.060.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\StudyDelphi\0212StockPrice_UseClass_Code\StockPrice_UseClass.dproj</Transaction>
+    <Transaction>2019-02-12 10:43:30.536.pas,D:\StudyDelphi\0212StockPrice_UseClass_Code\Unit1.pas=D:\StudyDelphi\0212StockPrice_UseClass_Code\StockListClass.pas</Transaction>
+    <Transaction>2019-02-12 11:22:31.195.pas,D:\StudyDelphi\0212StockPrice_UseClass_Code\Unit1.pas=D:\StudyDelphi\0212StockPrice_UseClass_Code\JmListClass.pas</Transaction>
+    <Transaction>2019-02-13 08:18:27.011.dproj,D:\StudyDelphi\0213StockPrice_UseClass2_Code\StockPrice_UseClass.dproj=D:\StudyDelphi\0213StockPrice_UseClass2_Code\StockPrice_UseClass2.dproj</Transaction>
+    <Transaction>2019-02-13 10:33:24.669.pas,D:\StudyDelphi\0213StockPrice_UseClass2_Code\Unit1.pas=D:\StudyDelphi\0213StockPrice_UseClass2_Code\StockListClass_BackUp_0213_1033.pas</Transaction>
+    <Transaction>2019-02-13 16:21:59.193.pas,D:\StudyDelphi\0213StockPrice_UseClass2_Code\JmListClass.pas=</Transaction>
+    <Transaction>2019-02-14 08:36:50.413.dproj,D:\StudyDelphi\0214ViewPriceByJm_Code\StockPrice_UseClass2.dproj=D:\StudyDelphi\0214ViewPriceByJm_Code\ViewPriceByJm.dproj</Transaction>
+    <Transaction>2019-02-14 08:38:25.800.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\Unit1.pas=D:\StudyDelphi\0214ViewPriceByJm_Code\View.pas</Transaction>
+    <Transaction>2019-02-14 08:39:30.648.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\View.pas=D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.pas</Transaction>
+    <Transaction>2019-02-14 08:47:04.980.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.pas=</Transaction>
+    <Transaction>2019-02-14 08:48:52.779.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\Unit1.pas=D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.pas</Transaction>
+    <Transaction>2019-02-14 08:48:52.779.dfm,D:\StudyDelphi\0214ViewPriceByJm_Code\Unit1.dfm=D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.dfm</Transaction>
+  </Transactions>
+</BorlandProject>
