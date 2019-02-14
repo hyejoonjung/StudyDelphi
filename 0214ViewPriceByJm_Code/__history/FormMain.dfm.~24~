@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   ActiveControl = LoadBtn
-  Caption = #49884#49464#51312#54924'(class)2'
+  Caption = #51333#47785#48324' '#49884#49464
   ClientHeight = 704
   ClientWidth = 619
   Color = clBtnFace
@@ -85,6 +85,7 @@ object MainForm: TMainForm
     ScrollBars = ssVertical
     ShowHint = True
     TabOrder = 2
+    OnDblClick = JmGridDblClick
     SortMarkType = smtNone
     SortMarkColor = clBlack
     StripeTempo = 0

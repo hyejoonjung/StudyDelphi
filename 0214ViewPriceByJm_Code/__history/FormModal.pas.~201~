@@ -1,0 +1,168 @@
+unit FormModal;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UpGrids, PwrGrid, StdCtrls, ExtCtrls;
+
+type
+  TModalForm = class(TForm)
+    CodeNameLabel: TLabel;
+    ViewGrid: TPowerStrGrid;
+    ViewTimer: TTimer;
+    procedure ViewTimerTimer(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+    fFile : TextFile;
+    fJmCode : String;
+
+    function ReadLine : String;
+    procedure DataParshing(aLine : String);
+    procedure WriteCurr(aCurr : String);
+    procedure WriteMsMd(aMdhoga, aMdhoga1, aMdhoga2, aMdhoga3, aMdhoga4, aMdhoqty, aMdhoqty1, aMdhoqty2, aMdhoqty3, aMdhoqty4,
+              aMshoga, aMshoga1, aMshoga2, aMshoga3, aMshoga4, aMshoqty, aMshoqty1, aMshoqty2, aMshoqty3, aMshoqty4  : String);
+  public
+    { Public declarations }
+    property JmCode : String write fJmCode;
+  end;
+
+var
+  ModalForm: TModalForm;
+
+implementation
+
+{$R *.dfm}
+
+uses ELWPacket;
+
+const
+  GC_MDQTY = 0;
+  GC__HOGA = 1;
+  GC_MSQTY = 2;
+  GC__CURR = 2;
+  GR_CURR = 3;
+  GR_MD4 = 1;
+  GR_MD3 = 2;
+  GR_MD2 = 3;
+  GR_MD1 = 4;
+  GR__MD = 5;
+  GR__MS = 6;
+  GR_MS1 = 7;
+  GR_MS2 = 8;
+  GR_MS3 = 9;
+  GR_MS4 = 10;
+
+procedure TModalForm.FormCreate(Sender: TObject);
+var
+  i : Integer;
+begin
+  fJmcode := '';
+  for i := 1 to ViewGrid.RowCount - 1 do begin
+    ViewGrid.Rows[i].Clear;
+  end;
+  try
+    AssignFile(fFile, '20120731.FO.log');
+    Reset(fFile);
+  Except
+    CloseFile(fFile);
+  end;
+end;
+
+procedure TModalForm.FormDestroy(Sender: TObject);
+begin
+  CloseFile(fFile);
+end;
+
+procedure TModalForm.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree; // 폼 인스턴스 해제
+  ModalForm := nil; // nil 설정
+end;
+
+procedure TModalForm.ViewTimerTimer(Sender: TObject);
+begin
+  ReadLine;
+end;
+
+function TModalForm.ReadLine : String;
+begin
+  while not EOF(fFile) do begin
+    Readln(fFile, Result);
+    if fJmCode = Copy(Result, 23, 12) then begin
+      DataParshing(Result);
+      Exit;
+    end;
+  end;
+end;
+
+procedure TModalForm.DataParshing(aLine : String);
+var
+  aType : String;
+begin
+  aType := Copy(aLine, 18, 5);
+  if aType = 'B6034' then begin
+    with PKOSCOM_O_B6(@aLine[18])^ do
+      WriteMsMd(mdhoga, mdhoga1, mdhoga2, mdhoga3, mdhoga4, mdhoqty, mdhoqty1, mdhoqty2, mdhoqty3, mdhoqty4,
+                mshoga, mshoga1, mshoga2, mshoga3, mshoga4, mshoqty, mshoqty1, mshoqty2, mshoqty3, mshoqty4);
+  end else if aType = 'B6014' then begin
+    with PKOSCOM_F_B6(@aLine[18])^ do
+      WriteMsMd(mdhoga, mdhoga1, mdhoga2, mdhoga3, mdhoga4, mdhoqty, mdhoqty1, mdhoqty2, mdhoqty3, mdhoqty4,
+                mshoga, mshoga1, mshoga2, mshoga3, mshoga4, mshoqty, mshoqty1, mshoqty2, mshoqty3, mshoqty4);
+  end else if aType = 'A3034' then begin
+    with PKOSCOM_O_A3(@aLine[18])^ do
+      WriteCurr(curr);
+  end else if aType = 'A3014' then begin
+    with PKOSCOM_F_A3(@aLine[18])^ do
+      WriteCurr(curr);
+  end else if aType = 'G7034' then begin
+    with PKOSCOM_O_G7(@aLine[18])^ do begin
+      WriteCurr(curr);
+      WriteMsMd(mdhoga, mdhoga1, mdhoga2, mdhoga3, mdhoga4, mdhoqty, mdhoqty1, mdhoqty2, mdhoqty3, mdhoqty4,
+                mshoga, mshoga1, mshoga2, mshoga3, mshoga4, mshoqty, mshoqty1, mshoqty2, mshoqty3, mshoqty4);
+    end;
+  end else if aType = 'G7014' then begin
+    with PKOSCOM_F_G7(@aLine[18])^ do begin
+      WriteCurr(curr);
+      WriteMsMd(mdhoga, mdhoga1, mdhoga2, mdhoga3, mdhoga4, mdhoqty, mdhoqty1, mdhoqty2, mdhoqty3, mdhoqty4,
+                mshoga, mshoga1, mshoga2, mshoga3, mshoga4, mshoqty, mshoqty1, mshoqty2, mshoqty3, mshoqty4);
+    end;
+  end;
+end;
+
+procedure TModalForm.WriteCurr(aCurr : String);
+begin
+  ViewGrid.Cells[GR_CURR , GC__CURR] := FormatFloat('0.##',(StrToInt(aCurr)/100));
+end;
+
+procedure TModalForm.WriteMsMd(aMdhoga, aMdhoga1, aMdhoga2, aMdhoga3, aMdhoga4, aMdhoqty, aMdhoqty1, aMdhoqty2, aMdhoqty3, aMdhoqty4,
+                               aMshoga, aMshoga1, aMshoga2, aMshoga3, aMshoga4, aMshoqty, aMshoqty1, aMshoqty2, aMshoqty3, aMshoqty4  : String);
+begin
+  with ViewGrid do begin
+    Cells[GR_MD4, GC_MDQTY] := aMdhoqty4;
+    Cells[GR_MD3, GC_MDQTY] := aMdhoqty3;
+    Cells[GR_MD2, GC_MDQTY] := aMdhoqty2;
+    Cells[GR_MD1, GC_MDQTY] := aMdhoqty1;
+    Cells[GR__MD, GC_MDQTY] := aMdhoqty;
+    Cells[GR_MD4, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMdhoga4)/100));
+    Cells[GR_MD3, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMdhoga3)/100));
+    Cells[GR_MD2, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMdhoga2)/100));
+    Cells[GR_MD1, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMdhoga1)/100));
+    Cells[GR__MD, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMdhoga)/100));
+    Cells[GR__MS, GC_MSQTY] := aMshoqty;
+    Cells[GR_MS1, GC_MSQTY] := aMshoqty1;
+    Cells[GR_MS2, GC_MSQTY] := aMshoqty2;
+    Cells[GR_MS3, GC_MSQTY] := aMshoqty3;
+    Cells[GR_MS4, GC_MSQTY] := aMshoqty4;
+    Cells[GR__MS, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMshoga)/100));
+    Cells[GR_MS1, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMshoga1)/100));
+    Cells[GR_MS2, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMshoga2)/100));
+    Cells[GR_MS3, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMshoga3)/100));
+    Cells[GR_MS4, GC__HOGA] := FormatFloat('0.##',(StrToInt(aMshoga4)/100));
+  end;
+end;
+
+end.

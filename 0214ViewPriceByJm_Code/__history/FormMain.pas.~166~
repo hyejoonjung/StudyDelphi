@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass;
+  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass, FormModal;
 
 type
   TMainForm = class(TForm)
@@ -15,9 +15,11 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure LoadBtnClick(Sender: TObject);
     procedure StockGridClick(Sender: TObject);
+    procedure JmGridDblClick(Sender: TObject);
   private
     { Private declarations }
     fStockList : TStockList;
+    fModalForm : TModalForm;
 
     procedure ReadFile;
     procedure DataParshing(const aLine : String);
@@ -36,7 +38,7 @@ uses ELWPacket;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  fStockList := TStockList.Create(StockGrid, JmGrid);
+  fStockList := TStockList.Create(StockGrid);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -44,6 +46,18 @@ begin
   if fStockList <> nil then begin
     fStockList.Free;
     fStockList := nil;
+  end;
+end;
+
+procedure TMainForm.JmGridDblClick(Sender: TObject);
+begin
+//  ModalForm.showModal;
+//    TModalForm.Create(Application);
+  with TModalForm.Create(Self) do begin
+    with JmGrid do begin
+      CodeNameLabel.Caption := Cells[Col, Row];
+    end;
+    ShowModal;
   end;
 end;
 
@@ -55,7 +69,7 @@ end;
 procedure TMainForm.StockGridClick(Sender: TObject);
 begin
   with StockGrid do
-    fStockList.KindClick(Cells[Col, Row]);
+    fStockList.KindClick(Cells[Col, Row], JmGrid);
 end;
 
 procedure TMainForm.ReadFile;

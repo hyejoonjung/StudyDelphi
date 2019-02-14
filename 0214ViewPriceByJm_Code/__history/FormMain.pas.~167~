@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass;
+  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass, FormModal;
 
 type
   TMainForm = class(TForm)
@@ -15,14 +15,14 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure LoadBtnClick(Sender: TObject);
     procedure StockGridClick(Sender: TObject);
+    procedure JmGridDblClick(Sender: TObject);
   private
     { Private declarations }
     fStockList : TStockList;
+    fModalForm : TModalForm;
 
     procedure ReadFile;
     procedure DataParshing(const aLine : String);
-//    procedure StockDisplay;
-//    procedure JmDisplay(const aKind : String);
   public
     { Public declarations }
   end;
@@ -38,7 +38,7 @@ uses ELWPacket;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  fStockList := TStockList.Create(StockGrid, JmGrid);
+  fStockList := TStockList.Create(StockGrid);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -46,6 +46,19 @@ begin
   if fStockList <> nil then begin
     fStockList.Free;
     fStockList := nil;
+  end;
+end;
+
+procedure TMainForm.JmGridDblClick(Sender: TObject);
+begin
+//  ModalForm.showModal;
+//    TModalForm.Create(Application);
+  with TModalForm.Create(Self) do begin
+    with JmGrid do begin
+      CodeNameLabel.Caption := Cells[Col, Row];
+      JMCode := Cells[Col, Row];
+    end;
+    ShowModal;
   end;
 end;
 
@@ -57,7 +70,7 @@ end;
 procedure TMainForm.StockGridClick(Sender: TObject);
 begin
   with StockGrid do
-    fStockList.KindClick(Cells[Col, Row]);
+    fStockList.KindClick(Cells[Col, Row], JmGrid);
 end;
 
 procedure TMainForm.ReadFile;
@@ -80,33 +93,28 @@ end;
 procedure TMainForm.DataParshing(const aLine : String);
 var
   aType : String;
-//  aStr : Integer;
 begin
-//  aStr := StrToInt(' 00001');
-//  showMessage('aStr');
   aType := Copy(aLine, 18, 5);
   if aType = 'B6034' then begin
-    with PKOSCOM_O_B6(@aLine[13])^ do
+    with PKOSCOM_O_B6(@aLine[18])^ do
       fStockList.Add(isu_cd, strToInt(mshoga), StrToInt(mdhoga));
   end else if aType = 'B6014' then begin
-    with PKOSCOM_F_B6(@aLine[13])^ do begin
-      ShowMessage(isu_cd);
+    with PKOSCOM_F_B6(@aLine[18])^ do
       fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga))
-    end;
   end else if aType = 'A3034' then
-    with PKOSCOM_O_A3(@aLine[13])^ do
-      fStockList.Add(isu_cd, StrToInt(curr), -1)
+    with PKOSCOM_O_A3(@aLine[18])^ do
+      fStockList.Add(isu_cd, StrToInt(curr))
   else if aType = 'A3014' then
-    with PKOSCOM_F_A3(@aLine[13])^ do
-      fStockList.Add(isu_cd, StrToInt(curr), -1)
+    with PKOSCOM_F_A3(@aLine[18])^ do
+      fStockList.Add(isu_cd, StrToInt(curr))
   else if aType = 'G7034' then begin
-    with PKOSCOM_O_G7(@aLine[13])^ do begin
-      fStockList.Add(isu_cd, StrToInt(curr), -1);
+    with PKOSCOM_O_G7(@aLine[18])^ do begin
+      fStockList.Add(isu_cd, StrToInt(curr));
       fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
     end;
   end else if aType = 'G7014' then begin
-    with PKOSCOM_F_G7(@aLine[13])^ do begin
-      fStockList.Add(isu_cd, StrToInt(curr), -1);
+    with PKOSCOM_F_G7(@aLine[18])^ do begin
+      fStockList.Add(isu_cd, StrToInt(curr));
       fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
     end;
   end;

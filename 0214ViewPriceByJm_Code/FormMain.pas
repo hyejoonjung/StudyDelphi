@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass;
+  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass, FormModal;
 
 type
   TMainForm = class(TForm)
@@ -50,7 +50,15 @@ end;
 
 procedure TMainForm.JmGridDblClick(Sender: TObject);
 begin
-  ShowModal;
+//  ModalForm.showModal;
+//    TModalForm.Create(Application);
+  with TModalForm.Create(Self) do begin
+    with JmGrid do begin
+      CodeNameLabel.Caption := Cells[Col, Row];
+      JMCode := Cells[Col, Row];
+    end;
+    ShowModal;
+  end;
 end;
 
 procedure TMainForm.LoadBtnClick(Sender: TObject);

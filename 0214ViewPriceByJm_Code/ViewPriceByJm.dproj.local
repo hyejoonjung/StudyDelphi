@@ -15,5 +15,7 @@
     <Transaction>2019-02-14 08:47:04.980.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.pas=</Transaction>
     <Transaction>2019-02-14 08:48:52.779.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\Unit1.pas=D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.pas</Transaction>
     <Transaction>2019-02-14 08:48:52.779.dfm,D:\StudyDelphi\0214ViewPriceByJm_Code\Unit1.dfm=D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.dfm</Transaction>
+    <Transaction>2019-02-14 09:16:08.302.pas,D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.pas=D:\StudyDelphi\0214ViewPriceByJm_Code\FormModal.pas</Transaction>
+    <Transaction>2019-02-14 09:16:08.302.dfm,D:\StudyDelphi\0214ViewPriceByJm_Code\ViewDlg.dfm=D:\StudyDelphi\0214ViewPriceByJm_Code\FormModal.dfm</Transaction>
   </Transactions>
 </BorlandProject>
