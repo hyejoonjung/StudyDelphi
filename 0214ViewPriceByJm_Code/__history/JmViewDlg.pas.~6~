@@ -13,6 +13,7 @@ type
     ViewTimer: TTimer;
     
     procedure ViewTimerTimer(Sender: TObject);
+    
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
@@ -61,6 +62,9 @@ var
   i : Integer;
 begin
   fJmcode := '';
+  for i := 1 to ViewGrid.RowCount - 1 do begin
+    ViewGrid.Rows[i].Clear;
+  end;
   try
     AssignFile(fFile, '20120731.FO.log');
     Reset(fFile);
@@ -146,7 +150,7 @@ var
   i, j : Integer;
 begin
   if ViewGrid <> nil then begin
-    with ViewGrid do begin          //이부분 인자를row랑 인자 amdhoga 이런것들을 변수로 두고, 밖에서 받는걸로고치면 가독성 Up
+    with ViewGrid do begin
       Cells[GC__HOGA, GR_MD4] := FormatFloat('0.##', (StrToInt(aMdhoga4)) / 100);
       Cells[GC__HOGA, GR_MD3] := FormatFloat('0.##', (StrToInt(aMdhoga3)) / 100);
       Cells[GC__HOGA, GR_MD2] := FormatFloat('0.##', (StrToInt(aMdhoga2)) / 100);

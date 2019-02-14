@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass, FormModal;
+  Dialogs, StdCtrls, UpGrids, PwrGrid, StockListClass, JmViewDlg;
 
 type
   TMainForm = class(TForm)
@@ -13,6 +13,7 @@ type
     JmGrid: TPowerStrGrid;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    
     procedure LoadBtnClick(Sender: TObject);
     procedure StockGridClick(Sender: TObject);
     procedure JmGridDblClick(Sender: TObject);
@@ -48,17 +49,6 @@ begin
   end;
 end;
 
-procedure TMainForm.JmGridDblClick(Sender: TObject);
-begin
-  with TModalForm.Create(Self) do begin
-    with JmGrid do begin
-      CodeNameLabel.Caption := Cells[Col, Row];
-      JmCode := Cells[Col, Row];
-    end;
-    ShowModal;
-  end;
-end;
-
 procedure TMainForm.LoadBtnClick(Sender: TObject);
 begin
   ReadFile;
@@ -84,6 +74,21 @@ begin
     end;
   finally
     CloseFile(aF);
+  end;
+end;
+
+procedure TMainForm.JmGridDblClick(Sender: TObject);
+var
+  aDlgJmView : TDlgJmView;
+begin
+  aDlgJmView := TDlgJmView.Create(Self);
+  with aDlgJmView  do begin
+    with JmGrid do begin
+      CodeNameLabel.Caption := Cells[Col, Row];
+      JmCode := Cells[Col, Row];
+    end;
+    ShowModal;
+    Free;
   end;
 end;
 

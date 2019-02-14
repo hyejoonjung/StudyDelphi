@@ -146,7 +146,7 @@ var
   i, j : Integer;
 begin
   if ViewGrid <> nil then begin
-    with ViewGrid do begin          //이부분 인자를row랑 인자 amdhoga 이런것들을 변수로 두고, 밖에서 받는걸로고치면 가독성 Up
+    with ViewGrid do begin          //이부분 인자를row랑 인자 amdhoga 이런것들을 변수로 두고, 밖에서 받는걸로고치면 가독성 Up;
       Cells[GC__HOGA, GR_MD4] := FormatFloat('0.##', (StrToInt(aMdhoga4)) / 100);
       Cells[GC__HOGA, GR_MD3] := FormatFloat('0.##', (StrToInt(aMdhoga3)) / 100);
       Cells[GC__HOGA, GR_MD2] := FormatFloat('0.##', (StrToInt(aMdhoga2)) / 100);
