@@ -1,4 +1,4 @@
-object ModalForm: TModalForm
+object DlgJmView: TDlgJmView
   Left = 0
   Top = 0
   Caption = #51333#47785#48324' '#49884#49464
@@ -11,6 +11,8 @@ object ModalForm: TModalForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
@@ -73,10 +75,7 @@ object ModalForm: TModalForm
       #54840#44032
       2
       0
-      #47588#49688#51092#47049
-      2
-      2
-      #54788#51116#44032)
+      #47588#49688#51092#47049)
     PropCell = (
       0
       0
@@ -117,11 +116,6 @@ object ModalForm: TModalForm
       2
       1
       2
-      0
-      2
-      4
-      26
-      True
       0)
     PropCol = ()
     PropRow = ()
@@ -151,7 +145,7 @@ object ModalForm: TModalForm
       0)
   end
   object ViewTimer: TTimer
-    Interval = 500
+    Interval = 300
     OnTimer = ViewTimerTimer
     Left = 376
     Top = 8
