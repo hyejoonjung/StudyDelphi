@@ -99,10 +99,10 @@ begin
   aType := Copy(aLine, 18, 5);
   if aType = 'B6034' then begin
     with PKOSCOM_O_B6(@aLine[18])^ do
-      fStockList.Add(isu_cd, strToInt(mshoga), StrToInt(mdhoga));
+      fStockList.Add(isu_cd, -1, strToInt(mshoga), StrToInt(mdhoga));
   end else if aType = 'B6014' then begin
     with PKOSCOM_F_B6(@aLine[18])^ do
-      fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga))
+      fStockList.Add(isu_cd, -1, StrToInt(mshoga), StrToInt(mdhoga))
   end else if aType = 'A3034' then
     with PKOSCOM_O_A3(@aLine[18])^ do
       fStockList.Add(isu_cd, StrToInt(curr))
@@ -111,13 +111,11 @@ begin
       fStockList.Add(isu_cd, StrToInt(curr))
   else if aType = 'G7034' then begin
     with PKOSCOM_O_G7(@aLine[18])^ do begin
-      fStockList.Add(isu_cd, StrToInt(curr));
-      fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
+      fStockList.Add(isu_cd, StrToInt(curr), StrToInt(mshoga), StrToInt(mdhoga));
     end;
   end else if aType = 'G7014' then begin
     with PKOSCOM_F_G7(@aLine[18])^ do begin
-      fStockList.Add(isu_cd, StrToInt(curr));
-      fStockList.Add(isu_cd, StrToInt(mshoga), StrToInt(mdhoga));
+      fStockList.Add(isu_cd, StrToInt(curr), StrToInt(mshoga), StrToInt(mdhoga));
     end;
   end;
 end;

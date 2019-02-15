@@ -13,6 +13,7 @@ type
     JmGrid: TPowerStrGrid;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    
     procedure LoadBtnClick(Sender: TObject);
     procedure StockGridClick(Sender: TObject);
     procedure JmGridDblClick(Sender: TObject);
@@ -48,20 +49,6 @@ begin
   end;
 end;
 
-procedure TMainForm.JmGridDblClick(Sender: TObject);
-var
-  aDlgJmView : TDlgJmView;
-begin
-  aDlgJmView := TDlgJmView.Create(Self)
-  with  do begin
-    with JmGrid do begin
-      CodeNameLabel.Caption := Cells[Col, Row];
-      JmCode := Cells[Col, Row];
-    end;
-    ShowModal;
-  end;
-end;
-
 procedure TMainForm.LoadBtnClick(Sender: TObject);
 begin
   ReadFile;
@@ -87,6 +74,21 @@ begin
     end;
   finally
     CloseFile(aF);
+  end;
+end;
+
+procedure TMainForm.JmGridDblClick(Sender: TObject);
+var
+  aDlgJmView : TDlgJmView;
+begin
+  aDlgJmView := TDlgJmView.Create(Self);
+  with aDlgJmView  do begin
+    with JmGrid do begin
+      CodeNameLabel.Caption := Cells[Col, Row];
+      JmCode := Cells[Col, Row];
+    end;
+    ShowModal;
+    Free;
   end;
 end;
 
