@@ -53,7 +53,7 @@ type
 
     function CreateJmList(const aKind : String) : TJmList;
 
-    procedure ViewStockGrid(aJmList : TJmList);
+    function ViewStockGrid(aJmList : TJmList) : TJmList;
     function Add(const aCode : String; aCurr : Integer) : TJmList; overload;
     function Add(const aCode : String; acurr, aMs, aMd : Integer) : TJmList; overload;
     procedure Clear; override;
@@ -184,7 +184,7 @@ begin
           Inc(aRow);
         RowCount := aRow + 1;
         Cells[GC___JM, aRow] := aJmInfo.iCode;
-        if aJmInfo.iCurrcount <> 0 then
+        if aJmInfo.iCurrCount <> 0 then
           Cells[GC_CURR, aRow] := FormatFloat('0.##', (aJminfo.iCurrSum / aJmInfo.iCurrCount / 100));
         if aJmInfo.iMmCount <> 0 then begin
           Cells[GC___MS, aRow] := FormatFloat('0.##', (aJminfo.iMsSum / aJmInfo.iMmCount / 100));
@@ -226,8 +226,13 @@ begin
   end;
 end;
 
-procedure TSockList.ViewStockGrid(aJmList : TJmList);
+function TStockList.ViewStockGrid(aJmList : TJmList) : TJmList;
+var
+  aRow : Integer;
 begin
+  Result := aJmList;
+  if Result = nil then
+    Exit;
   if fStockGrid <> nil then begin
     with fStockGrid do begin
       aRow := Cols[GC_KIND].IndexOf(Result.Kind);
@@ -245,19 +250,15 @@ begin
 end;
 
 function TStockList.Add(const aCode : String; aCurr : Integer) : TJmList;
-var
-  aRow : Integer;
 begin
   Result := CreateJmList(aCode[4]);
   if Result = nil then
     Exit;
   Result.Add(aCode, aCurr);
-
+  ViewStockGrid(Result);
 end;
 
 function TStockList.Add(const aCode : String; acurr, aMs, aMd : Integer) : TJmList;
-var
-  aRow : Integer;
 begin
   if aCurr = -1 then begin
     Result := CreateJmList(aCode[4])
@@ -266,6 +267,7 @@ begin
   if Result = nil then
     Exit;
   Result.Add(aCode, aCurr, aMs, aMd);
+  ViewStockGrid(Result);
 end;
     
 procedure TStockList.Clear;

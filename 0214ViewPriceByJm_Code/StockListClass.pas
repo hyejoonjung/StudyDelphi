@@ -23,12 +23,13 @@ type
     fCurrSum : Double;
     fCurrCount : Integer;
   protected
+    function CreateJmInfo(const aCode : String) : PJminfo;
+    
     function Get(Index : Integer) : PJmInfo;
   public
     constructor Create(aKind : String);
     destructor Destroy; override;
 
-    function CreateJmInfo(const aCode : String) : PJminfo;
     function Add(const aCode : String; aCurr :Integer) : PJmInfo; overload;
     function Add(const aCode : String; aCurr, aMs, aMd : Integer) : PJmInfo; overload;
     procedure Clear; override;
@@ -46,12 +47,12 @@ type
   private
     fStockGrid : TPowerStrGrid;
   protected
+    function CreateJmList(const aKind : String) : TJmList;
+    
     function Get(Index : Integer) : TJmList;
   public
     constructor Create(aStockGrid : TPowerStrGrid); virtual;
     destructor Destroy; override;
-
-    function CreateJmList(const aKind : String) : TJmList;
 
     function ViewStockGrid(aJmList : TJmList) : TJmList;
     function Add(const aCode : String; aCurr : Integer) : TJmList; overload;
