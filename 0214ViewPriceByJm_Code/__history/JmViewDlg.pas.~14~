@@ -15,7 +15,8 @@ type
     procedure ViewTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ViewGridDrawCellText(Sender: TObject; aCol, aRow: Integer;
+      var Result: string);
   private
     { Private declarations }
     fFile : TextFile;
@@ -62,9 +63,6 @@ var
   i : Integer;
 begin
   fJmcode := '';
-  for i := 1 to ViewGrid.RowCount - 1 do begin
-    ViewGrid.Rows[i].Clear;
-  end;
   try
     AssignFile(fFile, '20120731.FO.log');
     Reset(fFile);
@@ -82,10 +80,15 @@ begin
   end;
 end;
 
-procedure TDlgJmView.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TDlgJmView.ViewGridDrawCellText(Sender: TObject; aCol, aRow: Integer;
+  var Result: string);
 begin
-  Action := CaFree; // 폼 인스턴스 해제
-  DlgJmView := nil; // nil 설정
+  with ViewGrid do begin
+    if (Row >= FixedRows) and (Row < RowCount) then
+      if Result = 0 then
+        Result := '';
+  end;
+
 end;
 
 procedure TDlgJmView.ViewTimerTimer(Sender: TObject);
@@ -109,9 +112,8 @@ var
   aType : String;
   i : Integer;
 begin
-  for i := 1 to ViewGrid.RowCount - 1 do begin
+  for i := 1 to ViewGrid.RowCount - 1 do   //for문도 1줄이면 beginend....
     ViewGrid.Rows[i].Clear;
-  end;
   aType := Copy(aLine, 18, 5);
   if aType = 'B6034' then begin
     with PKOSCOM_O_B6(@aLine[18])^ do
@@ -156,8 +158,8 @@ var
   i, j : Integer;
 begin
   if ViewGrid <> nil then begin
-    with ViewGrid do begin
-      Cells[GC__HOGA, GR_MD4] := FormatFloat('0.##', (StrToInt(aMdhoga4)) / 100);
+    with ViewGrid do begin          //이부분 인자를row랑 인자 amdhoga 이런것들을 변수로 두고, 밖에서 받는걸로고치면 가독성 Up
+      Cells[GC__HOGA, GR_MD4] := FormatFloat('0.##', (StrToInt(aMdhoga4)) / 100);  //여기서 차라리if hoga > 0 을 하는게 나아..화면에 보여주는건 퍼포먼스저하. 
       Cells[GC__HOGA, GR_MD3] := FormatFloat('0.##', (StrToInt(aMdhoga3)) / 100);
       Cells[GC__HOGA, GR_MD2] := FormatFloat('0.##', (StrToInt(aMdhoga2)) / 100);
       Cells[GC__HOGA, GR_MD1] := FormatFloat('0.##', (StrToInt(aMdhoga1)) / 100);
@@ -177,12 +179,12 @@ begin
       Cells[GC_MSQTY, GR_MS2] := IntToStr(StrToInt(aMshoqty2));
       Cells[GC_MSQTY, GR_MS3] := IntToStr(StrToInt(aMshoqty3));
       Cells[GC_MSQTY, GR_MS4] := IntToStr(StrToInt(aMshoqty4));
-      for i := 0 to ColCount - 1 do begin
-        for j := 1 to RowCount - 1 do begin
-          if Cells[i, j] = '0' then
-            cells[i, j] := '';
-        end;
-      end;
+//      for i := 0 to ColCount - 1 do begin
+//        for j := 1 to RowCount - 1 do begin
+//          if Cells[i, j] = '0' then
+//            cells[i, j] := '';
+//        end;
+//      end;
     end;
   end;
 end;

@@ -46,7 +46,6 @@ object DlgJmView: TDlgJmView
     SortMarkColor = clBlack
     StripeTempo = 0
     DefPopupLng = dplEng
-    OnDrawCellText = ViewGridDrawCellText
     MovingLeft = 0
     MovingTop = 0
     SelectEditText = False

@@ -15,6 +15,8 @@ type
     procedure ViewTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure ViewGridDrawCellText(Sender: TObject; aCol, aRow: Integer;
+      var Result: string);
   private
     { Private declarations }
     fFile : TextFile;
@@ -76,6 +78,17 @@ begin
     ViewTimer.Free;
     ViewTimer := nil;
   end;
+end;
+
+procedure TDlgJmView.ViewGridDrawCellText(Sender: TObject; aCol, aRow: Integer;
+  var Result: string);
+begin
+  with ViewGrid do begin
+    if (Row >= FixedRows) and (Row < RowCount) then
+      if Result = '0' then
+        Result := '';
+  end;
+
 end;
 
 procedure TDlgJmView.ViewTimerTimer(Sender: TObject);

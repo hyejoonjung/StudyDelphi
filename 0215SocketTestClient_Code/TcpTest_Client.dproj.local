@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019-02-14 20:04:40.551.pas,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.pas=D:\네트워크\FormMain.pas</Transaction>
+    <Transaction>2019-02-14 20:04:40.551.dfm,C:\Users\hjjung\Documents\RAD Studio\Projects\Unit1.dfm=D:\네트워크\FormMain.dfm</Transaction>
+    <Transaction>2019-02-14 20:04:45.665.dproj,C:\Users\hjjung\Documents\RAD Studio\Projects\Project1.dproj=D:\네트워크\TctTest.dproj</Transaction>
+    <Transaction>2019-02-15 08:03:23.306.dproj,D:\네트워크\TctTest.dproj=D:\네트워크\TcpTest.dproj</Transaction>
+    <Transaction>2019-02-15 14:55:45.948.dproj,D:\TestCoding\0215NetworkTest_Client\TcpTest.dproj=D:\TestCoding\0215NetworkTest_Client\TcpTest_Client.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

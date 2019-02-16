@@ -1,0 +1,74 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = 'Server'
+  ClientHeight = 400
+  ClientWidth = 250
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label5: TLabel
+    Left = 48
+    Top = 59
+    Width = 20
+    Height = 13
+    Caption = 'port'
+  end
+  object Label1: TLabel
+    Left = 48
+    Top = 147
+    Width = 24
+    Height = 13
+    Caption = 'Send'
+  end
+  object SvrPortEdit: TEdit
+    Left = 85
+    Top = 56
+    Width = 121
+    Height = 21
+    TabOrder = 0
+    Text = '5000'
+  end
+  object SvrConnectBtn: TButton
+    Left = 40
+    Top = 99
+    Width = 75
+    Height = 25
+    Caption = 'Connect'
+    TabOrder = 1
+    OnClick = SvrConnectBtnClick
+  end
+  object SvrDisConnectBtn: TButton
+    Left = 131
+    Top = 99
+    Width = 75
+    Height = 25
+    Caption = 'DisConnect'
+    TabOrder = 2
+    OnClick = SvrDisConnectBtnClick
+  end
+  object SvrSendEdit: TEdit
+    Left = 78
+    Top = 144
+    Width = 121
+    Height = 21
+    TabOrder = 3
+    OnKeyDown = SvrSendEditKeyDown
+  end
+  object SvrRecvMemo: TMemo
+    Left = 33
+    Top = 171
+    Width = 166
+    Height = 89
+    ScrollBars = ssBoth
+    TabOrder = 4
+  end
+end

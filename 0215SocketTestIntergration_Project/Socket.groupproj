@@ -1,0 +1,44 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{af88320f-13ac-49f7-92ed-b438cf4d38ec}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Projects Include="..\0215SocketTestClient_Code\TcpTest_Client.dproj" />
+    <Projects Include="..\0215SocketTestServer_Code\TcpTest_Server.dproj" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Default.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+  <BorlandProject xmlns=""> <Default.Personality> </Default.Personality> </BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Target Name="TcpTest_Server">
+    <MSBuild Projects="..\0215SocketTestServer_Code\TcpTest_Server.dproj" Targets="" />
+  </Target>
+  <Target Name="TcpTest_Server:Clean">
+    <MSBuild Projects="..\0215SocketTestServer_Code\TcpTest_Server.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="TcpTest_Server:Make">
+    <MSBuild Projects="..\0215SocketTestServer_Code\TcpTest_Server.dproj" Targets="Make" />
+  </Target>
+  <Target Name="TcpTest_Client">
+    <MSBuild Projects="..\0215SocketTestClient_Code\TcpTest_Client.dproj" Targets="" />
+  </Target>
+  <Target Name="TcpTest_Client:Clean">
+    <MSBuild Projects="..\0215SocketTestClient_Code\TcpTest_Client.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="TcpTest_Client:Make">
+    <MSBuild Projects="..\0215SocketTestClient_Code\TcpTest_Client.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Build">
+    <CallTarget Targets="TcpTest_Server;TcpTest_Client" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="TcpTest_Server:Clean;TcpTest_Client:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="TcpTest_Server:Make;TcpTest_Client:Make" />
+  </Target>
+  <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
+</Project>
