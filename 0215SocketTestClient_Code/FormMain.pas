@@ -53,6 +53,20 @@ implementation
 
 {$R *.dfm}
 
+const
+  STR_FIRST = 2;
+  EDIT_TAG      = 0;
+  LISTBOX_TAG   = 1;
+  RADIOBTN1_TAG = 2;
+  RADIOBTN2_TAG = 3;
+  CHECKBOX1_TAG = 4;
+  CHECKBOX2_TAG = 5;
+  COMBOBOX_TAG  = 6;
+  SCROLLBAR_TAG = 7;
+  MEMO_TAG      = 8;
+
+  
+
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fClientSocket := nil;
@@ -112,28 +126,34 @@ procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket
 var
   aStrCount : Integer;
   aRecv : String;
+  aTag : Integer;
 //  aRecv2 : String;
 begin
   CltMemo.Clear;
   if Socket <> nil then begin
-//    showMessage(IntToStr(aStrCount);
     aRecv := Socket.ReceiveText;
-    aStrCount := Length(aRecv) - 1;
-    aRecv := Copy(aRecv, 2, aStrCount);
-//    Socket.ReceiveLength;
-//    aRecv := Socket.ReceiveText);
-//    aRecv := Copy(aRecv, 1, 3);
-//    showMessage(aRecv);
+    aTag := StrToInt(aRecv[1]);
+    case aTag of
+      EDIT_TAG : begin
+          aStrCount := Length(aRecv) - 1;
+          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+          CltEdit.text := aRecv;
+        end;
+      MEMO_TAG : begin
+          aStrCount := Length(aRecv) - 1;
+          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+          CltMemo.Lines.add(aRecv);
+        end;
+      else
+        Exit;
+    end;
+//    if aTag = EDIT_TAG then begin
+//      aStrCount := Length(aRecv) - 1;
+//      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+//      CltEdit.text := aRecv;
+//      CltMemo.Lines.add(aRecv)
+//    end;
 
-//      CltMemo.Lines.Add(IntToStr(Length(Socket.ReceiveText)));
-//    CltMemo.Lines.Add(Copy(Socket.ReceiveText, 1, Socket.ReceiveLength - 1));
-//      ClTMemo.Lines.Add(aRecv);
-//Length(Socket.ReceiveText) - 1
-//    aRecv := Copy(Socket.ReceiveText, 1, 10);
-//    aRecv := String(Typeinfo((Socket.ReceiveText) - 3));
-//    CltMemo.Lines.Add(Copy(aRecv, 1, Socket.ReceiveLength));
-    CltMemo.Lines.Add(aRecv);
-//    aRecv := Copy(Socket.ReceiveText,1,Length(Socket.ReceiveText) - 1);
   end;
 end;
 //커넥트 되고안되고는 엑티브로 확인을 한다.

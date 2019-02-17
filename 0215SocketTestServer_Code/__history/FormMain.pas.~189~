@@ -26,10 +26,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
-    procedure SvrEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
-    procedure SvrEditKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure SvrMemoKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -81,39 +79,34 @@ procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);
 begin
   if fServerSocket = nil then
     Exit;
-  fServerSocket.Active := False; //소켓 닫기.
+  fServerSocket.Active := False;
   SvrConnectBtn.Enabled := True;
   SvrDisconnectBtn.Enabled := False;
 end;
 
-procedure TMainForm.SvrEditKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = VK_BACK then
-    WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
-  else
-    WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Char(Key));
-end;
-
 procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
-var
-  aChar : Char;
 begin
-  aChar := Char(#8);
-  ShowMessage(aChar);
   if Key = #8 then
     WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
+  else if (Key = VK_RETURN) and (fServerSocket <> nil) then
+    SvrListBox.Items.Add(SvrEdit.Text)
   else
     WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
+  if (Key = VK_RETURN) and (fServerSocket <> nil) then begin
+    with fServerSocket.Socket do begin     //서버이기 때문에 클라이언트가 여러개...
+      for i := 0 to ActiveConnections - 1 do //연결되어있는 커넥션들,  각 세션에 보내준다..
+        Connections[i].SendText(SvrSendEdit.Text);//연결돼있는 클라이언트중 i번째. 한테 보낸다. TExt를.
+    end;
+  end;
 end;
 
-procedure TMainForm.SvrEditKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TMainForm.SvrMemoKeyPress(Sender: TObject; var Key: Char);
 begin
-//  WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text);
-//  WriteText(IntToStr(VK_Control));
-//  if SvrEdit.Text = '' then
-//    WriteText('#Clear');
+  if Key = #8 then
+    WriteText(IntToStr(SvrMemo.Tag) + Copy(SvrMemo.Text, 0, Length(SvrMemo.Text) - 1))
+  else
+    WriteText(IntToStr(SvrMemo.Tag) + SvrMemo.Text + Key);
+    //클라에서 그냥add하는걸로 해봐도 될듯. 
 end;
 
 procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);// 이벤트이름...ServerSocKet +(On)ClientRead이름...

@@ -26,8 +26,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
-    procedure SvrEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
+    procedure SvrMemoKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -86,20 +86,19 @@ end;
 
 procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
 begin
-//  ShowMessage(Key);
-  if Key = #8 or #46 then
+  if Key = #8 then
     WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
   else
     WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
 end;
 
-procedure TMainForm.SvrEditKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TMainForm.SvrMemoKeyPress(Sender: TObject; var Key: Char);
 begin
-//  WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text);
-//  WriteText(IntToStr(VK_Control));
-//  if SvrEdit.Text = '' then
-//    WriteText('#Clear');
+  if Key = #8 then
+    WriteText(IntToStr(SvrMemo.Tag) + Copy(SvrMemo.Text, 0, Length(SvrMemo.Text) - 1))
+  else
+    WriteText(IntToStr(SvrMemo.Tag) + SvrMemo.Text + Key);
+    //클라에서 그냥add하는걸로 해봐도 될듯. 
 end;
 
 procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);// 이벤트이름...ServerSocKet +(On)ClientRead이름...

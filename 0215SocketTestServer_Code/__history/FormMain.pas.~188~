@@ -26,10 +26,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
-    procedure SvrEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
-    procedure SvrEditKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure SvrMemoKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -81,13 +79,12 @@ procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);
 begin
   if fServerSocket = nil then
     Exit;
-  fServerSocket.Active := False; //소켓 닫기.
+  fServerSocket.Active := False;
   SvrConnectBtn.Enabled := True;
   SvrDisconnectBtn.Enabled := False;
 end;
 
-procedure TMainForm.SvrEditKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #8 then
     WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
@@ -95,25 +92,13 @@ begin
     WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
 end;
 
-procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
-var
-  aChar : Char;
+procedure TMainForm.SvrMemoKeyPress(Sender: TObject; var Key: Char);
 begin
-//  aChar := Char(#8);
-//  ShowMessage(aChar);
-//  if Key = #8 then
-//    WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
-//  else
-//    WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
-end;
-
-procedure TMainForm.SvrEditKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-//  WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text);
-//  WriteText(IntToStr(VK_Control));
-//  if SvrEdit.Text = '' then
-//    WriteText('#Clear');
+  if Key = #8 then
+    WriteText(IntToStr(SvrMemo.Tag) + Copy(SvrMemo.Text, 0, Length(SvrMemo.Text) - 1))
+  else
+    WriteText(IntToStr(SvrMemo.Tag) + SvrMemo.Text + Key);
+    //클라에서 그냥add하는걸로 해봐도 될듯. 
 end;
 
 procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);// 이벤트이름...ServerSocKet +(On)ClientRead이름...
