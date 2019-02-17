@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'Server'
-  ClientHeight = 255
+  ClientHeight = 256
   ClientWidth = 444
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -62,12 +62,12 @@ object MainForm: TMainForm
     OnClick = SvrDisConnectBtnClick
   end
   object SvrEdit: TEdit
-    Left = 11
-    Top = 59
+    Left = 8
+    Top = 57
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyUp = SvrEditKeyUp
+    OnKeyPress = SvrEditKeyPress
   end
   object SvrMemo: TMemo
     Tag = 8
@@ -77,10 +77,11 @@ object MainForm: TMainForm
     Height = 89
     ScrollBars = ssBoth
     TabOrder = 11
+    OnKeyPress = SvrMemoKeyPress
   end
   object SvrComboBox: TComboBox
     Tag = 6
-    Left = 267
+    Left = 272
     Top = 57
     Width = 147
     Height = 21

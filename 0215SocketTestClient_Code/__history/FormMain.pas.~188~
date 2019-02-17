@@ -126,7 +126,7 @@ procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket
 var
   aStrCount : Integer;
   aRecv : String;
-  aTag : String;
+  aTag : Integer;
 //  aRecv2 : String;
 begin
   CltMemo.Clear;
@@ -138,38 +138,21 @@ begin
           aStrCount := Length(aRecv) - 1;
           aRecv := Copy(aRecv, STR_FIRST, aStrCount);
           CltEdit.text := aRecv;
-          CltMemo.Lines.add(aRecv)
-      end;
-    end;
-    case aSource^ of
-      #10 : begin
-          if aStyle = tlbsCRLF then
-            Inc(aDestLen);
         end;
-      #13 : begin
-          if aStyle = tlbsCRLF then begin
-            if aSourcep1[i] = #10 then
-              Inc(aSouce)
-            else
-              Inc(aDestLen)
-          end else begin
-            if aSource[1] = #10 then
-              Dec(aDestLen);
-          end;
-      else begin
-          if aSource^ in leadBytes then begin
-            aSource := StrNextChar(aSource);
-            continue;
-          end;
+      MEMO_TAG : begin
+          aStrCount := Length(aRecv) - 1;
+          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+          CltMemo.Lines.add(aRecv);
         end;
+      else
+        Exit;
     end;
-
-    if aTag = EDIT_TAG then begin
-      aStrCount := Length(aRecv) - 1;
-      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
-      CltEdit.text := aRecv;
-      CltMemo.Lines.add(aRecv)
-    end;
+//    if aTag = EDIT_TAG then begin
+//      aStrCount := Length(aRecv) - 1;
+//      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+//      CltEdit.text := aRecv;
+//      CltMemo.Lines.add(aRecv)
+//    end;
 
   end;
 end;

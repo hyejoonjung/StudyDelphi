@@ -26,10 +26,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
-    procedure SvrEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
-    procedure SvrEditKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure SvrMemoKeyPress(Sender: TObject; var Key: Char);
 
   private
@@ -40,6 +37,7 @@ type
 
     procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
     procedure WriteText(const aStr : String);
+    procedure ListBoxUpDate;
   public
     { Public declarations }
   end;
@@ -82,35 +80,31 @@ procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);
 begin
   if fServerSocket = nil then
     Exit;
-  fServerSocket.Active := False; //소켓 닫기.
+  fServerSocket.Active := False;
   SvrConnectBtn.Enabled := True;
   SvrDisconnectBtn.Enabled := False;
 end;
 
-procedure TMainForm.SvrEditKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-//  if Key = VK_BACK then
-//    WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
-//  else
-//    WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Char(Key));
-end;
-
 procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
+var
+  i : Integer;
+  aStr : String;
+  aIndex : Integer;
 begin
+  aIndex := -1;
   if Key = #8 then
     WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
-  else
+  else if (Key = #13) then begin
+    ListBoxUpDate;
+    SvrEdit.Text := '';
+  end else
     WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
-end;
-
-procedure TMainForm.SvrEditKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-//  WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text);
-//  WriteText(IntToStr(VK_Control));
-//  if SvrEdit.Text = '' then
-//    WriteText('#Clear');
+//  if (Key = VK_RETURN) and (fServerSocket <> nil) then begin
+//    with fServerSocket.Socket do begin     //서버이기 때문에 클라이언트가 여러개...
+//      for i := 0 to ActiveConnections - 1 do //연결되어있는 커넥션들,  각 세션에 보내준다..
+//        Connections[i].SendText(SvrSendEdit.Text);//연결돼있는 클라이언트중 i번째. 한테 보낸다. TExt를.
+//    end;
+//  end;
 end;
 
 procedure TMainForm.SvrMemoKeyPress(Sender: TObject; var Key: Char);
@@ -140,4 +134,21 @@ begin
   end;
 end;
 
+procedure TMainForm.ListBoxUpDate;
+var
+  aIndex, i : Integer;
+begin
+    for i := 0 to SvrListBox.Count - 1 do begin
+      if SvrEdit.Text = SvrListBox.items[i] then begin
+        aIndex := i;
+        Break;
+      end;
+    end;
+    if aIndex < 0 then begin
+      SvrListBox.Items.Add(SvrEdit.Text);
+    end else
+      SvrlistBox.Items.Delete(aIndex);
+    SvrEdit.Text := '';
+end;
+  
 end.

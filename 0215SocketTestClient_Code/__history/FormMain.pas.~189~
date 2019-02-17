@@ -126,19 +126,34 @@ procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket
 var
   aStrCount : Integer;
   aRecv : String;
-  aTag : String;
+  aTag : Integer;
 //  aRecv2 : String;
 begin
   CltMemo.Clear;
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
     aTag := StrToInt(aRecv[1]);
-    if aTag = 0 then begin
-      aStrCount := Length(aRecv) - 1;
-      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
-      CltEdit.text := aRecv;
-      CltMemo.Lines.add(aRecv)
-             
+    case aTag of
+      EDIT_TAG : begin
+          aStrCount := Length(aRecv) - 1;
+          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+          CltEdit.text := aRecv;
+        end;
+      MEMO_TAG : begin
+          aStrCount := Length(aRecv) - 1;
+          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+          CltMemo.Lines.add(aRecv);
+        end;
+      else
+        Exit;
+    end;
+//    if aTag = EDIT_TAG then begin
+//      aStrCount := Length(aRecv) - 1;
+//      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+//      CltEdit.text := aRecv;
+//      CltMemo.Lines.add(aRecv)
+//    end;
+
   end;
 end;
 //커넥트 되고안되고는 엑티브로 확인을 한다.

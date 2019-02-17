@@ -42,6 +42,7 @@ type
     procedure ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
     procedure ClientSocketDisconnet(Sender : TObject; Socket : TCustomWinSocket);
     procedure ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket);
+    procedure SvrListBoxUpDate;
   public
     { Public declarations }
   end;
@@ -147,14 +148,25 @@ begin
       else
         Exit;
     end;
-//    if aTag = EDIT_TAG then begin
-//      aStrCount := Length(aRecv) - 1;
-//      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
-//      CltEdit.text := aRecv;
-//      CltMemo.Lines.add(aRecv)
-//    end;
-
   end;
+end;
+
+procedure TMainForm.SvrListBoxUpDate;
+var
+  aIndex, i : Integer;
+begin
+  aIndex := -1;
+  for i := 0 to SvrListBox.Count - 1 do begin
+    if SvrEdit.Text = SvrListBox.items[i] then begin
+      aIndex := i;
+      Break;
+    end;
+  end;
+  if aIndex < 0 then begin
+    SvrListBox.Items.Add(SvrEdit.Text);
+  end else
+    SvrlistBox.Items.Delete(aIndex);
+  SvrEdit.Text := '';
 end;
 //커넥트 되고안되고는 엑티브로 확인을 한다.
 //false면
