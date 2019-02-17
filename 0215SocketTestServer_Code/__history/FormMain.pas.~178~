@@ -89,20 +89,22 @@ end;
 procedure TMainForm.SvrEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-//  if Key = VK_BACK then
-//    WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
-//  else
-//    WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Char(Key));
-end;
-
-procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
-//var
-//  aChar : Char;
-begin
   if Key = #8 then
     WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
   else
     WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
+end;
+
+procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
+var
+  aChar : Char;
+begin
+//  aChar := Char(#8);
+//  ShowMessage(aChar);
+//  if Key = #8 then
+//    WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
+//  else
+//    WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
 end;
 
 procedure TMainForm.SvrEditKeyUp(Sender: TObject; var Key: Word;

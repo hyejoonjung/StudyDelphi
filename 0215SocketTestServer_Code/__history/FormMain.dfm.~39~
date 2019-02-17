@@ -62,32 +62,29 @@ object MainForm: TMainForm
     OnClick = SvrDisConnectBtnClick
   end
   object SvrEdit: TEdit
+    Tag = 5
     Left = 11
     Top = 59
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyDown = SvrEditKeyDown
     OnKeyPress = SvrEditKeyPress
-    OnKeyUp = SvrEditKeyUp
   end
   object SvrMemo: TMemo
-    Tag = 8
     Left = 272
     Top = 119
     Width = 147
     Height = 89
     ScrollBars = ssBoth
-    TabOrder = 11
+    TabOrder = 4
   end
   object SvrComboBox: TComboBox
-    Tag = 6
     Left = 267
     Top = 57
     Width = 147
     Height = 21
     ItemHeight = 13
-    TabOrder = 9
+    TabOrder = 5
     Text = #49440#53469
     Items.Strings = (
       'Circle'
@@ -95,43 +92,38 @@ object MainForm: TMainForm
       'Rectangle')
   end
   object SvrCheckBox1: TCheckBox
-    Tag = 4
     Left = 153
     Top = 147
     Width = 97
     Height = 17
     Caption = 'SvrCheckBox1'
-    TabOrder = 7
+    TabOrder = 6
   end
   object SvrCheckBox2: TCheckBox
-    Tag = 5
     Left = 153
     Top = 170
     Width = 97
     Height = 17
     Caption = 'SvrCheckBox2'
-    TabOrder = 8
+    TabOrder = 7
   end
   object SvrRadioButton1: TRadioButton
-    Tag = 2
     Left = 153
     Top = 84
     Width = 113
     Height = 17
     Caption = 'SvrRadioButton1'
-    TabOrder = 5
+    TabOrder = 8
   end
   object SvrRadioButton2: TRadioButton
-    Tag = 3
     Left = 153
     Top = 107
     Width = 113
     Height = 17
     Caption = 'SvrRadioButton2'
-    TabOrder = 6
+    TabOrder = 9
   end
   object SvrListBox: TListBox
-    Tag = 1
     Left = 11
     Top = 102
     Width = 121
@@ -142,15 +134,14 @@ object MainForm: TMainForm
       #49444#47105#53461
       #46024#44620#49828
       #48512#45824#52236#44060)
-    TabOrder = 4
+    TabOrder = 10
   end
   object SvrScrollBar: TScrollBar
-    Tag = 7
-    Left = 272
+    Left = 267
     Top = 96
     Width = 147
     Height = 17
     PageSize = 0
-    TabOrder = 10
+    TabOrder = 11
   end
 end

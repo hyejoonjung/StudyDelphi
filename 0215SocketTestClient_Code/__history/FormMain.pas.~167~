@@ -116,10 +116,10 @@ var
 begin
   CltMemo.Clear;
   if Socket <> nil then begin
+    aStrCount := Length(Socket.ReceiveText) - 1;
 //    showMessage(IntToStr(aStrCount);
     aRecv := Socket.ReceiveText;
-    aStrCount := Length(aRecv) - 1;
-    aRecv := Copy(aRecv, 2, aStrCount);
+    aRecv := Copy(aRecv, 1, aStrCount);
 //    Socket.ReceiveLength;
 //    aRecv := Socket.ReceiveText);
 //    aRecv := Copy(aRecv, 1, 3);

@@ -110,31 +110,29 @@ end;
 
 procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket);
 var
-  aStrCount : Integer;
+//  aStrCount : Integer;
   aRecv : String;
-//  aRecv2 : String;
 begin
   CltMemo.Clear;
-  if Socket <> nil then begin
+//  if Socket <> nil then begin
+//    aStrCount := Length(Socket.ReceiveText) - 1;
 //    showMessage(IntToStr(aStrCount);
-    aRecv := Socket.ReceiveText;
-    aStrCount := Length(aRecv) - 1;
-    aRecv := Copy(aRecv, 2, aStrCount);
+    aRecv := Socket.ReceiveText
 //    Socket.ReceiveLength;
-//    aRecv := Socket.ReceiveText);
+//    aRecv := String(Socket.ReceiveText);
 //    aRecv := Copy(aRecv, 1, 3);
 //    showMessage(aRecv);
 
 //      CltMemo.Lines.Add(IntToStr(Length(Socket.ReceiveText)));
-//    CltMemo.Lines.Add(Copy(Socket.ReceiveText, 1, Socket.ReceiveLength - 1));
+    CltMemo.Lines.Add(Copy(Socket.ReceiveText, 1, Socket.ReceiveLength - 1));
 //      ClTMemo.Lines.Add(aRecv);
 //Length(Socket.ReceiveText) - 1
 //    aRecv := Copy(Socket.ReceiveText, 1, 10);
 //    aRecv := String(Typeinfo((Socket.ReceiveText) - 3));
-//    CltMemo.Lines.Add(Copy(aRecv, 1, Socket.ReceiveLength));
-    CltMemo.Lines.Add(aRecv);
+
+//    CltMemo.Lines.Add(IntToStr(aStrCount));
 //    aRecv := Copy(Socket.ReceiveText,1,Length(Socket.ReceiveText) - 1);
-  end;
+//  end;
 end;
 //커넥트 되고안되고는 엑티브로 확인을 한다.
 //false면

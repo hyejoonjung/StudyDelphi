@@ -67,8 +67,6 @@ object MainForm: TMainForm
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyDown = SvrEditKeyDown
-    OnKeyPress = SvrEditKeyPress
     OnKeyUp = SvrEditKeyUp
   end
   object SvrMemo: TMemo
