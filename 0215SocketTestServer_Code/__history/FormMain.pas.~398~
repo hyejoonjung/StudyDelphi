@@ -78,13 +78,14 @@ procedure TMainForm.SvrConnectBtnClick(Sender: TObject);
 begin
   if fServerSocket = nil then begin
     fServerSocket := TServerSocket.Create(Self);
-    with fServerSocket do
+    with fServerSocket do begin
       OnClientRead := ServerSocketClientRead;
-    fServerSocket.Port := StrToInt(SvrPortEdit.Text);
-    fServerSocket.Active := True;
-    SvrConnectBtn.Enabled := False;
-    SvrDisConnectBtn.Enabled := True;    
+      Port := StrToInt(SvrPortEdit.Text);
+      Active := True;
+    end;  
   end;
+  SvrConnectBtn.Enabled := False;
+  SvrDisConnectBtn.Enabled := True;    
 end;
 
 procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);

@@ -83,6 +83,7 @@ object MainForm: TMainForm
     Width = 139
     Height = 21
     TabOrder = 4
+    OnKeyDown = CltEditKeyDown
   end
   object CltMemo: TMemo
     Tag = 8
@@ -96,16 +97,12 @@ object MainForm: TMainForm
   object CltComboBox: TComboBox
     Tag = 6
     Left = 272
-    Top = 61
+    Top = 93
     Width = 147
     Height = 21
     ItemHeight = 13
     TabOrder = 6
-    Text = #49440#53469
-    Items.Strings = (
-      'Circle'
-      'Triangle'
-      'Rectangle')
+    Text = 'CltComboBox'
   end
   object CltCheckBox1: TCheckBox
     Tag = 4
@@ -146,7 +143,7 @@ object MainForm: TMainForm
   object CltScrollBar: TScrollBar
     Tag = 7
     Left = 267
-    Top = 112
+    Top = 120
     Width = 147
     Height = 17
     PageSize = 0

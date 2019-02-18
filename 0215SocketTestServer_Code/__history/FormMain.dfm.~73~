@@ -67,7 +67,7 @@ object MainForm: TMainForm
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyPress = SvrKeyPress
+    OnKeyPress = SvrEditKeyPress
   end
   object SvrMemo: TMemo
     Tag = 8
@@ -77,7 +77,7 @@ object MainForm: TMainForm
     Height = 89
     ScrollBars = ssBoth
     TabOrder = 11
-    OnKeyPress = SvrKeyPress
+    OnKeyPress = SvrEditKeyPress
   end
   object SvrComboBox: TComboBox
     Tag = 6

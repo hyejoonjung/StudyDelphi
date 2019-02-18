@@ -27,7 +27,7 @@ type
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
     procedure CompClick(Sender: TObject);
-    procedure SvrKeyPress(Sender: TObject; var Key: Char);
+    procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -80,11 +80,11 @@ begin
     fServerSocket := TServerSocket.Create(Self);
     with fServerSocket do
       OnClientRead := ServerSocketClientRead;
-    fServerSocket.Port := StrToInt(SvrPortEdit.Text);
-    fServerSocket.Active := True;
-    SvrConnectBtn.Enabled := False;
-    SvrDisConnectBtn.Enabled := True;    
   end;
+  fserverSocket.Port := StrToInt(SvrPortEdit.Text);
+  fServerSocket.Active := True;
+  SvrConnectBtn.Enabled := False;
+  SvrDisConnectBtn.Enabled := True;  
 end;
 
 procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);
@@ -114,7 +114,7 @@ begin
     SendTextToClt(IntToStr(SvrCheckBox2.Tag) + '0')  
 end;
 
-procedure TMainForm.SvrKeyPress(Sender: TObject; var Key: Char);
+procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Sender = SvrEdit then
     SendPressedKey(SvrEdit.tag, SvrEdit.Text, Key)

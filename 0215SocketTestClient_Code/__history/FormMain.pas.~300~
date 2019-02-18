@@ -28,6 +28,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure CltConnectBtnClick(Sender: TObject);
     procedure CltDisConnectBtnClick(Sender: TObject);
+    procedure CltEditKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
 
   private
     { Private declarations }
@@ -54,7 +56,7 @@ implementation
 {$R *.dfm}
 
 const
-  STR_FIRST     = 3;
+  STR_FIRST = 4;
   EDIT_TAG      = 0;
   LISTBOX_TAG   = 1;
   RADIOBTN1_TAG = 2;
@@ -103,6 +105,13 @@ begin
   //버튼 이네이블 안해줬어. 왜냐면 커넷션, 비커넥션은 이벤트에 의해서 할려고...
 end;
 
+procedure TMainForm.CltEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_RETURN) and (fClientSocket <> nil) then
+    fClientSocket.Socket.SendText(CltEdit.Text);
+end;
+
 procedure TMainForm.ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
 begin
   CltConnectBtn.Enabled := False;
@@ -125,10 +134,9 @@ begin
   CltMemo.Clear;
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
-//    ShowMessage(IntToStr(L
     aTag := StrToInt(aRecv[1]);
     aSecondType := StrToInt(aRecv[2]);
-    aStrCount := Length(arecv) - 2;
+    aStrCount := Length(arecv) - 3;
     aRecv := Copy(aRecv, STR_FIRST, aStrCount);
     case aTag of
       EDIT_TAG : begin
@@ -191,5 +199,4 @@ begin
   else if aTag = CHECKBOX2_TAG then
     CltCheckBox2.Checked := not(CltCheckBox2.Checked);
 end;
-
 end.

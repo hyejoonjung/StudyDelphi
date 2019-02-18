@@ -27,13 +27,13 @@ type
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
     procedure CompClick(Sender: TObject);
-    procedure SvrKeyPress(Sender: TObject; var Key: Char);
+    procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
     fServerSocket : TServerSocket;
     
-    procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+    procedure SvrKeyEvent(aTag : Integer; const aStr : String; aKey : Char);
     procedure SendTextToClt(const aStr : String);
     procedure SvrListBoxUpDate;
     procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
@@ -80,11 +80,11 @@ begin
     fServerSocket := TServerSocket.Create(Self);
     with fServerSocket do
       OnClientRead := ServerSocketClientRead;
-    fServerSocket.Port := StrToInt(SvrPortEdit.Text);
-    fServerSocket.Active := True;
-    SvrConnectBtn.Enabled := False;
-    SvrDisConnectBtn.Enabled := True;    
   end;
+  fserverSocket.Port := StrToInt(SvrPortEdit.Text);
+  fServerSocket.Active := True;
+  SvrConnectBtn.Enabled := False;
+  SvrDisConnectBtn.Enabled := True;  
 end;
 
 procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);
@@ -112,17 +112,19 @@ begin
     SendTextToClt(IntToStr(SvrCheckBox1.Tag) + '0')
   else if Sender = SvrCheckBox2 then
     SendTextToClt(IntToStr(SvrCheckBox2.Tag) + '0')  
+  else
+    Exit;
 end;
 
-procedure TMainForm.SvrKeyPress(Sender: TObject; var Key: Char);
+procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Sender = SvrEdit then
-    SendPressedKey(SvrEdit.tag, SvrEdit.Text, Key)
+    SvrKeyEvent(SvrEdit.tag, SvrEdit.Text, Key)
   else if Sender = SvrMemo then
-    SendPressedKey(SvrMemo.tag, SvrMemo.Text, Key);
+    SvrKeyEvent(SvrMemo.tag, SvrMemo.Text, Key);
 end;
 
-procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+procedure TMainForm.SvrKeyEvent(aTag : Integer; const aStr : String; aKey : Char);
 begin
     if aKey = #8 then
       SendTextToClt(IntToStr(aTag) + '0' + aStr)

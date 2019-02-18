@@ -80,8 +80,8 @@ begin
     fServerSocket := TServerSocket.Create(Self);
     with fServerSocket do
       OnClientRead := ServerSocketClientRead;
-    fServerSocket.Port := StrToInt(SvrPortEdit.Text);
-    fServerSocket.Active := True;
+      Port := StrToInt(SvrPortEdit.Text);
+      Active := True;
     SvrConnectBtn.Enabled := False;
     SvrDisConnectBtn.Enabled := True;    
   end;

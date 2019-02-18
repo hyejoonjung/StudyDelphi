@@ -83,6 +83,7 @@ object MainForm: TMainForm
     Width = 139
     Height = 21
     TabOrder = 4
+    OnKeyDown = CltEditKeyDown
   end
   object CltMemo: TMemo
     Tag = 8
