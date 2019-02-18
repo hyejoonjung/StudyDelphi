@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'Server'
-  ClientHeight = 255
-  ClientWidth = 444
+  ClientHeight = 256
+  ClientWidth = 445
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -62,14 +62,12 @@ object MainForm: TMainForm
     OnClick = SvrDisConnectBtnClick
   end
   object SvrEdit: TEdit
-    Left = 11
-    Top = 59
+    Left = 8
+    Top = 57
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyDown = SvrEditKeyDown
     OnKeyPress = SvrEditKeyPress
-    OnKeyUp = SvrEditKeyUp
   end
   object SvrMemo: TMemo
     Tag = 8
@@ -79,10 +77,11 @@ object MainForm: TMainForm
     Height = 89
     ScrollBars = ssBoth
     TabOrder = 11
+    OnKeyPress = SvrMemoKeyPress
   end
   object SvrComboBox: TComboBox
     Tag = 6
-    Left = 267
+    Left = 272
     Top = 57
     Width = 147
     Height = 21
@@ -112,36 +111,32 @@ object MainForm: TMainForm
     Caption = 'SvrCheckBox2'
     TabOrder = 8
   end
-  object SvrRadioButton1: TRadioButton
+  object SvrRadioBtn1: TRadioButton
     Tag = 2
     Left = 153
     Top = 84
     Width = 113
     Height = 17
-    Caption = 'SvrRadioButton1'
+    Caption = 'SvrRadioBtn1'
     TabOrder = 5
+    OnClick = SvrRadioBtn1Click
   end
-  object SvrRadioButton2: TRadioButton
+  object SvrRadioBtn2: TRadioButton
     Tag = 3
     Left = 153
     Top = 107
     Width = 113
     Height = 17
-    Caption = 'SvrRadioButton2'
+    Caption = 'SvrRadioBtn2'
     TabOrder = 6
   end
   object SvrListBox: TListBox
     Tag = 1
-    Left = 11
-    Top = 102
+    Left = 8
+    Top = 84
     Width = 121
     Height = 97
     ItemHeight = 13
-    Items.Strings = (
-      #49692#45824#44397
-      #49444#47105#53461
-      #46024#44620#49828
-      #48512#45824#52236#44060)
     TabOrder = 4
   end
   object SvrScrollBar: TScrollBar

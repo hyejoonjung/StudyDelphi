@@ -111,22 +111,23 @@ object MainForm: TMainForm
     Caption = 'SvrCheckBox2'
     TabOrder = 8
   end
-  object SvrRadioButton1: TRadioButton
+  object SvrRadioBtn1: TRadioButton
     Tag = 2
     Left = 153
     Top = 84
     Width = 113
     Height = 17
-    Caption = 'SvrRadioButton1'
+    Caption = 'SvrRadioBtn1'
     TabOrder = 5
+    OnClick = SvrRadioBtn1Click
   end
-  object SvrRadioButton2: TRadioButton
+  object SvrRadioBtn2: TRadioButton
     Tag = 3
     Left = 153
     Top = 107
     Width = 113
     Height = 17
-    Caption = 'SvrRadioButton2'
+    Caption = 'SvrRadioBtn2'
     TabOrder = 6
   end
   object SvrListBox: TListBox
@@ -136,11 +137,6 @@ object MainForm: TMainForm
     Width = 121
     Height = 97
     ItemHeight = 13
-    Items.Strings = (
-      'One'
-      'Two'
-      'Three'
-      'Four')
     TabOrder = 4
   end
   object SvrScrollBar: TScrollBar

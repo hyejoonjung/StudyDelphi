@@ -20,10 +20,10 @@ type
     CltComboBox: TComboBox;
     CltCheckBox1: TCheckBox;
     CltCheckBox2: TCheckBox;
-    CltRadioButton1: TRadioButton;
-    CltRadioButton2: TRadioButton;
+    CltRadioBtn1: TRadioButton;
+    CltRadioBtn2: TRadioButton;
     CltScrollBar: TScrollBar;
-    SvrListBox: TListBox;
+    CltListBox: TListBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure CltConnectBtnClick(Sender: TObject);
@@ -42,6 +42,8 @@ type
     procedure ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
     procedure ClientSocketDisconnet(Sender : TObject; Socket : TCustomWinSocket);
     procedure ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket);
+    procedure CltListBoxUpdate;
+    procedure CltCheckedUpdate(const aTag,aStr : String);
   public
     { Public declarations }
   end;
@@ -54,7 +56,7 @@ implementation
 {$R *.dfm}
 
 const
-  STR_FIRST = 2;
+  STR_FIRST = 4;
   EDIT_TAG      = 0;
   LISTBOX_TAG   = 1;
   RADIOBTN1_TAG = 2;
@@ -126,7 +128,7 @@ procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket
 var
   aStrCount : Integer;
   aRecv : String;
-  aTag : String;
+  aTag : Integer;
 //  aRecv2 : String;
 begin
   CltMemo.Clear;
@@ -135,28 +137,52 @@ begin
     aTag := StrToInt(aRecv[1]);
     case aTag of
       EDIT_TAG : begin
-          aStrCount := Length(aRecv) - 1;
-          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
-          CltEdit.text := aRecv;
-          CltEdit.text(aRecv);
+          if aRecv[2] = '1' then
+            CltListBoxUpDate
+          else begin
+            aStrCount := Length(aRecv) - 3;
+            aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+            CltEdit.text := aRecv;
+          end;
         end;
       MEMO_TAG : begin
-          aStrCount := Length(aRecv) - 1;
+          aStrCount := Length(aRecv) - 3;
           aRecv := Copy(aRecv, STR_FIRST, aStrCount);
-          CltEdit.text := aRecv;
           CltMemo.Lines.add(aRecv);
+        end;
+      RADIOBTN1_TAG  : begin
+          aStrCount := Length(aRecv) - 3;
+          aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+          CltCheckedUpdate(aTag, aRecv);
         end;
       else
         Exit;
     end;
-    if aTag = EDIT_TAG then begin
-      aStrCount := Length(aRecv) - 1;
-      aRecv := Copy(aRecv, STR_FIRST, aStrCount);
-      CltEdit.text := aRecv;
-      CltMemo.Lines.add(aRecv)
-    end;
-
   end;
+end;
+
+procedure TMainForm.CltListBoxUpdate;
+var
+  aIndex, i : Integer;
+begin
+  aIndex := -1;
+  for i := 0 to CltListBox.Count - 1 do begin
+    if CltEdit.Text = CltListBox.items[i] then begin
+      aIndex := i;
+      Break;
+    end;
+  end;
+  if aIndex < 0 then begin
+    CltListBox.Items.Add(CltEdit.Text);
+  end else
+    CltlistBox.Items.Delete(aIndex);
+  CltEdit.Text := '';
+end;
+
+procedure TMainForm.CltCheckedUpdate(aTag : Integer; const aStr : String);
+begin
+  if aTag = RADIOBTN1_TAG  then
+    CltRadioBtn1  := StrToBool(aStr);
 end;
 //커넥트 되고안되고는 엑티브로 확인을 한다.
 //false면

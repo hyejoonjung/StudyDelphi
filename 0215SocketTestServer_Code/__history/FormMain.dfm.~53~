@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   Caption = 'Server'
   ClientHeight = 256
-  ClientWidth = 444
+  ClientWidth = 445
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -67,9 +67,7 @@ object MainForm: TMainForm
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyDown = SvrEditKeyDown
     OnKeyPress = SvrEditKeyPress
-    OnKeyUp = SvrEditKeyUp
   end
   object SvrMemo: TMemo
     Tag = 8
@@ -133,16 +131,16 @@ object MainForm: TMainForm
   end
   object SvrListBox: TListBox
     Tag = 1
-    Left = 11
-    Top = 102
+    Left = 8
+    Top = 84
     Width = 121
     Height = 97
     ItemHeight = 13
     Items.Strings = (
-      #49692#45824#44397
-      #49444#47105#53461
-      #46024#44620#49828
-      #48512#45824#52236#44060)
+      'One'
+      'Two'
+      'Three'
+      'Four')
     TabOrder = 4
   end
   object SvrScrollBar: TScrollBar

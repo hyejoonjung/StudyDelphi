@@ -18,8 +18,8 @@ type
     SvrComboBox: TComboBox;
     SvrCheckBox1: TCheckBox;
     SvrCheckBox2: TCheckBox;
-    SvrRadioButton1: TRadioButton;
-    SvrRadioButton2: TRadioButton;
+    SvrRadioBtn1: TRadioButton;
+    SvrRadioBtn2: TRadioButton;
     SvrListBox: TListBox;
     SvrScrollBar: TScrollBar;
     procedure FormCreate(Sender: TObject);
@@ -28,6 +28,7 @@ type
     procedure SvrDisConnectBtnClick(Sender: TObject);
     procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
     procedure SvrMemoKeyPress(Sender: TObject; var Key: Char);
+    procedure SvrRadioBtn1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -36,8 +37,8 @@ type
     fServerSocket : TServerSocket; // 서버소캣생성 클라이언트따로해야한다원래.
 
     procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
-    procedure WriteText(const aStr : String);
-    procedure ListBoxUpDate;
+    procedure SendTextToClt(const aStr : String);
+    procedure SvrListBoxUpDate;
   public
     { Public declarations }
   end;
@@ -88,20 +89,26 @@ end;
 procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #8 then
-    WriteText(IntToStr(SvrEdit.Tag) + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
-  else if (Key = #13) then
-    ListBoxUpDate
-  else
-    WriteText(IntToStr(SvrEdit.Tag) + SvrEdit.Text + Key);
+    SendTextToClt(IntToStr(SvrEdit.Tag) + '00' + Copy(SvrEdit.Text, 0, Length(SvrEdit.Text) - 1))
+  else if Key = #13 then begin
+    SendTextToClt(IntToStr(SvrEdit.Tag) + '10' + SvrEdit.Text + Key);
+    SvrListBoxUpDate;
+  end else
+    SendTextToClt(IntToStr(SvrEdit.Tag) + '00' + SvrEdit.Text + Key);
 end;
 
 procedure TMainForm.SvrMemoKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #8 then
-    WriteText(IntToStr(SvrMemo.Tag) + Copy(SvrMemo.Text, 0, Length(SvrMemo.Text) - 1))
+    SendTextToClt(IntToStr(SvrMemo.Tag) + '00' + Copy(SvrMemo.Text, 0, Length(SvrMemo.Text) - 1))
   else
-    WriteText(IntToStr(SvrMemo.Tag) + SvrMemo.Text + Key);
-    //클라에서 그냥add하는걸로 해봐도 될듯. 
+    SendTextToClt(IntToStr(SvrMemo.Tag) + '00' + SvrMemo.Text + Key);
+    //클라에서 그냥add하는걸로 해봐도 될듯.
+end;
+
+procedure TMainForm.SvrRadioBtn1Click(Sender: TObject);
+begin
+  BoolToStr(SvrRadioBtn1.Checked)
 end;
 
 procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);// 이벤트이름...ServerSocKet +(On)ClientRead이름...
@@ -110,7 +117,7 @@ begin //열루 오면, 클라이언트에서 오면 이벤트가 발생. 소켓이라는게 클라이언트의 
     SvrMemo.Lines.Add(Socket.ReceiveText);  //소캣을 통해 받은것을 라인에 넣는다.
 end;
 
-procedure TMainForm.WriteText(const aStr : String);
+procedure TMainForm.SendTextToClt(const aStr : String);
 var
   i : Integer;
 begin
@@ -122,7 +129,7 @@ begin
   end;
 end;
 
-procedure TMainForm.ListBoxUpDate;
+procedure TMainForm.SvrListBoxUpdate;
 var
   aIndex, i : Integer;
 begin
@@ -139,5 +146,5 @@ begin
     SvrlistBox.Items.Delete(aIndex);
   SvrEdit.Text := '';
 end;
-  
+
 end.

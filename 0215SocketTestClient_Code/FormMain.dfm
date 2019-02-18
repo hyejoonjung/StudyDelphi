@@ -122,22 +122,22 @@ object MainForm: TMainForm
     Caption = 'CltCheckBox2'
     TabOrder = 8
   end
-  object CltRadioButton1: TRadioButton
+  object CltRadioBtn1: TRadioButton
     Tag = 2
     Left = 153
     Top = 108
     Width = 113
     Height = 17
-    Caption = 'CltRadioButton1'
+    Caption = 'CltRadioBtn1'
     TabOrder = 9
   end
-  object CltRadioButton2: TRadioButton
+  object CltRadioBtn2: TRadioButton
     Tag = 3
     Left = 153
     Top = 131
     Width = 113
     Height = 17
-    Caption = 'CltRadioButton2'
+    Caption = 'CltRadioBtn2'
     TabOrder = 10
   end
   object CltScrollBar: TScrollBar
@@ -149,7 +149,7 @@ object MainForm: TMainForm
     PageSize = 0
     TabOrder = 11
   end
-  object SvrListBox: TListBox
+  object CltListBox: TListBox
     Tag = 1
     Left = 8
     Top = 111
