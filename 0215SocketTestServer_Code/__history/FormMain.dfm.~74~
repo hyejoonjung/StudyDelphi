@@ -67,7 +67,7 @@ object MainForm: TMainForm
     Width = 121
     Height = 21
     TabOrder = 3
-    OnKeyPress = SvrEditKeyPress
+    OnKeyPress = SvrKeyPress
   end
   object SvrMemo: TMemo
     Tag = 8
@@ -77,7 +77,7 @@ object MainForm: TMainForm
     Height = 89
     ScrollBars = ssBoth
     TabOrder = 11
-    OnKeyPress = SvrMemoKeyPress
+    OnKeyPress = SvrKeyPress
   end
   object SvrComboBox: TComboBox
     Tag = 6
@@ -88,7 +88,7 @@ object MainForm: TMainForm
     ItemHeight = 13
     TabOrder = 9
     Text = #49440#53469
-    OnChange = SvrComboBoxChange
+    OnChange = CompClick
     Items.Strings = (
       'Circle'
       'TriAngle'
@@ -102,7 +102,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'SvrCheckBox1'
     TabOrder = 7
-    OnClick = SvrCheckBox1Click
+    OnClick = CompClick
   end
   object SvrCheckBox2: TCheckBox
     Tag = 5
@@ -112,7 +112,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'SvrCheckBox2'
     TabOrder = 8
-    OnClick = SvrCheckBox2Click
+    OnClick = CompClick
   end
   object SvrRadioBtn1: TRadioButton
     Tag = 2
@@ -122,7 +122,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'SvrRadioBtn1'
     TabOrder = 5
-    OnClick = SvrRadioBtn1Click
+    OnClick = CompClick
   end
   object SvrRadioBtn2: TRadioButton
     Tag = 3
@@ -132,7 +132,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'SvrRadioBtn2'
     TabOrder = 6
-    OnClick = SvrRadioBtn2Click
+    OnClick = CompClick
   end
   object SvrListBox: TListBox
     Tag = 1
@@ -142,6 +142,7 @@ object MainForm: TMainForm
     Height = 97
     ItemHeight = 13
     TabOrder = 4
+    OnClick = CompClick
   end
   object SvrScrollBar: TScrollBar
     Tag = 7
@@ -151,6 +152,6 @@ object MainForm: TMainForm
     Height = 17
     PageSize = 0
     TabOrder = 10
-    OnChange = SvrScrollBarChange
+    OnChange = CompClick
   end
 end

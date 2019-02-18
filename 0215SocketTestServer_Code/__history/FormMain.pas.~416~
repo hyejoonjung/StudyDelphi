@@ -27,17 +27,18 @@ type
     procedure SvrConnectBtnClick(Sender: TObject);
     procedure SvrDisConnectBtnClick(Sender: TObject);
     procedure CompClick(Sender: TObject);
-    procedure SvrEditKeyPress(Sender: TObject; var Key: Char);
+    procedure SvrKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
     fServerSocket : TServerSocket;
-    
-    procedure SvrKeyEvent(aTag : Integer; const aStr : String; aKey : Char);
+    fFlag : Integer;
+
+    procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
+    procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
     procedure SendTextToClt(const aStr : String);
     procedure SvrListBoxUpDate;
-    procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
-        
+    procedure SvrCheckedUpdate(aTag : Integer);
   public
     { Public declarations }
   end;
@@ -64,6 +65,7 @@ const
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fServerSocket := nil;
+  fFlag := 0;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -80,11 +82,11 @@ begin
     fServerSocket := TServerSocket.Create(Self);
     with fServerSocket do
       OnClientRead := ServerSocketClientRead;
+    fServerSocket.Port := StrToInt(SvrPortEdit.Text);
+    fServerSocket.Active := True;
+    SvrConnectBtn.Enabled := False;
+    SvrDisConnectBtn.Enabled := True;    
   end;
-  fserverSocket.Port := StrToInt(SvrPortEdit.Text);
-  fServerSocket.Active := True;
-  SvrConnectBtn.Enabled := False;
-  SvrDisConnectBtn.Enabled := True;  
 end;
 
 procedure TMainForm.SvrDisConnectBtnClick(Sender: TObject);
@@ -109,30 +111,68 @@ begin
   else if Sender = SvrRadioBtn2 then
     SendTextToClt(IntToStr(SvrRadioBtn2.Tag) + '0')
   else if Sender = SvrCheckBox1 then
-    SendTextToClt(IntToStr(SvrCheckBox1.Tag) + '0')
+    SendTextToClt(IntToStr(SvrCheckBox1.Tag) + '0' + BoolToStr(SvrCheckBox1.Checked))
   else if Sender = SvrCheckBox2 then
-    SendTextToClt(IntToStr(SvrCheckBox2.Tag) + '0')  
-  else
-    Exit;
+    SendTextToClt(IntToStr(SvrCheckBox2.Tag) + '0')
 end;
 
-procedure TMainForm.SvrEditKeyPress(Sender: TObject; var Key: Char);
+procedure TMainForm.SvrKeyPress(Sender: TObject; var Key: Char);
 begin
   if Sender = SvrEdit then
-    SvrKeyEvent(SvrEdit.tag, SvrEdit.Text, Key)
+    SendPressedKey(SvrEdit.tag, SvrEdit.Text, Key)
   else if Sender = SvrMemo then
-    SvrKeyEvent(SvrMemo.tag, SvrMemo.Text, Key);
+    SendPressedKey(SvrMemo.tag, SvrMemo.Text, Key);
 end;
 
-procedure TMainForm.SvrKeyEvent(aTag : Integer; const aStr : String; aKey : Char);
+procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
+var
+  aStrCount : Integer;
+  aRecv : String;
+  aTag, aSecondType : Integer;
 begin
-    if aKey = #8 then
-      SendTextToClt(IntToStr(aTag) + '0' + aStr)
-    else if (aKey = #13) and (aTag = EDIT_TAG) then begin
-      SendTextToClt(IntToStr(aTag) + '1' + aStr + aKey);
-      SvrListBoxUpDate;
-    end else
-      SendTextToClt(IntToStr(aTag) + '0' + aStr + aKey);
+  SvrMemo.Clear;
+  if Socket <> nil then begin
+    aRecv := Socket.ReceiveText;
+    aTag := StrToInt(aRecv[1]);
+    aSecondType := StrToInt(aRecv[2]);
+    aStrCount := Length(arecv) - 2;
+    aRecv := Copy(aRecv, STR_FIRST, aStrCount);
+    case aTag of
+      EDIT_TAG : begin
+          if aSecondType = 1 then
+            SvrListBoxUpDate
+          else
+            SvrEdit.text := aRecv;
+        end;
+      MEMO_TAG :
+        SvrMemo.Lines.add(aRecv);
+      RADIOBTN1_TAG :
+        SvrCheckedUpdate(aTag);
+      RADIOBTN2_TAG :
+        SvrCheckedUpdate(aTag);
+      CHECKBOX1_TAG :
+        SvrCheckedUpdate(aTag);
+      CHECKBOX2_TAG :
+        SvrCheckedUpdate(aTag);
+      COMBOBOX_TAG :
+        SvrComboBox.ItemIndex := StrToInt(aRecv);
+      SCROLLBAR_TAG :
+        SvrScrollBar.Position := StrToInt(aRecv);
+      LISTBOX_TAG :
+        SvrListBox.ItemIndex := StrToInt(aRecv);
+    end;
+  end;
+end;
+
+procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+begin
+  if aKey = #8 then
+    SendTextToClt(IntToStr(aTag) + '0' + aStr)
+  else if (aKey = #13) and (aTag = EDIT_TAG) then begin
+    SendTextToClt(IntToStr(aTag) + '1' + aStr + aKey);
+    SvrListBoxUpDate;
+  end else
+    SendTextToClt(IntToStr(aTag) + '0' + aStr + aKey);
 end;
 
 procedure TMainForm.SendTextToClt(const aStr : String);
@@ -165,10 +205,18 @@ begin
   SvrEdit.Text := '';
 end;
 
-procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
+procedure TMainForm.SvrCheckedUpdate;
 begin
-  if fServerSocket <> nil then
-    SvrMemo.Lines.Add(Socket.ReceiveText);
+  if aTag = RADIOBTN1_TAG  then begin
+    SvrRadioBtn2.Checked := False;
+    SvrRadioBtn1.Checked := True;
+  end else if aTag = RADIOBTN2_TAG  then begin
+    SvrRadioBtn1.Checked := False;
+    SvrRadioBtn2.Checked := True;
+  end else if aTag = CHECKBOX1_TAG then
+    SvrCheckBox1.Checked := not(SvrCheckBox1.Checked)
+  else if aTag = CHECKBOX2_TAG then
+    SvrCheckBox2.Checked := not(SvrCheckBox2.Checked);
 end;
 
 end.

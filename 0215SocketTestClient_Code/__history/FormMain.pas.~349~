@@ -28,20 +28,19 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure CltConnectBtnClick(Sender: TObject);
     procedure CltDisConnectBtnClick(Sender: TObject);
-    procedure CltEditKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure CompClick(Sender: TObject);
+    procedure CltKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
-    fClientSocket : TClientSocket; //서버소캣은 1개, 클라이언트는 여러개가 될수 있음..
-//한 서버당 클라이언트는 N개가 된다. 리스너가 뜨기 때문에
-//현재 윈도우 4버전은 서버소캣에 65365개
-//한 서버 포트에 65365개     2Byte, word일때 기본 포맷이 만들어졌다 그래서 기본이 @Byte.
-//윈도우 4버전은 6만 5천개 이상을 못열어.
-//2byte 65365기본베이스 한 word형.. 소켓 하나에 포트 65365개.한서버가 맥시멈 클라이언트 갯수. 예전꺼는 못열어 포트를...4버전은...그이상은 6버전.
+    fClientSocket : TClientSocket;
+    fFlag : Integer;
+
     procedure ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
     procedure ClientSocketDisconnet(Sender : TObject; Socket : TCustomWinSocket);
     procedure ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket);
+    procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+    procedure SendTextToSvr(const aStr : String);
     procedure CltListBoxUpdate;
     procedure CltCheckedUpdate(aTag : Integer);
   public
@@ -72,6 +71,7 @@ const
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fClientSocket := nil;
+  fFlag := 1;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -89,27 +89,45 @@ begin
     with fClientSocket do begin
       OnConnect := ClientSocketConnect;
       OnDisconnect := ClientSocketDisconnet;
-      OnRead := ClientSocketRead; //서버에서 오면 이쪽으로 이벤트 발생. 
+      OnRead := ClientSocketRead; 
     end;
   end;
   fClientSocket.Address := CltAddrEdit.Text;
   fClientSocket.Port := StrToInt(CltPortEdit.Text);
-  fClientSocket.Open;//엑티브 : True 하거나, open해주면 된다. 서버도 마찬가지.
+  fClientSocket.Open;
 end;
 
 procedure TMainForm.CltDisConnectBtnClick(Sender: TObject);
 begin
   if fClientSocket <> nil then begin
-    fClientSocket.Close; //엑티브 false와 같지. 
+    fClientSocket.Close;
   end;
-  //버튼 이네이블 안해줬어. 왜냐면 커넷션, 비커넥션은 이벤트에 의해서 할려고...
 end;
 
-procedure TMainForm.CltEditKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TMainForm.CompClick(Sender: TObject);
 begin
-  if (Key = VK_RETURN) and (fClientSocket <> nil) then
-    fClientSocket.Socket.SendText(CltEdit.Text);
+  if Sender = CltListBox then
+    SendTextToSvr(IntToStr(CltListBox.Tag) + '0' + IntToStr(CltListBox.ItemIndex))
+  else if Sender = CltComboBox then
+    SendTextToSvr(IntToStr(CltComboBox.Tag) + '0' + IntToStr(CltComboBox.ItemIndex))
+  else if Sender = CltScrollBar then
+    SendTextToSvr(IntToStr(CltScrollBar.Tag) + '0' + IntToStr(CltScrollBar.Position))
+  else if Sender = CltRadioBtn1 then
+    SendTextToSvr(IntToStr(CltRadioBtn1.Tag) + '0')
+  else if Sender = CltRadioBtn2 then
+    SendTextToSvr(IntToStr(CltRadioBtn2.Tag) + '0')
+  else if Sender = CltCheckBox1 then
+    SendTextToSvr(IntToStr(CltCheckBox1.Tag) + '1')
+  else if Sender = CltCheckBox2 then
+    SendTextToSvr(IntToStr(CltCheckBox2.Tag) + '1')
+end;
+
+procedure TMainForm.CltKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Sender = CltEdit then
+    SendPressedKey(CltEdit.tag, CltEdit.Text, Key)
+  else if Sender = CltMemo then
+    SendPressedKey(CltMemo.tag, CltMemo.Text, Key);
 end;
 
 procedure TMainForm.ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
@@ -129,22 +147,20 @@ var
   aStrCount : Integer;
   aRecv : String;
   aTag, aSecondType : Integer;
-//  aRecv2 : String;
 begin
   CltMemo.Clear;
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
     aTag := StrToInt(aRecv[1]);
     aSecondType := StrToInt(aRecv[2]);
-    aStrCount := Length(arecv) - 3;
+    aStrCount := Length(arecv) - 2;
     aRecv := Copy(aRecv, STR_FIRST, aStrCount);
     case aTag of
       EDIT_TAG : begin
           if aSecondType = 1 then
             CltListBoxUpDate
-          else begin
+          else
             CltEdit.text := aRecv;
-          end;
         end;
       MEMO_TAG :
         CltMemo.Lines.add(aRecv);
@@ -153,7 +169,8 @@ begin
       RADIOBTN2_TAG :
         CltCheckedUpdate(aTag);
       CHECKBOX1_TAG :
-        CltCheckedUpdate(aTag);
+        if fFlag = 1 then
+          CltCheckedUpdate(aTag);
       CHECKBOX2_TAG :
         CltCheckedUpdate(aTag);
       COMBOBOX_TAG :
@@ -165,6 +182,24 @@ begin
       else
         Exit;
     end;
+  end;
+end;
+
+procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+begin
+  if aKey = #8 then
+    SendTextToSvr(IntToStr(aTag) + '0' + aStr)
+  else if (aKey = #13) and (aTag = EDIT_TAG) then begin
+    SendTextToSvr(IntToStr(aTag) + '1' + aStr + aKey);
+    CltListBoxUpDate;
+  end else
+    SendTextToSvr(IntToStr(aTag) + '0' + aStr + aKey);
+end;
+
+procedure TMainForm.SendTextToSvr(const aStr : String);
+begin
+  if fClientSocket <> nil then begin
+    fClientSocket.Socket.SendText(aStr);
   end;
 end;
 

@@ -83,6 +83,7 @@ object MainForm: TMainForm
     Width = 139
     Height = 21
     TabOrder = 4
+    OnKeyPress = CltKeyPress
   end
   object CltMemo: TMemo
     Tag = 8
@@ -92,6 +93,7 @@ object MainForm: TMainForm
     Height = 89
     ScrollBars = ssBoth
     TabOrder = 5
+    OnKeyPress = CltKeyPress
   end
   object CltComboBox: TComboBox
     Tag = 6
@@ -102,6 +104,7 @@ object MainForm: TMainForm
     ItemHeight = 13
     TabOrder = 6
     Text = #49440#53469
+    OnChange = CompClick
     Items.Strings = (
       'Circle'
       'Triangle'
@@ -115,6 +118,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'CltCheckBox1'
     TabOrder = 7
+    OnClick = CompClick
   end
   object CltCheckBox2: TCheckBox
     Tag = 5
@@ -124,6 +128,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'CltCheckBox2'
     TabOrder = 8
+    OnClick = CompClick
   end
   object CltRadioBtn1: TRadioButton
     Tag = 2
@@ -133,6 +138,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'CltRadioBtn1'
     TabOrder = 9
+    OnClick = CompClick
   end
   object CltRadioBtn2: TRadioButton
     Tag = 3
@@ -142,6 +148,7 @@ object MainForm: TMainForm
     Height = 17
     Caption = 'CltRadioBtn2'
     TabOrder = 10
+    OnClick = CompClick
   end
   object CltScrollBar: TScrollBar
     Tag = 7
@@ -151,6 +158,7 @@ object MainForm: TMainForm
     Height = 17
     PageSize = 0
     TabOrder = 11
+    OnChange = CompClick
   end
   object CltListBox: TListBox
     Tag = 1
@@ -160,5 +168,6 @@ object MainForm: TMainForm
     Height = 120
     ItemHeight = 13
     TabOrder = 12
+    OnClick = CompClick
   end
 end
