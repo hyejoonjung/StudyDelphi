@@ -31,7 +31,7 @@ type
   private
     { Private declarations }
     fServerSocket : TServerSocket;
-    fRemainText : String;
+    fReceiveBuf : String;
 
     procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
     procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
@@ -50,6 +50,7 @@ implementation
 {$R *.dfm}
 
 const
+  HEADER_SIZE   = 5; 
   TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
@@ -130,30 +131,17 @@ var
   aEtxIndex : Integer;
 begin
   if Socket <> nil then begin
-    aRecv := Socket.ReceiveText;
+    fReceiveBuf := fReceiveBuf + Socket.ReceiveText;
     while True do begin
       aEtxIndex := -1;
-      for i := 1 to Length(aRecv) do begin
-        if aRecv[i] = #3 then begin
-          aEtxIndex := i;
-          Break;
-        end;
-      end;
+      aEtxIndex := Pos(#3, fReceiveBuf);
       if aEtxIndex > 0 then begin
-        fRemainText := fRemainText + Copy(aRecv, 1, aEtxIndex);
-        if Pos(#2, fRemainText) <> 0 then
-          PacketHandle(fRemainText);
-        fRemainText := '';
-        if aEtxIndex < Length(aRecv) then
-          aRecv := Copy(aRecv , aEtxIndex + 1, Length(aRecv) - aEtxIndex)
-        else
-          Exit;
-      end else begin
-        fRemainText := fRemainText + aRecv;
-        if Pos(#2, fRemainText) = 0 then
-          fRemainText := '';
+        aRecv := Copy(fReceiveBuf, 1, aEtxIndex);
+        if Pos(#2, aRecv) <> 0 then
+          PacketHandle(aRecv);
+        Delete(fReceiveBuf, 1,  aEtxIndex);
+      end else
         Exit;
-      end;
     end;
   end;
 end;
@@ -169,13 +157,15 @@ end;
 procedure TMainForm.SendTextToClt(const aStr : String);
 var
   i : Integer;
-  aPacketSize : Integer;
+//  aPacketSize : Integer;
 begin
-  aPacketSize := Length(aStr) + 4;
+//  aPacketSize := Length(aStr) + 4;
+//  aPacketSize := IntToHex(aPacketSize div 255)
   if fServerSocket <> nil then begin
     with fServerSocket.Socket do begin
       for i := 0 to ActiveConnections - 1 do
-        Connections[i].SendText(#2 + aPacketSize + aPacketSize  +  aStr + #3);
+//        Connections[i].SendText(#2 + IntToStr(aPacketSize) +  aStr + #3);
+        Connections[i].SendText(#2 + aStr + #3);
     end;
   end;
 end;
@@ -201,7 +191,7 @@ var
   aRecv : String;
 begin
   aTag := StrToInt(aPacket[TAG_POSITION]);
-  aStrCount := Length(aPacket) - 3;
+  aStrCount := Length(aPacket) - HEADER_SIZE;
   aRecv := Copy(aPacket, STR_FIRST, aStrCount);
   case aTag of
     EDIT_TAG :

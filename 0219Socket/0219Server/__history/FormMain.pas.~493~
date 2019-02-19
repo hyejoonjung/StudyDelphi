@@ -31,7 +31,7 @@ type
   private
     { Private declarations }
     fServerSocket : TServerSocket;
-    fRemainText : String;
+    fReceiveBuf : String;
 
     procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
     procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
@@ -131,28 +131,23 @@ var
   aEtxIndex : Integer;
 begin
   if Socket <> nil then begin
-    aRecv := Socket.ReceiveText;
+    fReceiveBuf := Socket.ReceiveText;
     while True do begin
       aEtxIndex := -1;
-      for i := 1 to Length(aRecv) do begin
-        if aRecv[i] = #3 then begin
-          aEtxIndex := i;
-          Break;
-        end;
-      end;
+      aEtxIndex := Pos(#3, fReceiveBuf);
       if aEtxIndex > 0 then begin
-        fRemainText := fRemainText + Copy(aRecv, 1, aEtxIndex);
-        if Pos(#2, fRemainText) <> 0 then
-          PacketHandle(fRemainText);
-        fRemainText := '';
+        aRecv := Copy(fReceiveBuf, 1, aEtxIndex);
+        if Pos(#2, fReceiveBuf) <> 0 then
+          PacketHandle(aRecv);
+        fReceiveBuf := '';
         if aEtxIndex < Length(aRecv) then
           aRecv := Copy(aRecv , aEtxIndex + 1, Length(aRecv) - aEtxIndex)
         else
           Exit;
       end else begin
-        fRemainText := fRemainText + aRecv;
-        if Pos(#2, fRemainText) = 0 then
-          fRemainText := '';
+        fReceiveBuf := fReceiveBuf + aRecv;
+        if Pos(#2, fReceiveBuf) = 0 then
+          fReceiveBuf := '';
         Exit;
       end;
     end;
@@ -170,7 +165,7 @@ end;
 procedure TMainForm.SendTextToClt(const aStr : String);
 var
   i : Integer;
-  aPacketSize : Integer;
+//  aPacketSize : Integer;
 begin
 //  aPacketSize := Length(aStr) + 4;
 //  aPacketSize := IntToHex(aPacketSize div 255)

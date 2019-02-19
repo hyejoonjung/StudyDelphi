@@ -54,7 +54,8 @@ implementation
 {$R *.dfm}
 
 const
-  TAG_POSITION  = 3;
+  HEADER_SIZE   = 3;
+  TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
   LISTBOX_TAG   = 1;
@@ -105,19 +106,19 @@ end;
 procedure TMainForm.CompClick(Sender: TObject);
 begin
   if Sender = CltListBox then
-    SendTextToSvr(#2 + IntToStr(CltListBox.Tag) + IntToStr(CltListBox.ItemIndex) + #3)
+    SendTextToSvr(IntToStr(CltListBox.Tag) + IntToStr(CltListBox.ItemIndex))
   else if Sender = CltComboBox then
-    SendTextToSvr(#2 + IntToStr(CltComboBox.Tag) + IntToStr(CltComboBox.ItemIndex) + #3)
+    SendTextToSvr(IntToStr(CltComboBox.Tag) + IntToStr(CltComboBox.ItemIndex))
   else if Sender = CltScrollBar then
-    SendTextToSvr(#2 + IntToStr(CltScrollBar.Tag) + IntToStr(CltScrollBar.Position) + #3)
+    SendTextToSvr(IntToStr(CltScrollBar.Tag) + IntToStr(CltScrollBar.Position))
   else if Sender = CltRadioBtn1 then
-    SendTextToSvr(#2 + IntToStr(CltRadioBtn1.Tag) + #3)
+    SendTextToSvr(IntToStr(CltRadioBtn1.Tag))
   else if Sender = CltRadioBtn2 then
-    SendTextToSvr(#2 + IntToStr(CltRadioBtn2.Tag) + #3)
+    SendTextToSvr(IntToStr(CltRadioBtn2.Tag))
   else if Sender = CltCheckBox1 then
-    SendTextToSvr(#2 + IntToStr(CltCheckBox1.Tag) + #3)
+    SendTextToSvr(IntToStr(CltCheckBox1.Tag))
   else if Sender = CltCheckBox2 then
-    SendTextToSvr(#2 + IntToStr(CltCheckBox2.Tag) + #3)
+    SendTextToSvr(IntToStr(CltCheckBox2.Tag))
 end;
 
 procedure TMainForm.CltKeyPress(Sender: TObject; var Key: Char);
@@ -144,17 +145,13 @@ procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket
 var
   aRecv : String;
   i : Integer;
-  aStxIndex : Integer;
   aEtxIndex : Integer;
 begin
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
     while True do begin
-      aStxIndex := -1;
       aEtxIndex := -1;
       for i := 1 to Length(aRecv) do begin
-        if aRecv[i] = #2 then
-          aStxIndex := i;      
         if aRecv[i] = #3 then begin
           aEtxIndex := i;
           Break;
@@ -182,9 +179,9 @@ end;
 procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
 begin
   if aKey = #8 then
-    SendTextToSvr(#2 + IntToStr(aTag)+ aStr + #3)
+    SendTextToSvr(IntToStr(aTag)+ aStr)
   else
-    SendTextToSvr(#2 + IntToStr(aTag)+ aStr + aKey + #3);
+    SendTextToSvr(IntToStr(aTag)+ aStr + aKey);
 end;
 
 procedure TMainForm.SendTextToSvr(const aStr : String);
@@ -215,7 +212,7 @@ var
   aRecv : String;
 begin
   aTag := StrToInt(aPacket[TAG_POSITION]);
-  aStrCount := Length(aPacket) - 3;
+  aStrCount := Length(aPacket) - HEADER_SIZE;
   aRecv := Copy(aPacket, STR_FIRST, aStrCount);
   case aTag of
     EDIT_TAG :

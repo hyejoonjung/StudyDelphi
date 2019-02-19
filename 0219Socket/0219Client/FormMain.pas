@@ -54,7 +54,7 @@ implementation
 {$R *.dfm}
 
 const
-  HEADER_SIZE   = 5; 
+  HEADER_SIZE   = 3;
   TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
@@ -106,19 +106,19 @@ end;
 procedure TMainForm.CompClick(Sender: TObject);
 begin
   if Sender = CltListBox then
-    SendTextToSvr(#2 + IntToStr(CltListBox.Tag) + IntToStr(CltListBox.ItemIndex) + #3)
+    SendTextToSvr(IntToStr(CltListBox.Tag) + IntToStr(CltListBox.ItemIndex))
   else if Sender = CltComboBox then
-    SendTextToSvr(#2 + IntToStr(CltComboBox.Tag) + IntToStr(CltComboBox.ItemIndex) + #3)
+    SendTextToSvr(IntToStr(CltComboBox.Tag) + IntToStr(CltComboBox.ItemIndex))
   else if Sender = CltScrollBar then
-    SendTextToSvr(#2 + IntToStr(CltScrollBar.Tag) + IntToStr(CltScrollBar.Position) + #3)
+    SendTextToSvr(IntToStr(CltScrollBar.Tag) + IntToStr(CltScrollBar.Position))
   else if Sender = CltRadioBtn1 then
-    SendTextToSvr(#2 + IntToStr(CltRadioBtn1.Tag) + #3)
+    SendTextToSvr(IntToStr(CltRadioBtn1.Tag))
   else if Sender = CltRadioBtn2 then
-    SendTextToSvr(#2 + IntToStr(CltRadioBtn2.Tag) + #3)
+    SendTextToSvr(IntToStr(CltRadioBtn2.Tag))
   else if Sender = CltCheckBox1 then
-    SendTextToSvr(#2 + IntToStr(CltCheckBox1.Tag) + #3)
+    SendTextToSvr(IntToStr(CltCheckBox1.Tag))
   else if Sender = CltCheckBox2 then
-    SendTextToSvr(#2 + IntToStr(CltCheckBox2.Tag) + #3)
+    SendTextToSvr(IntToStr(CltCheckBox2.Tag))
 end;
 
 procedure TMainForm.CltKeyPress(Sender: TObject; var Key: Char);
@@ -179,15 +179,15 @@ end;
 procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
 begin
   if aKey = #8 then
-    SendTextToSvr(#2 + IntToStr(aTag)+ aStr + #3)
+    SendTextToSvr(IntToStr(aTag)+ aStr)
   else
-    SendTextToSvr(#2 + IntToStr(aTag)+ aStr + aKey + #3);
+    SendTextToSvr(IntToStr(aTag)+ aStr + aKey);
 end;
 
 procedure TMainForm.SendTextToSvr(const aStr : String);
 begin
   if fClientSocket <> nil then begin
-    fClientSocket.Socket.SendText(aStr);
+    fClientSocket.Socket.SendText(#2 + aStr + #3);
   end;
 end;
 

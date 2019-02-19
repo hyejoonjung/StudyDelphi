@@ -54,6 +54,7 @@ implementation
 {$R *.dfm}
 
 const
+  HEADER_SIZE   = 5; 
   TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
@@ -144,17 +145,13 @@ procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket
 var
   aRecv : String;
   i : Integer;
-  aStxIndex : Integer;
   aEtxIndex : Integer;
 begin
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
     while True do begin
-      aStxIndex := -1;
       aEtxIndex := -1;
       for i := 1 to Length(aRecv) do begin
-        if aRecv[i] = #2 then
-          aStxIndex := i;      
         if aRecv[i] = #3 then begin
           aEtxIndex := i;
           Break;
@@ -215,7 +212,7 @@ var
   aRecv : String;
 begin
   aTag := StrToInt(aPacket[TAG_POSITION]);
-  aStrCount := Length(aPacket) - 3;
+  aStrCount := Length(aPacket) - HEADER_SIZE;
   aRecv := Copy(aPacket, STR_FIRST, aStrCount);
   case aTag of
     EDIT_TAG :
