@@ -50,6 +50,7 @@ implementation
 {$R *.dfm}
 
 const
+  TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
   LISTBOX_TAG   = 1;
@@ -99,19 +100,19 @@ end;
 procedure TMainForm.CompClick(Sender: TObject);
 begin
   if Sender = SvrListBox then
-    SendTextToClt(#2 + IntToStr(SvrListBox.Tag) + IntToStr(SvrListBox.ItemIndex) + #3)
+    SendTextToClt(IntToStr(SvrListBox.Tag) + IntToStr(SvrListBox.ItemIndex))
   else if Sender = SvrComboBox then
-    SendTextToClt(#2 + IntToStr(SvrComboBox.Tag) + IntToStr(SvrComboBox.ItemIndex) + #3)
+    SendTextToClt(IntToStr(SvrComboBox.Tag) + IntToStr(SvrComboBox.ItemIndex))
   else if Sender = SvrScrollBar then
-    SendTextToClt(#2 + IntToStr(SvrScrollBar.Tag) + IntToStr(SvrScrollBar.Position) + #3)
+    SendTextToClt(IntToStr(SvrScrollBar.Tag) + IntToStr(SvrScrollBar.Position))
   else if Sender = SvrRadioBtn1 then
-    SendTextToClt(#2 + IntToStr(SvrRadioBtn1.Tag) + #3)
+    SendTextToClt(IntToStr(SvrRadioBtn1.Tag))
   else if Sender = SvrRadioBtn2 then
-    SendTextToClt(#2 + IntToStr(SvrRadioBtn2.Tag) + #3)
+    SendTextToClt(IntToStr(SvrRadioBtn2.Tag))
   else if Sender = SvrCheckBox1 then
-    SendTextToClt(#2 + IntToStr(SvrCheckBox1.Tag) + BoolToStr(SvrCheckBox1.Checked) + #3)
+    SendTextToClt(IntToStr(SvrCheckBox1.Tag) + BoolToStr(SvrCheckBox1.Checked))
   else if Sender = SvrCheckBox2 then
-    SendTextToClt(#2 + IntToStr(SvrCheckBox2.Tag) + #3)
+    SendTextToClt(IntToStr(SvrCheckBox2.Tag))
 end;
 
 procedure TMainForm.SvrKeyPress(Sender: TObject; var Key: Char);
@@ -126,17 +127,13 @@ procedure TMainForm.ServerSocketClientRead(Sender : TObject; Socket : TCustomWin
 var
   aRecv : String;
   i : Integer;
-  aStxIndex : Integer;
   aEtxIndex : Integer;
 begin
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
     while True do begin
-      aStxIndex := -1;
       aEtxIndex := -1;
       for i := 1 to Length(aRecv) do begin
-//        if aRecv[i] = #2 then
-//          aStxIndex := i;
         if aRecv[i] = #3 then begin
           aEtxIndex := i;
           Break;
@@ -144,7 +141,8 @@ begin
       end;
       if aEtxIndex > 0 then begin
         fRemainText := fRemainText + Copy(aRecv, 1, aEtxIndex);
-        PacketHandle(fRemainText);
+        if Pos(#2, fRemainText) <> 0 then
+          PacketHandle(fRemainText);
         fRemainText := '';
         if aEtxIndex < Length(aRecv) then
           aRecv := Copy(aRecv , aEtxIndex + 1, Length(aRecv) - aEtxIndex)
@@ -152,6 +150,8 @@ begin
           Exit;
       end else begin
         fRemainText := fRemainText + aRecv;
+        if Pos(#2, fRemainText) = 0 then
+          fRemainText := '';
         Exit;
       end;
     end;
@@ -161,19 +161,21 @@ end;
 procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
 begin
   if aKey = #8 then
-    SendTextToClt(#2 + IntToStr(aTag) + aStr + #3)
+    SendTextToClt(IntToStr(aTag) + aStr)
   else
-    SendTextToClt(#2 + IntToStr(aTag)+ aStr + aKey + #3);
+    SendTextToClt(IntToStr(aTag)+ aStr + aKey);
 end;
 
 procedure TMainForm.SendTextToClt(const aStr : String);
 var
   i : Integer;
+  aPacketSize : Integer;
 begin
+  aPacketSize := Length(aStr) + 4;
   if fServerSocket <> nil then begin
     with fServerSocket.Socket do begin
       for i := 0 to ActiveConnections - 1 do
-        Connections[i].SendText(aStr);
+        Connections[i].SendText(#2 + aPacketSize + aPacketSize  +  aStr + #3);
     end;
   end;
 end;
@@ -198,14 +200,14 @@ var
   aTag : Integer;
   aRecv : String;
 begin
-  aTag := StrToInt(aPacket[2]);
+  aTag := StrToInt(aPacket[TAG_POSITION]);
   aStrCount := Length(aPacket) - 3;
   aRecv := Copy(aPacket, STR_FIRST, aStrCount);
   case aTag of
     EDIT_TAG :
-      SvrEdit.text := aRecv;
+      SvrEdit.Text := aRecv;
     MEMO_TAG :
-      SvrMemo.Lines.Text(aRecv);
+      SvrMemo.Lines.Text := aRecv;
     RADIOBTN1_TAG :
       SvrCheckedUpdate(aTag);
     RADIOBTN2_TAG :

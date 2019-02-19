@@ -54,7 +54,7 @@ implementation
 {$R *.dfm}
 
 const
-  TAG_POSITION  = 3;
+  TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
   LISTBOX_TAG   = 1;
@@ -150,11 +150,8 @@ begin
   if Socket <> nil then begin
     aRecv := Socket.ReceiveText;
     while True do begin
-      aStxIndex := -1;
       aEtxIndex := -1;
       for i := 1 to Length(aRecv) do begin
-        if aRecv[i] = #2 then
-          aStxIndex := i;      
         if aRecv[i] = #3 then begin
           aEtxIndex := i;
           Break;
@@ -166,17 +163,18 @@ begin
           PacketHandle(fRemainText);
         fRemainText := '';
         if aEtxIndex < Length(aRecv) then
-          aRecv := Copy(aRecv , aEtxIndex + 1, Length(aRecv) - aEtxIndex)
+          aRecv := Copy(aRecv, aEtxIndex + 1, Length(aRecv) - aEtxIndex)
         else
           Exit;
       end else begin
         fRemainText := fRemainText + aRecv;
+        if Pos(#2, fRemainText) = 0 then
+          fRemainText := '';
         Exit;
       end;
     end;
   end;
 end;
-
 
 procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
 begin

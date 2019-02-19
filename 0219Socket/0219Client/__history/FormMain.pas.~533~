@@ -54,7 +54,7 @@ implementation
 {$R *.dfm}
 
 const
-  TAG_POSITION  = 3;
+  TAG_POSITION  = 2;
   STR_FIRST     = 3;
   EDIT_TAG      = 0;
   LISTBOX_TAG   = 1;
@@ -171,13 +171,13 @@ begin
           Exit;
       end else begin
         fRemainText := fRemainText + aRecv;
+        if Pos(#2, fRemainText) = 0 then
+          fRemainText := '';
         Exit;
       end;
-
     end;
   end;
 end;
-
 
 procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
 begin
