@@ -1,0 +1,247 @@
+unit FormMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ScktComp, StdCtrls;
+
+type
+  TMainForm = class(TForm)
+    Label2: TLabel;
+    CltAddrEdit: TEdit;
+    Label3: TLabel;
+    CltPortEdit: TEdit;
+    CltConnectBtn: TButton;
+    CltDisConnectBtn: TButton;
+    CltEdit: TEdit;
+    Label1: TLabel;
+    CltMemo: TMemo;
+    CltComboBox: TComboBox;
+    CltCheckBox1: TCheckBox;
+    CltCheckBox2: TCheckBox;
+    CltRadioBtn1: TRadioButton;
+    CltRadioBtn2: TRadioButton;
+    CltScrollBar: TScrollBar;
+    CltListBox: TListBox;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure CltConnectBtnClick(Sender: TObject);
+    procedure CltDisConnectBtnClick(Sender: TObject);
+    procedure CompClick(Sender: TObject);
+    procedure CltKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+    fClientSocket : TClientSocket;
+    fRemainText : String;
+
+    procedure ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
+    procedure ClientSocketDisconnet(Sender : TObject; Socket : TCustomWinSocket);
+    procedure ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket);
+    procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+    procedure SendTextToSvr(const aStr : String);
+    procedure CltCheckedUpdate(aTag : Integer);
+    procedure PacketHandle(const aPacket : String);
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+const
+  TAG_POSITION  = 2;
+  STR_FIRST     = 3;
+  EDIT_TAG      = 0;
+  LISTBOX_TAG   = 1;
+  RADIOBTN1_TAG = 2;
+  RADIOBTN2_TAG = 3;
+  CHECKBOX1_TAG = 4;
+  CHECKBOX2_TAG = 5;
+  COMBOBOX_TAG  = 6;
+  SCROLLBAR_TAG = 7;
+  MEMO_TAG      = 8;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  fClientSocket := nil;
+  fRemainText := '';
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  if fClientSocket <> nil then begin
+    fClientSocket.Free;
+    fClientSocket := nil;
+  end;
+end;
+
+procedure TMainForm.CltConnectBtnClick(Sender: TObject);
+begin
+  if fClientSocket = nil then begin
+    fClientSocket := TClientSocket.Create(Self);
+    with fClientSocket do begin
+      OnConnect := ClientSocketConnect;
+      OnDisconnect := ClientSocketDisconnet;
+      OnRead := ClientSocketRead; 
+    end;
+  end;
+  fClientSocket.Address := CltAddrEdit.Text;
+  fClientSocket.Port := StrToInt(CltPortEdit.Text);
+  fClientSocket.Open;
+end;
+
+procedure TMainForm.CltDisConnectBtnClick(Sender: TObject);
+begin
+  if fClientSocket <> nil then begin
+    fClientSocket.Close;
+  end;
+end;
+
+procedure TMainForm.CompClick(Sender: TObject);
+begin
+  if Sender = CltListBox then
+    SendTextToSvr(#2 + IntToStr(CltListBox.Tag) + IntToStr(CltListBox.ItemIndex) + #3)
+  else if Sender = CltComboBox then
+    SendTextToSvr(#2 + IntToStr(CltComboBox.Tag) + IntToStr(CltComboBox.ItemIndex) + #3)
+  else if Sender = CltScrollBar then
+    SendTextToSvr(#2 + IntToStr(CltScrollBar.Tag) + IntToStr(CltScrollBar.Position) + #3)
+  else if Sender = CltRadioBtn1 then
+    SendTextToSvr(#2 + IntToStr(CltRadioBtn1.Tag) + #3)
+  else if Sender = CltRadioBtn2 then
+    SendTextToSvr(#2 + IntToStr(CltRadioBtn2.Tag) + #3)
+  else if Sender = CltCheckBox1 then
+    SendTextToSvr(#2 + IntToStr(CltCheckBox1.Tag) + #3)
+  else if Sender = CltCheckBox2 then
+    SendTextToSvr(#2 + IntToStr(CltCheckBox2.Tag) + #3)
+end;
+
+procedure TMainForm.CltKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Sender = CltEdit then
+    SendPressedKey(CltEdit.tag, CltEdit.Text, Key)
+  else if Sender = CltMemo then
+    SendPressedKey(CltMemo.tag, CltMemo.Text, Key);
+end;
+
+procedure TMainForm.ClientSocketConnect(Sender : TObject; Socket : TCustomWinSocket);
+begin
+  CltConnectBtn.Enabled := False;
+  CltDisconnectBtn.Enabled := True;
+end;
+
+procedure TMainForm.ClientSocketDisconnet(Sender : TObject; Socket : TCustomWinSocket);
+begin
+  CltConnectBtn.Enabled := True;
+  CltDisconnectBtn.Enabled := False;
+end;
+
+procedure TMainForm.ClientSocketRead(Sender : TObject; Socket : TCustomWinSocket);
+var
+  aRecv : String;
+  i : Integer;
+  aStxIndex : Integer;
+  aEtxIndex : Integer;
+begin
+  if Socket <> nil then begin
+    aRecv := Socket.ReceiveText;
+    while True do begin
+      aStxIndex := -1;
+      aEtxIndex := -1;
+      for i := 1 to Length(aRecv) do begin
+        if aRecv[i] = #2 then
+          aStxIndex := i;      
+        if aRecv[i] = #3 then begin
+          aEtxIndex := i;
+          Break;
+        end;
+      end;
+      if aEtxIndex > 0 then begin
+        fRemainText := fRemainText + Copy(aRecv, 1, aEtxIndex);
+        if Pos(#2, fRemainText) <> 0 then
+          PacketHandle(fRemainText);
+        fRemainText := '';
+        if aEtxIndex < Length(aRecv) then
+          aRecv := Copy(aRecv, aEtxIndex + 1, Length(aRecv) - aEtxIndex)
+        else
+          Exit;
+      end else begin
+        fRemainText := fRemainText + aRecv;
+        if Pos(#2, fRemainText) = 0 then
+          fRemainText := '';
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+procedure TMainForm.SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
+begin
+  if aKey = #8 then
+    SendTextToSvr(#2 + IntToStr(aTag)+ aStr + #3)
+  else
+    SendTextToSvr(#2 + IntToStr(aTag)+ aStr + aKey + #3);
+end;
+
+procedure TMainForm.SendTextToSvr(const aStr : String);
+begin
+  if fClientSocket <> nil then begin
+    fClientSocket.Socket.SendText(aStr);
+  end;
+end;
+
+procedure TMainForm.CltCheckedUpdate(aTag : Integer);
+begin
+  if aTag = RADIOBTN1_TAG  then begin
+    CltRadioBtn2.Checked := False;
+    CltRadioBtn1.Checked := True;
+  end else if aTag = RADIOBTN2_TAG  then begin
+    CltRadioBtn1.Checked := False;
+    CltRadioBtn2.Checked := True;
+  end else if aTag = CHECKBOX1_TAG then
+    CltCheckBox1.Checked := not(CltCheckBox1.Checked)
+  else if aTag = CHECKBOX2_TAG then
+    CltCheckBox2.Checked := not(CltCheckBox2.Checked);
+end;
+
+procedure TMainForm.PacketHandle(const aPacket : String);
+var
+  aStrCount : Integer;
+  aTag : Integer;
+  aRecv : String;
+begin
+  aTag := StrToInt(aPacket[TAG_POSITION]);
+  aStrCount := Length(aPacket) - 3;
+  aRecv := Copy(aPacket, STR_FIRST, aStrCount);
+  case aTag of
+    EDIT_TAG :
+      CltEdit.text := aRecv;
+    MEMO_TAG :
+      CltMemo.Lines.Text := aRecv;
+    RADIOBTN1_TAG :
+      CltCheckedUpdate(aTag);
+    RADIOBTN2_TAG :
+      CltCheckedUpdate(aTag);
+    CHECKBOX1_TAG : begin
+        CltCheckBox1.OnClick := nil;
+        CltCheckedUpdate(aTag);
+        CltCheckBox1.OnClick := CompClick;
+      end;
+    CHECKBOX2_TAG : begin
+        CltCheckBox2.OnClick := nil;
+        CltCheckedUpdate(aTag);
+        CltCheckBox2.OnClick := CompClick;
+      end;
+    COMBOBOX_TAG : CltComboBox.ItemIndex := StrToInt(aRecv);
+    SCROLLBAR_TAG :
+      CltScrollBar.Position := StrToInt(aRecv);
+    LISTBOX_TAG :
+      CltListBox.ItemIndex := StrToInt(aRecv);
+  end;
+end;
+
+end.
