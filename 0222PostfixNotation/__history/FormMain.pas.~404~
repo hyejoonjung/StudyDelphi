@@ -21,7 +21,7 @@ type
     fParshingStr : String;
     fStack : TCustomStack;
 
-    procedure DataManager(const aStr : String);
+    procedure DataManager(Const aStr : String; aIndex : Integer);
     procedure Oper(const aStr : String);
   public
     { Public declarations }
@@ -70,10 +70,10 @@ procedure TMainForm.InEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Key = VK_RETURN then
-    DataManager(InEdit.Text);    
+    DataManager(InEdit.Text, 0);    
 end;
 
-procedure TMainForm.DataManager(Const aStr : String);
+procedure TMainForm.DataManager(Const aStr : String; aIndex : Integer);
 var
   aOp : String;
   aRecv : String;
@@ -81,38 +81,26 @@ begin
   aRecv := aStr;
   if aStr = '' then
     Exit;
-//  fStrList.add('');
-  fParshingStr := '';
+  fStrList.add('');
+  fStackList.Add(TCustomStack.Create);
   while aRecv <> '' do begin
     if aRecv[1] in ['0'..'9'] then
-      fParshingStr :=fParshingStr + aRecv[1]
-    else begin  //  연산자일경우.
-      with fStack do begin
+      fStrList[aIndex] := fStrList[aIndex] + aRecv[1]
+    else begin  //  연산자일경우
+      with fStackList[aIndex] do begin
         if GetLength <= 0 then
           push(aRecv[1])
         else begin
-          if aRecv[1] = '(' then
-            push(aRecv[1])
-          else if aRecv[1] = ')' then begin
-            aOp := Pop;
-            while aOp <> '(' do begin
-              fParshingStr := fParshingStr + aOp;
-              aOp := pop;
-            end;
-            pop;
-          end else if (aRecv[1] = '+') or (aRecv[1] = '-') then begin
+          if (aRecv[1] = '+') or (aRecv[1] = '-') then begin
             while GetLength > 0 do
-              aOp := pop;
-              if aOp = '(' then
-                Break;
-              fParshingStr := fParshingStr + aOp;
+              fStrList[aIndex] := fStrList[aIndex] + pop;
             push(aRecv[1]);
           end else begin
             aOp := pop;
             if (aOp = '+') or (aOp = '-') then
               push(aOp)
             else
-              fParshingStr := fParshingStr + aOp;
+              fStrList[aIndex] := fStrList[aIndex] + aOp;
             push(aRecv[1]);
           end;
         end;
@@ -120,10 +108,11 @@ begin
     end;
     Delete(aRecv, 1, 1);
   end;
-  while fStack.GetLength > 0 do
-    fParshingStr := fParshingStr + fStack.pop;
-  ParshingEdit.Text := fParshingStr;
-  Oper(fParshingStr);
+  while fStackList[aIndex].GetLength > 0 do
+    fStrList[aIndex] := fStrList[aIndex] + fStack.pop;
+  ParshingEdit.Text := fStrList[aIndex];
+  Oper(fStrList[aIndex]);
+  fStrList[aIndex] := '';
 end;
 
 procedure TMainForm.Oper(const aStr : String);
@@ -151,7 +140,6 @@ begin
     end;
     OutputEdit.Text := pop;
   end;
-{}
 end;
 
 end.

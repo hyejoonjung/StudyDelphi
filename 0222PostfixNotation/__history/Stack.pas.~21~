@@ -9,10 +9,10 @@ type
     fInData : array of String;
   protected
     Constructor Create;
-    Destructor Destroy;
+    Destructor Destroy; override;
   public
     procedure Push(const aVal : String);
-    function Pop() : Integer;
+    function Pop : String;
     function GetLength : Integer;
   end;
 implementation
@@ -39,13 +39,13 @@ begin
   fInData[Length(fInData) - 1] := aVal;
 end;
 
-procedure TCustomStack.Pop();
+function TCustomStack.Pop : String;
 begin
-  if Length(fInData) > 0 then
-    SetLength(fInData, Length(fInData) - 1)
-  else begin
-
-  end;
+  if Length(fInData) > 0 then begin
+    Result := fInData[Length(fInData) - 1];
+    SetLength(fInData, Length(fInData) - 1);
+  end else
+    Result := '';
 end;
 
 function TCustomStack.GetLength : Integer;

@@ -3,7 +3,6 @@ unit Stack;
 interface
 
 type
-
   TCustomStack = class
   private
     fInData : array of String;
