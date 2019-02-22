@@ -212,7 +212,7 @@ var
 begin
   aIndex := -1;
   for i := 0 to CltListBox.Count - 1 do begin
-    if CltEdit.Text = CltListBox.items[i] then begin
+    if CltEdit.Text = CltListBox.Items[i] then begin
       aIndex := i;
       Break;
     end;

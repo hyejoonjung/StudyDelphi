@@ -70,7 +70,6 @@ const
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   fClientSocket := nil;
-  fFlag := 1;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -167,11 +166,16 @@ begin
         CltCheckedUpdate(aTag);
       RADIOBTN2_TAG :
         CltCheckedUpdate(aTag);
-      CHECKBOX1_TAG :
-        if fFlag = 1 then
+      CHECKBOX1_TAG : begin
+          CltCheckBox1.OnClick := nil;
           CltCheckedUpdate(aTag);
-      CHECKBOX2_TAG :
-        CltCheckedUpdate(aTag);
+          CltCheckBox1.OnClick := CompClick;
+        end;
+      CHECKBOX2_TAG : begin
+          CltCheckBox2.OnClick := nil;
+          CltCheckedUpdate(aTag);
+          CltCheckBox2.OnClick := CompClick;
+        end;
       COMBOBOX_TAG :
         CltComboBox.ItemIndex := StrToInt(aRecv);
       SCROLLBAR_TAG :
@@ -208,7 +212,7 @@ var
 begin
   aIndex := -1;
   for i := 0 to CltListBox.Count - 1 do begin
-    if CltEdit.Text = CltListBox.items[i] then begin
+    if CltEdit.Text = CltListBox.Items[i] then begin
       aIndex := i;
       Break;
     end;

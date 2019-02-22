@@ -38,7 +38,6 @@ type
     procedure SendTextToClt(const aStr : String);
     procedure SvrListBoxUpDate;
     procedure SvrCheckedUpdate(aTag : Integer);
-
   public
     { Public declarations }
   end;
@@ -110,7 +109,7 @@ begin
   else if Sender = SvrRadioBtn2 then
     SendTextToClt(IntToStr(SvrRadioBtn2.Tag) + '0')
   else if Sender = SvrCheckBox1 then
-    SendTextToClt(IntToStr(SvrCheckBox1.Tag) + '0')
+    SendTextToClt(IntToStr(SvrCheckBox1.Tag) + '0' + BoolToStr(SvrCheckBox1.Checked))
   else if Sender = SvrCheckBox2 then
     SendTextToClt(IntToStr(SvrCheckBox2.Tag) + '0')
 end;
@@ -149,18 +148,22 @@ begin
         SvrCheckedUpdate(aTag);
       RADIOBTN2_TAG :
         SvrCheckedUpdate(aTag);
-      CHECKBOX1_TAG :
-        SvrCheckedUpdate(aTag);
-      CHECKBOX2_TAG :
-        SvrCheckedUpdate(aTag);
+      CHECKBOX1_TAG : begin
+          SvrCheckBox1.OnClick := nil;
+          SvrCheckedUpdate(aTag);
+          SvrCheckBox1.OnClick := CompClick;
+        end;
+      CHECKBOX2_TAG : begin
+          SvrCheckBox2.OnClick := nil;
+          SvrCheckedUpdate(aTag);
+          SvrCheckBox2.OnClick := CompClick;
+        end;
       COMBOBOX_TAG :
         SvrComboBox.ItemIndex := StrToInt(aRecv);
       SCROLLBAR_TAG :
         SvrScrollBar.Position := StrToInt(aRecv);
       LISTBOX_TAG :
         SvrListBox.ItemIndex := StrToInt(aRecv);
-      else
-        Exit;
     end;
   end;
 end;
@@ -194,7 +197,7 @@ var
 begin
   aIndex := -1;
   for i := 0 to SvrListBox.Count - 1 do begin
-    if SvrEdit.Text = SvrListBox.items[i] then begin
+    if SvrEdit.Text = SvrListBox.Items[i] then begin
       aIndex := i;
       Break;
     end;
@@ -206,7 +209,7 @@ begin
   SvrEdit.Text := '';
 end;
 
-procedure TMainForm.SvrCheckedUpdate(aTag : Integer);
+procedure TMainForm.SvrCheckedUpdate;
 begin
   if aTag = RADIOBTN1_TAG  then begin
     SvrRadioBtn2.Checked := False;

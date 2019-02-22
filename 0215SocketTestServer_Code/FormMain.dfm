@@ -137,7 +137,7 @@ object MainForm: TMainForm
   object SvrListBox: TListBox
     Tag = 1
     Left = 8
-    Top = 84
+    Top = 90
     Width = 121
     Height = 97
     ItemHeight = 13

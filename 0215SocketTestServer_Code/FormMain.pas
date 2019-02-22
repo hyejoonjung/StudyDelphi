@@ -28,11 +28,9 @@ type
     procedure SvrDisConnectBtnClick(Sender: TObject);
     procedure CompClick(Sender: TObject);
     procedure SvrKeyPress(Sender: TObject; var Key: Char);
-
   private
     { Private declarations }
     fServerSocket : TServerSocket;
-    fFlag : Integer;
 
     procedure ServerSocketClientRead(Sender : TObject; Socket : TCustomWinSocket);
     procedure SendPressedKey(aTag : Integer; const aStr : String; aKey : Char);
@@ -198,7 +196,7 @@ var
 begin
   aIndex := -1;
   for i := 0 to SvrListBox.Count - 1 do begin
-    if SvrEdit.Text = SvrListBox.items[i] then begin
+    if SvrEdit.Text = SvrListBox.Items[i] then begin
       aIndex := i;
       Break;
     end;

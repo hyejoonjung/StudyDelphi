@@ -2,6 +2,6 @@
 <BorlandProject>
 	<Transactions/>
 	<Default.Personality>
-		<Projects ActiveProject="TcpTest_Server.exe"/>
+		<Projects ActiveProject="TcpTest_Client.exe"/>
 	</Default.Personality>
 </BorlandProject>
