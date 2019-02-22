@@ -17,12 +17,10 @@ type
   private
     { Private declarations }
     fInData : array of String;
-    i : Integer;
 
-    procedure DoOutput(const aVal : String);
-    procedure DoInput(aBVal : Boolean; const aSVal : String);
-    procedure MadeInData(const aVal : String);
-    procedure ExecPop();
+    procedure ViewOutput(const aVal : String);
+    procedure Push(const aVal : String);
+    procedure Pop();
   public
     { Public declarations }
   end;
@@ -33,20 +31,12 @@ var
 implementation
 
 {$R *.dfm}
-procedure TMainForm.DoOutput(const aVal : String);
+procedure TMainForm.ViewOutput(const aVal : String);
 begin
   OutPan.Caption := aVal;
 end;
 
-procedure TMainForm.DoInput(aBVal : Boolean;const aSVal : String);
-begin
-  if aBVal then
-    MadeInData(aSVal)
-  else
-    ExecPop();
-end;
-
-procedure TMainForm.MadeInData(const aVal : String);
+procedure TMainForm.Push(const aVal : String);
 begin
   SetLength(fInData, Length(fInData) + 1);
   fInData[Length(fInData) - 1] := aVal;
@@ -54,21 +44,21 @@ end;
 
 procedure TMainForm.PopBtnClick(Sender: TObject);
 begin
-  ExecPop();
+  Pop();
 end;
 
 procedure TMainForm.PushBtnClick(Sender: TObject);
 begin
-  DoInput(True, InEdit.Text);
+  Push(InEdit.Text);
   InEdit.Text := ('');
 end;
 
-procedure TMainForm.ExecPop();
+procedure TMainForm.Pop();
 begin
   if Length(fInData) <= 0 then
-    DoOutput('Empty')
+    ViewOutput('Empty')
   else begin
-    DoOutput(fInData[Length(fInData) - 1]);
+    ViewOutput(fInData[Length(fInData) - 1]);
     SetLength(fInData, Length(fInData) - 1);
   end;
 end;

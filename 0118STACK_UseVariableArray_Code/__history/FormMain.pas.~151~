@@ -20,9 +20,9 @@ type
     i : Integer;
 
     procedure DoOutput(const aVal : String);
-    procedure DoInput(aBVal : Boolean; const aSVal : String);
+    procedure Push(const aVal : String)
     procedure MadeInData(const aVal : String);
-    procedure ExecPop();
+    procedure Pop();
   public
     { Public declarations }
   end;
@@ -38,39 +38,30 @@ begin
   OutPan.Caption := aVal;
 end;
 
-procedure TMainForm.DoInput(aBVal : Boolean;const aSVal : String);
+procedure TMainForm.Push(const aVal : String);
 begin
-  if aBVal then
-    MadeInData(aSVal)
-  else
-    ExecPop();
-end;
-
-procedure TMainForm.MadeInData(const aVal : String);
-begin
-  SetLength(InData,Length(InData
-  if i < 100 then
-    fInData[i] := aVal;
+  SetLength(fInData, Length(fInData) + 1);
+  fInData[Length(fInData) - 1] := aVal;
 end;
 
 procedure TMainForm.PopBtnClick(Sender: TObject);
 begin
-  ExecPop();
+  Pop();
 end;
 
 procedure TMainForm.PushBtnClick(Sender: TObject);
 begin
-  DoInput(True, InEdit.Text);
+  Push(InEdit.Text);
   InEdit.Text := ('');
 end;
 
-procedure TMainForm.ExecPop();
+procedure TMainForm.Pop();
 begin
-  if i < 1 then
+  if Length(fInData) <= 0 then
     DoOutput('Empty')
   else begin
-    DoOutput(fInData[i]);
-    i := i - 1;
+    DoOutput(fInData[Length(fInData) - 1]);
+    SetLength(fInData, Length(fInData) - 1);
   end;
 end;
 
