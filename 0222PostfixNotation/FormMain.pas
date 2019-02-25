@@ -50,16 +50,6 @@ begin
     fStrList.Free;
     fStrlist := nil;
   end;
-//  if fStackList <> nil then begin
-//    with fStackList do begin
-//      if Count > 0 then
-//        for i := 0 to Count - 1 do begin
-//          Delete(i);
-//        end;
-//      fStackList.Free;
-//      fStackList := nil;
-//    end;
-//  end;
   if fStack <> nil then begin
     fStack.Free;
     fStack := nil;

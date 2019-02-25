@@ -87,7 +87,7 @@ begin
     if aRecv[1] in ['0'..'9'] then
       fStrList[aIndex] := fStrList[aIndex] + aRecv[1]
     else begin  //  연산자일경우
-      with fStackfStackList[aIndex] do begin
+      with fStackList[aIndex] do begin
         if GetLength <= 0 then
           push(aRecv[1])
         else begin
@@ -108,11 +108,13 @@ begin
     end;
     Delete(aRecv, 1, 1);
   end;
-  while fStack.GetLength > 0 do
-    fStrList[aIndex] := fStrList[aIndex] + fStack.pop;
-  ParshingEdit.Text := fStrList[aIndex];
-  Oper(fStrList[aIndex]);
-  fStrList[aIndex] := '';
+  with fStackList[aIndex] do begin
+    while GetLength > 0 do
+      fStrList[aIndex] := fStrList[aIndex] + pop;
+    ParshingEdit.Text := fStrList[aIndex];
+    Oper(fStrList[aIndex]);
+    fStrList[aIndex] := '';
+  end;
 end;
 
 procedure TMainForm.Oper(const aStr : String);
