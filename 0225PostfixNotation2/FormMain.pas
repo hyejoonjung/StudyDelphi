@@ -85,7 +85,7 @@ begin
             aParshigStr := aParshigStr + aOp;
             while fStack.GetLength > 0 do begin
               aOp := fStack.Pop;
-              if aOp = '(' then begin
+              if aOp = '(' then begin  //다시 넣는다.
                 fStack.Push(aOp);
                 Break;
               end else
